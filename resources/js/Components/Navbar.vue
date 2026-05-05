@@ -27,7 +27,7 @@ defineProps({
             <div class="hidden md:flex items-center gap-8 font-semibold">
                 <Link :href="route('products.index')" :class="route().current('products.index') ? 'text-red' : 'hover:text-red'" class="transition">Hardware Hub</Link>
                 <Link :href="route('services.index')" :class="route().current('services.index') ? 'text-red' : 'hover:text-red'" class="transition">Service Hub</Link>
-                <a href="/#quote" class="hover:text-red transition">Request Quote</a>
+                <Link :href="route('quotes.create')" :class="route().current('quotes.create') ? 'text-red' : 'hover:text-red'" class="transition">Request Quote</Link>
             </div>
 
             <!-- Actions -->

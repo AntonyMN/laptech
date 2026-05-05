@@ -181,9 +181,9 @@ const filterByCategory = (id) => {
                         <p class="text-white/50 group-hover:text-white/80 transition leading-relaxed">
                             {{ service.description }}
                         </p>
-                        <div class="mt-8 flex items-center gap-2 text-red group-hover:text-white font-bold">
-                            Request Quote <i class="fas fa-arrow-right"></i>
-                        </div>
+                        <Link :href="route('quotes.create')" class="mt-8 flex items-center gap-2 text-red group-hover:text-white font-bold transition">
+                            Request Quote <i class="fas fa-arrow-right group-hover:translate-x-1 transition"></i>
+                        </Link>
                     </Link>
                 </div>
 
@@ -198,12 +198,12 @@ const filterByCategory = (id) => {
                     Get a bespoke quote for your project within 24 hours. Our specialists are standing by.
                 </p>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-                    <button class="bg-white text-charcoal hover:bg-charcoal hover:text-white px-10 py-4 rounded-2xl font-black text-lg transition shadow-xl">
+                    <Link :href="route('quotes.create')" class="bg-white text-charcoal hover:bg-charcoal hover:text-white px-10 py-4 rounded-2xl font-black text-lg transition shadow-xl">
                         Get a Free Quote
-                    </button>
-                    <button class="border-2 border-white/20 hover:border-white px-10 py-4 rounded-2xl font-black text-lg transition">
+                    </Link>
+                    <Link :href="route('quotes.create')" class="border-2 border-white/20 hover:border-white px-10 py-4 rounded-2xl font-black text-lg transition">
                         Contact Sales
-                    </button>
+                    </Link>
                 </div>
             </div>
         </section>

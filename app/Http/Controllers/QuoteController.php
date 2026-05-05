@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class QuoteController extends Controller
 {
+    public function create()
+    {
+        return \Inertia\Inertia::render('Quotes/Create', [
+            'services' => \App\Models\Service::all(),
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

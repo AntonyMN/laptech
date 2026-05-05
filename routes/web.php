@@ -32,6 +32,7 @@ Route::get('/products/{slug}', [ProductController::class, 'show'])->name('produc
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('services.show');
 
+Route::get('/quotes/create', [QuoteController::class, 'create'])->name('quotes.create');
 Route::post('/quotes', [QuoteController::class, 'store'])->name('quotes.store');
 
 Route::get('/checkout', [OrderController::class, 'create'])->name('checkout');
