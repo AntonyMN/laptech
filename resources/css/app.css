@@ -1,0 +1,20 @@
+@import "toastr/build/toastr.min.css";
+@import "sweetalert2/dist/sweetalert2.min.css";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+@import "tailwindcss";
+
+
+@theme {
+  --color-red: #E31B23;
+  --color-red-light: #F2444D;
+  --color-red-dark: #A31219;
+  --color-red-bright: #FF2E38;
+  
+  --color-charcoal: #1a1a1a;
+  --color-charcoal-light: #2d2d2d;
+  --color-charcoal-dark: #0d0d0d;
+
+  --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+}
