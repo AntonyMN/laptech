@@ -58,14 +58,14 @@ const filterByCategory = (id) => {
             <div class="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-2 gap-12 items-center">
                 <div>
                     <span class="inline-block px-4 py-1 rounded-full bg-red/20 text-red-bright font-bold text-sm mb-6 uppercase tracking-widest">
-                        Future-Ready Solutions
+                        Elite Tech Ecosystem
                     </span>
-                    <h1 class="text-6xl md:text-7xl font-heading font-extrabold leading-none mb-8">
-                        The Innovative <br/>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-red to-red-bright">Tech Hub.</span>
+                    <h1 class="text-6xl md:text-7xl font-heading font-extrabold leading-tight mb-8">
+                        The Handshake of <br/>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-red to-red-bright">Tech Excellence.</span>
                     </h1>
                     <p class="text-xl text-white/70 mb-10 max-w-lg leading-relaxed">
-                        Discover cutting-edge hardware and seamless IT services designed for high-performance environments.
+                        Laptech is your premier gateway to elite hardware and precision technical services. We bridge the gap between high-performance vision and technical reality.
                     </p>
 
                     <!-- Search Bar -->
@@ -75,7 +75,7 @@ const filterByCategory = (id) => {
                             v-model="searchQuery"
                             @keyup.enter="searchProducts"
                             type="text" 
-                            placeholder="Search high-end hardware or services..." 
+                            placeholder="Search elite hardware or technical services..." 
                             class="bg-transparent border-none focus:ring-0 flex-1 px-4 py-3 text-lg placeholder:text-white/20"
                         />
                         <button @click="searchProducts" class="bg-red hover:bg-red-light text-white px-8 py-3 rounded-xl font-bold transition shadow-lg shadow-red/20">
@@ -100,23 +100,30 @@ const filterByCategory = (id) => {
 
                 <div class="relative">
                     <div class="absolute -inset-4 bg-red/20 blur-3xl rounded-full"></div>
-                    <Link :href="route('products.show', 'next-gen-server-rack')" class="block relative bg-charcoal-light border border-white/10 rounded-3xl p-4 shadow-2xl overflow-hidden group hover:border-red transition duration-500">
+                    <div class="relative bg-charcoal-light border border-white/10 rounded-[3rem] p-4 shadow-2xl overflow-hidden group hover:border-red transition duration-500">
                         <img 
-                            src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800" 
-                            alt="Tech Hub" 
-                            class="rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-700"
+                            src="/images/hero.png" 
+                            alt="Laptech Hub" 
+                            class="rounded-[2.5rem] grayscale group-hover:grayscale-0 transition-all duration-700"
                         />
                         <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent opacity-60"></div>
                         <div class="absolute bottom-8 left-8 right-8 p-6 bg-charcoal/80 backdrop-blur border border-white/10 rounded-2xl group-hover:bg-red/90 transition duration-500">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h3 class="font-heading font-bold text-lg">Next-Gen Server Rack</h3>
-                                    <p class="text-sm text-red-bright group-hover:text-white transition">Available for Installation</p>
+                                    <h3 class="font-heading font-bold text-lg text-white">Advanced Infrastructure</h3>
+                                    <p class="text-sm text-red-bright group-hover:text-white transition">Hardware Hub & Service Hub</p>
                                 </div>
-                                <i class="fas fa-arrow-right text-red group-hover:text-white transition"></i>
+                                <div class="flex gap-2">
+                                    <Link :href="route('products.index')" class="w-10 h-10 bg-white/5 hover:bg-white/20 rounded-xl flex items-center justify-center transition">
+                                        <i class="fas fa-laptop text-sm"></i>
+                                    </Link>
+                                    <Link :href="route('services.index')" class="w-10 h-10 bg-white/5 hover:bg-white/20 rounded-xl flex items-center justify-center transition">
+                                        <i class="fas fa-tools text-sm"></i>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
-                    </Link>
+                    </div>
                 </div>
 
             </div>
