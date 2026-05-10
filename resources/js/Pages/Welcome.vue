@@ -61,7 +61,7 @@ const filterByCategory = (id) => {
                         Elite Tech Ecosystem
                     </span>
                     <h1 class="text-6xl md:text-7xl font-heading font-extrabold leading-tight mb-8">
-                        The Handshake of <br/>
+                        The Handshake of
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-red to-red-bright">Tech Excellence.</span>
                     </h1>
                     <p class="text-xl text-white/70 mb-10 max-w-lg leading-relaxed">
