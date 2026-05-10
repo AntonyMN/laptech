@@ -19,10 +19,13 @@ class Product extends Model
         'is_featured'
     ];
 
-    protected $casts = [
-        'specifications' => 'array',
-        'is_featured' => 'boolean',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'specifications' => 'array',
+            'is_featured' => 'boolean',
+        ];
+    }
 
     public function category()
     {
