@@ -18,10 +18,10 @@ export default {
             },
             colors: {
                 red: {
-                    DEFAULT: '#E31B23',
-                    light: '#F2444D',
-                    dark: '#A31219',
-                    bright: '#FF2E38',
+                    DEFAULT: '#F05423',
+                    light: '#F57B56',
+                    dark: '#C8441D',
+                    bright: '#FF6B3D',
                 },
                 charcoal: {
                     DEFAULT: '#1a1a1a',

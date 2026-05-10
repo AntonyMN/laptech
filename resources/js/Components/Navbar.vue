@@ -15,12 +15,7 @@ defineProps({
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <!-- Logo -->
             <Link :href="route('welcome')" class="flex items-center gap-2 group">
-                <div class="w-10 h-10 bg-red rounded-lg flex items-center justify-center transition group-hover:scale-110 duration-500 shadow-lg shadow-red/20">
-                    <i class="fas fa-microchip text-white text-xl"></i>
-                </div>
-                <span class="text-2xl font-heading font-extrabold tracking-tighter uppercase">
-                    Lap<span class="text-red">tech</span>
-                </span>
+                <img src="/images/logo.png" alt="Laptech Logo" class="h-12 w-auto transition group-hover:scale-105 duration-500">
             </Link>
 
             <!-- Main Nav -->
