@@ -225,7 +225,7 @@ class DatabaseSeeder extends Seeder
                 'specifications' => ['CPU' => 'Xeon E-2414', 'RAM' => '16GB DDR5', 'Storage' => '2TB 7.2K'],
             ],
             [
-                'category_id' => Category::where('slug', 'software-solutions')->first()->id,
+                'category_id' => Category::where('slug', 'software-licenses')->first()->id,
                 'name' => 'Windows 11 Professional License',
                 'slug' => 'windows-11-professional-license',
                 'description' => 'Genuine Microsoft Windows 11 Professional Digital License key. Do your work uninterrupted with a secure, modern OS.',
