@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 
 import { ref } from 'vue';
 import { useCartStore } from '../../Stores/cart';
@@ -105,8 +105,11 @@ const activeImage = ref(props.product.images?.[0] || props.product.image || 'htt
                         <button @click="addToCart" class="flex-1 bg-red hover:bg-red-light text-white font-black py-4 rounded-2xl transition shadow-xl shadow-red/20 text-lg">
                             Add to Cart
                         </button>
-                        <button class="w-16 h-16 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl flex items-center justify-center transition">
-                            <i class="far fa-heart text-xl"></i>
+                        <button v-if="$page.props.auth.user" @click="router.post(route('wishlist.toggle', product.id))" class="w-16 h-16 bg-white/5 hover:bg-red border border-white/10 rounded-2xl flex items-center justify-center transition" title="Add to Wishlist">
+                            <i class="fas fa-heart text-xl"></i>
+                        </button>
+                        <button @click="router.post(route('compare.add', product.id))" class="w-16 h-16 bg-white/5 hover:bg-red border border-white/10 rounded-2xl flex items-center justify-center transition" title="Add to Compare">
+                            <i class="fas fa-balance-scale text-xl"></i>
                         </button>
                     </div>
 
