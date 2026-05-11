@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Service;
+use App\Models\ServiceCategory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -394,6 +395,11 @@ class DatabaseSeeder extends Seeder
             Product::create($lap);
         }
 
+        // Service Categories
+        $infra = ServiceCategory::create(['name' => 'Infrastructure', 'slug' => 'infrastructure']);
+        $support = ServiceCategory::create(['name' => 'Technical Support', 'slug' => 'technical-support']);
+        $security = ServiceCategory::create(['name' => 'Security Systems', 'slug' => 'security-systems']);
+
         // Services from signage
         $services = [
             [
@@ -402,6 +408,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Professional technology advisory services to align your IT infrastructure with your business goals and future growth.',
                 'icon' => 'fas fa-lightbulb',
                 'is_featured' => true,
+                'service_category_id' => $infra->id,
             ],
             [
                 'name' => 'Hardware Sales & Repair',
@@ -409,6 +416,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Premium laptop and desktop sourcing combined with expert diagnostic and repair services for all major brands.',
                 'icon' => 'fas fa-laptop-medical',
                 'is_featured' => true,
+                'service_category_id' => $support->id,
             ],
             [
                 'name' => 'CCTV & Networking',
@@ -416,6 +424,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Enterprise-grade security surveillance systems and robust networking infrastructure for seamless, secure connectivity.',
                 'icon' => 'fas fa-video',
                 'is_featured' => true,
+                'service_category_id' => $security->id,
             ],
             [
                 'name' => 'Server Solutions & Upgrades',
@@ -423,6 +432,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'High-performance server deployment, proactive management, and strategic hardware upgrades for data-intensive operations.',
                 'icon' => 'fas fa-server',
                 'is_featured' => true,
+                'service_category_id' => $infra->id,
             ],
             [
                 'name' => 'Software Sales & Services',
@@ -430,6 +440,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Genuine software provisioning, installation, and enterprise licensing management tailored to your specific requirements.',
                 'icon' => 'fas fa-code',
                 'is_featured' => true,
+                'service_category_id' => $support->id,
             ],
             [
                 'name' => 'Gaming & Rendering Machines',
@@ -437,6 +448,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Custom-engineered workstations designed specifically for elite gaming, 3D rendering, and professional-grade video production.',
                 'icon' => 'fas fa-microchip',
                 'is_featured' => true,
+                'service_category_id' => $support->id,
             ],
         ];
 

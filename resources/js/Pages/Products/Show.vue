@@ -4,6 +4,7 @@ import { Head, Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { useCartStore } from '../../Stores/cart';
 import Navbar from '../../Components/Navbar.vue';
+import Footer from '../../Components/Footer.vue';
 
 
 const cart = useCartStore();
