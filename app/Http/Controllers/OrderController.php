@@ -39,12 +39,36 @@ class OrderController extends Controller
             'shipping_address.phone' => 'required|string',
             'shipping_address.city' => 'required|string',
             'shipping_address.address' => 'required|string',
+            'password' => 'nullable|string|min:8',
+            'create_account' => 'boolean',
         ]);
 
-        $validated['user_id'] = Auth::id();
-        $validated['status'] = 'pending';
+        $userId = Auth::id();
 
-        $order = Order::create($validated);
+        // Guest Registration
+        if (!$userId && $request->create_account && $request->password) {
+            // Check if user already exists
+            $user = \App\Models\User::where('email', $request->shipping_address['email'])->first();
+            if (!$user) {
+                $user = \App\Models\User::create([
+                    'name' => $request->shipping_address['name'],
+                    'email' => $request->shipping_address['email'],
+                    'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+                ]);
+                Auth::login($user);
+                $userId = $user->id;
+            } else {
+                return back()->withErrors(['shipping_address.email' => 'Email already registered. Please login or use a different email.']);
+            }
+        }
+
+        $order = Order::create([
+            'user_id' => $userId,
+            'items' => $validated['items'],
+            'total' => $validated['total'],
+            'status' => 'pending',
+            'shipping_address' => $validated['shipping_address'],
+        ]);
 
         return redirect()->route('welcome')->with('success', 'Order placed successfully! Order ID: ' . $order->id);
     }

@@ -4,12 +4,20 @@ import { Link } from '@inertiajs/vue3';
 import { useCartStore } from '../Stores/cart';
 import CartSidebar from './CartSidebar.vue';
 
+import { usePage } from '@inertiajs/vue3';
+
 const cart = useCartStore();
 const isMobileMenuOpen = ref(false);
 
-defineProps({
-    canLogin: Boolean,
-    canRegister: Boolean,
+const props = defineProps({
+    canLogin: {
+        type: Boolean,
+        default: () => usePage().props.canLogin
+    },
+    canRegister: {
+        type: Boolean,
+        default: () => usePage().props.canRegister
+    },
 });
 
 const toggleMobileMenu = () => {

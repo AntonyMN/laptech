@@ -70,6 +70,7 @@ const formatPrice = (price) => {
                     <Link 
                         :href="route('checkout')"
                         v-if="cart.items.length > 0"
+                        @click="cart.toggleCart"
                         class="w-full py-4 rounded-2xl bg-red hover:bg-red-light text-white font-black transition shadow-xl shadow-red/20 block text-center"
                     >
                         Checkout Now

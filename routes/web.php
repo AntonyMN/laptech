@@ -39,13 +39,15 @@ Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('servic
 Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/quotes/create', [QuoteController::class, 'create'])->name('quotes.create');
-    Route::post('/quotes', [QuoteController::class, 'store'])->name('quotes.store');
+Route::get('/quotes/create', [QuoteController::class, 'create'])->name('quotes.create');
+Route::post('/quotes', [QuoteController::class, 'store'])->name('quotes.store');
 
-    Route::get('/checkout', [OrderController::class, 'create'])->name('checkout');
-    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
-    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+Route::get('/checkout', [OrderController::class, 'create'])->name('checkout');
+Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+
+Route::middleware(['auth'])->group(function () {
+    // Other auth routes if any
 });
 
 Route::get('/compare', [\App\Http\Controllers\CompareController::class, 'index'])->name('compare.index');

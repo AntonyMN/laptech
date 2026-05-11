@@ -1,27 +1,31 @@
 <script setup>
 import { onMounted } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
 import { useCartStore } from '../../Stores/cart';
 import Navbar from '../../Components/Navbar.vue';
 import Footer from '../../Components/Footer.vue';
 
 
+const page = usePage();
 const cart = useCartStore();
 
 const form = useForm({
     items: [],
     total: 0,
     shipping_address: {
-        name: '',
-        email: '',
+        name: page.props.auth.user?.name || '',
+        email: page.props.auth.user?.email || '',
         phone: '',
         city: '',
         address: '',
     },
+    password: '',
+    create_account: false,
 });
 
 onMounted(() => {
+    cart.isOpen = false;
     if (cart.items.length === 0) {
         window.location.href = route('products.index');
         return;
@@ -89,6 +93,23 @@ const submitOrder = () => {
                                 <InputError :message="form.errors['shipping_address.address']" />
                             </div>
 
+                            <!-- Guest Account Creation -->
+                            <div v-if="!$page.props.auth.user" class="md:col-span-2 pt-6 border-t border-white/5 space-y-6">
+                                <div class="flex items-center gap-4 cursor-pointer group" @click="form.create_account = !form.create_account">
+                                    <div :class="form.create_account ? 'bg-red border-red' : 'border-white/20'" class="w-6 h-6 border-2 rounded-lg flex items-center justify-center transition">
+                                        <i v-if="form.create_account" class="fas fa-check text-[10px]"></i>
+                                    </div>
+                                    <span class="text-sm font-bold uppercase tracking-widest text-white/60 group-hover:text-white transition">Secure my details with a free account</span>
+                                </div>
+
+                                <div v-if="form.create_account" class="animate-in fade-in slide-in-from-top-4 duration-300">
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold uppercase tracking-widest text-white/30">Create Password</label>
+                                        <input v-model="form.password" type="password" placeholder="••••••••" class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" />
+                                        <InputError :message="form.errors.password" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
@@ -122,12 +143,15 @@ const submitOrder = () => {
                         </div>
                         
                         <div class="p-10 space-y-6">
-                            <div v-for="item in cart.items" :key="item.id" class="flex justify-between gap-4">
+                            <div v-for="item in cart.items" :key="item.id" class="flex gap-4">
+                                <div class="w-16 h-16 bg-charcoal rounded-xl overflow-hidden shrink-0 border border-white/5">
+                                    <img :src="item.image" class="w-full h-full object-cover" />
+                                </div>
                                 <div class="flex-1">
                                     <h4 class="font-bold text-sm leading-tight">{{ item.name }}</h4>
                                     <p class="text-xs text-white/40">Qty: {{ item.quantity }}</p>
                                 </div>
-                                <div class="font-bold text-sm whitespace-nowrap">Ksh {{ (item.price * item.quantity).toLocaleString() }}</div>
+                                <div class="font-bold text-sm whitespace-nowrap text-red">Ksh {{ (item.price * item.quantity).toLocaleString() }}</div>
                             </div>
 
                             <div class="pt-6 border-t border-white/5 space-y-4">
