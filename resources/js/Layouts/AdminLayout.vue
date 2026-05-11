@@ -72,6 +72,16 @@ defineProps({
                 </div>
             </header>
 
+            <!-- Flash Messages -->
+            <div v-if="$page.props.flash.success" class="mb-8 p-6 bg-green-500/10 border border-green-500/20 text-green-500 rounded-[2rem] flex items-center gap-4 animate-in fade-in slide-in-from-top duration-500">
+                <i class="fas fa-check-circle text-2xl"></i>
+                <span class="font-bold">{{ $page.props.flash.success }}</span>
+            </div>
+            <div v-if="$page.props.flash.error" class="mb-8 p-6 bg-red-500/10 border border-red-500/20 text-red-500 rounded-[2rem] flex items-center gap-4 animate-in fade-in slide-in-from-top duration-500">
+                <i class="fas fa-exclamation-circle text-2xl"></i>
+                <span class="font-bold">{{ $page.props.flash.error }}</span>
+            </div>
+
             <slot />
         </main>
     </div>

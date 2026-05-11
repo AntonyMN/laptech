@@ -19,6 +19,15 @@ const toggleMobileMenu = () => {
 
 <template>
     <CartSidebar />
+    <!-- Flash Notifications -->
+    <div v-if="$page.props.flash.success" class="fixed top-24 right-6 z-[60] p-6 bg-red border border-red/20 text-white rounded-2xl shadow-2xl shadow-red/20 flex items-center gap-4 animate-in slide-in-from-right duration-500">
+        <i class="fas fa-check-circle"></i>
+        <span class="font-bold text-sm">{{ $page.props.flash.success }}</span>
+    </div>
+    <div v-if="$page.props.flash.error" class="fixed top-24 right-6 z-[60] p-6 bg-charcoal-light border border-red text-red rounded-2xl shadow-2xl flex items-center gap-4 animate-in slide-in-from-right duration-500">
+        <i class="fas fa-exclamation-circle"></i>
+        <span class="font-bold text-sm">{{ $page.props.flash.error }}</span>
+    </div>
     <nav class="sticky top-0 z-50 bg-charcoal/80 backdrop-blur-md border-b border-white/10 px-6 py-4">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <!-- Logo -->
