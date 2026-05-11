@@ -99,6 +99,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/blog-posts', [AdminController::class, 'blogPosts'])->name('blog-posts.index');
     Route::get('/blog-posts/create', [AdminController::class, 'createBlogPost'])->name('blog-posts.create');
     Route::post('/blog-posts', [AdminController::class, 'storeBlogPost'])->name('blog-posts.store');
+    Route::post('/blog-posts/generate', [AdminController::class, 'generateBlogPost'])->name('blog-posts.generate');
     Route::get('/blog-posts/{post}/edit', [AdminController::class, 'editBlogPost'])->name('blog-posts.edit');
     Route::post('/blog-posts/{post}', [AdminController::class, 'updateBlogPost'])->name('blog-posts.update'); // Using POST for file upload with _method PATCH
     Route::delete('/blog-posts/{post}', [AdminController::class, 'deleteBlogPost'])->name('blog-posts.delete');

@@ -1,5 +1,6 @@
 <script setup>
-import { Head, useForm, Link } from '@inertiajs/vue3';
+import { Head, useForm, Link, router } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import QuillEditor from '@/Components/QuillEditor.vue';
 
@@ -19,6 +20,30 @@ const form = useForm({
 
 const generateSlug = () => {
     form.slug = form.title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+};
+
+const isGenerating = ref(false);
+
+const generateWithAI = () => {
+    if (!form.title) {
+        alert('Please enter a title first.');
+        return;
+    }
+    
+    isGenerating.value = true;
+    router.post(route('admin.blog-posts.generate'), {
+        topic: form.title
+    }, {
+        onSuccess: (page) => {
+            if (page.props.flash.generated_content) {
+                form.content = page.props.flash.generated_content;
+            }
+            isGenerating.value = false;
+        },
+        onError: () => {
+            isGenerating.value = false;
+        }
+    });
 };
 
 const submit = () => {
@@ -56,7 +81,18 @@ const submit = () => {
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-xs font-bold uppercase tracking-widest text-white/30">Content</label>
+                        <div class="flex items-center justify-between">
+                            <label class="text-xs font-bold uppercase tracking-widest text-white/30">Content</label>
+                            <button 
+                                type="button" 
+                                @click="generateWithAI" 
+                                :disabled="isGenerating"
+                                class="text-[10px] font-black uppercase tracking-widest text-red hover:text-red-bright transition flex items-center gap-2"
+                            >
+                                <i class="fas" :class="isGenerating ? 'fa-spinner fa-spin' : 'fa-wand-magic-sparkles'"></i>
+                                {{ isGenerating ? 'Generating...' : 'Generate with Gemini' }}
+                            </button>
+                        </div>
                         <QuillEditor v-model="form.content" />
                     </div>
                 </div>

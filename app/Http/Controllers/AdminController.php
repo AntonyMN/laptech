@@ -11,6 +11,7 @@ use Inertia\Inertia;
 use App\Models\Category;
 use App\Models\ServiceCategory;
 use App\Models\Service;
+use App\Services\GeminiService;
 
 class AdminController extends Controller
 {
@@ -384,6 +385,22 @@ class AdminController extends Controller
         $post->update($validated);
 
         return redirect()->route('admin.blog-posts.index')->with('success', 'Blog post updated.');
+    }
+
+    public function generateBlogPost(Request $request, GeminiService $gemini)
+    {
+        $request->validate(['topic' => 'required|string|max:255']);
+        
+        $content = $gemini->generateBlogPost($request->topic);
+        
+        if (!$content) {
+            return back()->with('error', 'Failed to generate content. Please check your API key.');
+        }
+        
+        return back()->with([
+            'success' => 'Content generated successfully!',
+            'generated_content' => $content
+        ]);
     }
 
     public function deleteBlogPost(\App\Models\BlogPost $post)
