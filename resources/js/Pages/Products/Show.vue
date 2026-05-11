@@ -132,9 +132,7 @@ const activeImage = ref(props.product.images?.[0] || props.product.image || 'htt
             </section>
         </main>
 
-        <div id="debug-footer-wrapper">
-            <Footer />
-        </div>
+        <Footer />
     </div>
 </template>
 

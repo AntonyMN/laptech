@@ -1,6 +1,7 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import Navbar from '../../Components/Navbar.vue';
+import Footer from '../../Components/Footer.vue';
 
 
 const props = defineProps({
