@@ -14,5 +14,10 @@ class Order extends Model
         'status', // pending, paid, shipped, delivered, cancelled
         'shipping_address'
     ];
+
+    protected $casts = [
+        'items' => 'array',
+        'shipping_address' => 'array',
+    ];
 }
 
