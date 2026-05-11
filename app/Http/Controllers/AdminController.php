@@ -193,10 +193,16 @@ class AdminController extends Controller
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'category_id' => 'required|exists:categories,id',
+            'image_file' => 'nullable|image|max:2048',
             'image' => 'nullable|string',
             'specifications' => 'nullable|array',
             'is_featured' => 'boolean',
         ]);
+
+        if ($request->hasFile('image_file')) {
+            $path = $request->file('image_file')->store('products', 'public');
+            $validated['image'] = '/storage/' . $path;
+        }
 
         // Convert specifications array to associative array
         if ($request->has('specifications') && is_array($request->specifications)) {
@@ -231,10 +237,16 @@ class AdminController extends Controller
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'category_id' => 'required|exists:categories,id',
+            'image_file' => 'nullable|image|max:2048',
             'image' => 'nullable|string',
             'specifications' => 'nullable|array',
             'is_featured' => 'boolean',
         ]);
+
+        if ($request->hasFile('image_file')) {
+            $path = $request->file('image_file')->store('products', 'public');
+            $validated['image'] = '/storage/' . $path;
+        }
 
         // Convert specifications array to associative array
         if ($request->has('specifications') && is_array($request->specifications)) {

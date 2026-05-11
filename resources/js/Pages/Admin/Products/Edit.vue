@@ -16,8 +16,10 @@ const form = useForm({
     stock: props.product.stock,
     category_id: props.product.category_id,
     image: props.product.image,
+    image_file: null,
     is_featured: props.product.is_featured,
     specifications: [],
+    _method: 'PATCH',
 });
 
 onMounted(() => {
@@ -39,7 +41,7 @@ const removeSpec = (index) => {
 };
 
 const submit = () => {
-    form.patch(route('admin.products.update', props.product.id));
+    form.post(route('admin.products.update', props.product.id));
 };
 </script>
 
@@ -83,9 +85,15 @@ const submit = () => {
                         </div>
                     </div>
 
-                    <div class="mt-8 space-y-2">
-                        <label class="text-xs font-bold uppercase tracking-widest text-white/30">Image URL</label>
-                        <input v-model="form.image" type="text" placeholder="https://..." class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" />
+                    <div class="mt-8 grid md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-widest text-white/30">Upload New Image</label>
+                            <input @input="form.image_file = $event.target.files[0]" type="file" class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" />
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-widest text-white/30">Or Image URL</label>
+                            <input v-model="form.image" type="text" placeholder="https://..." class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" />
+                        </div>
                     </div>
                 </div>
 

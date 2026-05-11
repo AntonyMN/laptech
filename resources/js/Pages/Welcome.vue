@@ -141,30 +141,38 @@ const filterByCategory = (id) => {
                 </div>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div v-for="product in featuredProducts" :key="product.id" class="group bg-charcoal border border-white/5 rounded-3xl overflow-hidden hover:border-red/50 transition duration-500">
-                        <Link :href="route('products.show', product.slug)">
-                            <div class="relative h-64 bg-charcoal-dark overflow-hidden">
-                                <img :src="product.image || 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&q=80&w=500'" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 opacity-80 group-hover:opacity-100" />
-                                <div class="absolute top-4 left-4 px-3 py-1 bg-red rounded-full text-xs font-bold uppercase tracking-tighter text-white">
-                                    {{ product.category?.name }}
+                    <div v-for="product in featuredProducts" :key="product.id" class="relative group bg-charcoal border border-white/5 rounded-3xl overflow-hidden hover:border-red/50 transition duration-500">
+                            <Link :href="route('products.show', product.slug)">
+                                <div class="relative h-64 bg-charcoal-dark overflow-hidden">
+                                    <img :src="product.image || 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&q=80&w=500'" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 opacity-80 group-hover:opacity-100" />
+                                    <div class="absolute top-4 left-4 px-3 py-1 bg-red rounded-full text-xs font-bold uppercase tracking-tighter text-white">
+                                        {{ product.category?.name }}
+                                    </div>
+                                    <!-- Quick Actions -->
+                                    <div class="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition duration-300">
+                                        <button v-if="$page.props.auth.user" @click.prevent="router.post(route('wishlist.toggle', product.id))" class="w-10 h-10 bg-charcoal/80 backdrop-blur rounded-xl flex items-center justify-center hover:bg-red transition text-white">
+                                            <i class="fas fa-heart"></i>
+                                        </button>
+                                        <button @click.prevent="router.post(route('compare.add', product.id))" class="w-10 h-10 bg-charcoal/80 backdrop-blur rounded-xl flex items-center justify-center hover:bg-red transition text-white">
+                                            <i class="fas fa-balance-scale"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </Link>
+                            <div class="p-8">
+                                <Link :href="route('products.show', product.slug)">
+                                    <h3 class="text-2xl font-heading font-bold mb-2 group-hover:text-red transition">{{ product.name }}</h3>
+                                </Link>
+                                <p class="text-white/50 text-sm mb-6 line-clamp-2">{{ product.description }}</p>
+                                
+                                <div class="flex items-center justify-between">
+                                    <span class="text-3xl font-heading font-black text-white">Ksh {{ product.price.toLocaleString() }}</span>
+                                    <button @click="cart.addItem(product)" class="w-12 h-12 bg-white/5 hover:bg-red rounded-2xl flex items-center justify-center transition text-white">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
                                 </div>
                             </div>
-                        </Link>
-                        <div class="p-8">
-                            <Link :href="route('products.show', product.slug)">
-                                <h3 class="text-2xl font-heading font-bold mb-2 group-hover:text-red transition">{{ product.name }}</h3>
-                            </Link>
-                            <p class="text-white/50 text-sm mb-6 line-clamp-2">{{ product.description }}</p>
-                            
-                            <div class="flex items-center justify-between">
-                                <span class="text-3xl font-heading font-black text-white">Ksh {{ product.price.toLocaleString() }}</span>
-                                <button @click="cart.addItem(product)" class="w-12 h-12 bg-white/5 hover:bg-red rounded-2xl flex items-center justify-center transition text-white">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-
                         </div>
-                    </div>
                 </div>
 
             </div>

@@ -31,6 +31,8 @@ const toggleMobileMenu = () => {
                 <Link :href="route('products.index')" :class="route().current('products.index') ? 'text-red' : 'hover:text-red'" class="transition">Hardware Hub</Link>
                 <Link :href="route('services.index')" :class="route().current('services.index') ? 'text-red' : 'hover:text-red'" class="transition">Service Hub</Link>
                 <Link :href="route('quotes.create')" :class="route().current('quotes.create') ? 'text-red' : 'hover:text-red'" class="transition">Request Quote</Link>
+                <Link :href="route('compare.index')" :class="route().current('compare.index') ? 'text-red' : 'hover:text-red'" class="transition">Compare</Link>
+                <Link v-if="$page.props.auth.user" :href="route('wishlist.index')" :class="route().current('wishlist.index') ? 'text-red' : 'hover:text-red'" class="transition">Wishlist</Link>
             </div>
 
             <!-- Actions -->
@@ -66,9 +68,11 @@ const toggleMobileMenu = () => {
         <!-- Mobile Menu Drawer -->
         <div v-if="isMobileMenuOpen" class="md:hidden absolute top-full left-0 w-full bg-charcoal border-b border-white/10 p-6 space-y-6 animate-in slide-in-from-top duration-300">
             <div class="flex flex-col gap-4 font-semibold">
-                <Link :href="route('products.index')" @click="isMobileMenuOpen = false" class="hover:text-red transition">Hardware Hub</Link>
-                <Link :href="route('services.index')" @click="isMobileMenuOpen = false" class="hover:text-red transition">Service Hub</Link>
-                <Link :href="route('quotes.create')" @click="isMobileMenuOpen = false" class="hover:text-red transition">Request Quote</Link>
+                <Link :href="route('products.index')" class="text-sm font-bold text-white/70 hover:text-red transition">Hardware Hub</Link>
+                <Link :href="route('services.index')" class="text-sm font-bold text-white/70 hover:text-red transition">Service Hub</Link>
+                <Link :href="route('quotes.create')" class="text-sm font-bold text-white/70 hover:text-red transition">Request Quote</Link>
+                <Link :href="route('compare.index')" class="text-sm font-bold text-white/70 hover:text-red transition">Compare</Link>
+                <Link v-if="$page.props.auth.user" :href="route('wishlist.index')" class="text-sm font-bold text-white/70 hover:text-red transition">Wishlist</Link>
             </div>
             
             <div class="pt-6 border-t border-white/10">

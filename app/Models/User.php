@@ -30,6 +30,10 @@ class User extends Authenticatable
             'password' => 'hashed',
             'is_admin' => 'boolean',
         ];
+    }
 
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
     }
 }

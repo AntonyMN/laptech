@@ -125,6 +125,15 @@ const clearFilters = () => {
                                         {{ product.category?.name }}
                                     </span>
                                 </div>
+                                <!-- Quick Actions -->
+                                <div class="absolute top-6 right-6 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition duration-300">
+                                    <button v-if="$page.props.auth.user" @click.prevent="router.post(route('wishlist.toggle', product.id))" class="w-10 h-10 bg-charcoal/80 backdrop-blur rounded-xl flex items-center justify-center hover:bg-red transition text-white">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                    <button @click.prevent="router.post(route('compare.add', product.id))" class="w-10 h-10 bg-charcoal/80 backdrop-blur rounded-xl flex items-center justify-center hover:bg-red transition text-white">
+                                        <i class="fas fa-balance-scale"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="p-8">
                                 <Link :href="route('products.show', product.slug)">

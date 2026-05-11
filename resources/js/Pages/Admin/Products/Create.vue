@@ -15,6 +15,7 @@ const form = useForm({
     stock: '',
     category_id: '',
     image: '',
+    image_file: null,
     is_featured: false,
     specifications: [],
 });
@@ -86,9 +87,15 @@ const submit = () => {
                         </div>
                     </div>
 
-                    <div class="mt-8 space-y-2">
-                        <label class="text-xs font-bold uppercase tracking-widest text-white/30">Image URL</label>
-                        <input v-model="form.image" type="text" placeholder="https://..." class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" />
+                    <div class="mt-8 grid md:grid-cols-2 gap-8">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-widest text-white/30">Upload Image</label>
+                            <input @input="form.image_file = $event.target.files[0]" type="file" class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" />
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-widest text-white/30">Or Image URL</label>
+                            <input v-model="form.image" type="text" placeholder="https://..." class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" />
+                        </div>
                     </div>
                 </div>
 

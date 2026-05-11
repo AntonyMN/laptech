@@ -43,6 +43,11 @@ Route::get('/checkout', [OrderController::class, 'create'])->name('checkout');
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 
+Route::get('/compare', [\App\Http\Controllers\CompareController::class, 'index'])->name('compare.index');
+Route::post('/compare/{product}', [\App\Http\Controllers\CompareController::class, 'add'])->name('compare.add');
+Route::delete('/compare/{product}', [\App\Http\Controllers\CompareController::class, 'remove'])->name('compare.remove');
+Route::delete('/compare', [\App\Http\Controllers\CompareController::class, 'clear'])->name('compare.clear');
+
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
@@ -95,6 +100,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    Route::get('/wishlist', [\App\Http\Controllers\WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/{product}/toggle', [\App\Http\Controllers\WishlistController::class, 'toggle'])->name('wishlist.toggle');
 });
 
 require __DIR__.'/auth.php';
