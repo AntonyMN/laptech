@@ -18,8 +18,12 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'categories' => \App\Models\Category::all(),
-        'featuredProducts' => \App\Models\Product::with('category')->where('is_featured', true)->get(),
+        'categories' => \App\Models\Category::has('products')->get(),
+        'featuredProducts' => \App\Models\Product::with('category')
+            ->where('is_featured', true)
+            ->latest()
+            ->limit(6)
+            ->get(),
         'featuredServices' => \App\Models\Service::where('is_featured', true)->get(),
     ]);
 })->name('welcome');

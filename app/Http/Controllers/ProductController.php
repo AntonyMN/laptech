@@ -33,7 +33,7 @@ class ProductController extends Controller
 
         return Inertia::render('Products/Index', [
             'products' => $query->get(),
-            'categories' => Category::all(),
+            'categories' => Category::has('products')->get(),
             'filters' => $request->only(['search', 'category', 'min_price', 'max_price']),
         ]);
     }
