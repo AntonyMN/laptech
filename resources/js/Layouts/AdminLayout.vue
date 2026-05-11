@@ -24,8 +24,14 @@ defineProps({
                 <Link :href="route('admin.products.index')" :class="route().current('admin.products.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
                     <i class="fas fa-box w-6"></i> Products
                 </Link>
-                <Link :href="route('admin.categories.index')" :class="route().current('admin.categories.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
-                    <i class="fas fa-tags w-6"></i> Product Categories
+                <Link :href="route('admin.product-categories.index')" :class="route().current('admin.product-categories.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition group">
+                    <i class="fas fa-tags w-5"></i> <span class="font-bold text-sm">Product Categories</span>
+                </Link>
+                <Link :href="route('admin.blog-posts.index')" :class="route().current('admin.blog-posts.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition group">
+                    <i class="fas fa-feather w-5"></i> <span class="font-bold text-sm">Blog Posts</span>
+                </Link>
+                <Link :href="route('admin.blog-categories.index')" :class="route().current('admin.blog-categories.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition group">
+                    <i class="fas fa-folder-open w-5"></i> <span class="font-bold text-sm">Blog Categories</span>
                 </Link>
                 <Link :href="route('admin.services.index')" :class="route().current('admin.services.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
                     <i class="fas fa-tools w-6"></i> Services

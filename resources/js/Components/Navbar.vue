@@ -30,6 +30,7 @@ const toggleMobileMenu = () => {
             <div class="hidden md:flex items-center gap-8 font-semibold">
                 <Link :href="route('products.index')" :class="route().current('products.index') ? 'text-red' : 'hover:text-red'" class="transition">Hardware Hub</Link>
                 <Link :href="route('services.index')" :class="route().current('services.index') ? 'text-red' : 'hover:text-red'" class="transition">Service Hub</Link>
+                <Link :href="route('blog.index')" :class="route().current('blog.*') ? 'text-red' : 'hover:text-red'" class="transition">Intelligence</Link>
                 <Link :href="route('quotes.create')" :class="route().current('quotes.create') ? 'text-red' : 'hover:text-red'" class="transition">Request Quote</Link>
                 <Link :href="route('compare.index')" :class="route().current('compare.index') ? 'text-red' : 'hover:text-red'" class="transition">Compare</Link>
                 <Link v-if="$page.props.auth.user" :href="route('wishlist.index')" :class="route().current('wishlist.index') ? 'text-red' : 'hover:text-red'" class="transition">Wishlist</Link>
@@ -70,6 +71,7 @@ const toggleMobileMenu = () => {
             <div class="flex flex-col gap-4 font-semibold">
                 <Link :href="route('products.index')" class="text-sm font-bold text-white/70 hover:text-red transition">Hardware Hub</Link>
                 <Link :href="route('services.index')" class="text-sm font-bold text-white/70 hover:text-red transition">Service Hub</Link>
+                <Link :href="route('blog.index')" class="text-sm font-bold text-white/70 hover:text-red transition">Intelligence</Link>
                 <Link :href="route('quotes.create')" class="text-sm font-bold text-white/70 hover:text-red transition">Request Quote</Link>
                 <Link :href="route('compare.index')" class="text-sm font-bold text-white/70 hover:text-red transition">Compare</Link>
                 <Link v-if="$page.props.auth.user" :href="route('wishlist.index')" class="text-sm font-bold text-white/70 hover:text-red transition">Wishlist</Link>

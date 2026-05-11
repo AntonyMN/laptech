@@ -270,6 +270,127 @@ class AdminController extends Controller
         return back()->with('success', 'Product deleted successfully.');
     }
 
+    // Blog Categories
+    public function blogCategories()
+    {
+        return Inertia::render('Admin/Blog/Categories/Index', [
+            'categories' => \App\Models\BlogCategory::withCount('posts')->get(),
+        ]);
+    }
+
+    public function storeBlogCategory(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:blog_categories',
+            'description' => 'nullable|string',
+        ]);
+
+        \App\Models\BlogCategory::create($validated);
+
+        return redirect()->back()->with('success', 'Blog category created.');
+    }
+
+    public function updateBlogCategory(Request $request, \App\Models\BlogCategory $category)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:blog_categories,slug,' . $category->id,
+            'description' => 'nullable|string',
+        ]);
+
+        $category->update($validated);
+
+        return redirect()->back()->with('success', 'Blog category updated.');
+    }
+
+    public function deleteBlogCategory(\App\Models\BlogCategory $category)
+    {
+        $category->delete();
+        return redirect()->back()->with('success', 'Blog category deleted.');
+    }
+
+    // Blog Posts
+    public function blogPosts()
+    {
+        return Inertia::render('Admin/Blog/Posts/Index', [
+            'posts' => \App\Models\BlogPost::with('category')->latest()->get(),
+        ]);
+    }
+
+    public function createBlogPost()
+    {
+        return Inertia::render('Admin/Blog/Posts/Create', [
+            'categories' => \App\Models\BlogCategory::all(),
+        ]);
+    }
+
+    public function storeBlogPost(Request $request)
+    {
+        $validated = $request->validate([
+            'blog_category_id' => 'required|exists:blog_categories,id',
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:blog_posts',
+            'excerpt' => 'nullable|string',
+            'content' => 'required|string',
+            'image_file' => 'nullable|image|max:2048',
+            'is_published' => 'boolean',
+        ]);
+
+        if ($request->hasFile('image_file')) {
+            $path = $request->file('image_file')->store('blog', 'public');
+            $validated['featured_image'] = '/storage/' . $path;
+        }
+
+        if ($validated['is_published'] ?? false) {
+            $validated['published_at'] = now();
+        }
+
+        \App\Models\BlogPost::create($validated);
+
+        return redirect()->route('admin.blog-posts.index')->with('success', 'Blog post created.');
+    }
+
+    public function editBlogPost(\App\Models\BlogPost $post)
+    {
+        return Inertia::render('Admin/Blog/Posts/Edit', [
+            'post' => $post,
+            'categories' => \App\Models\BlogCategory::all(),
+        ]);
+    }
+
+    public function updateBlogPost(Request $request, \App\Models\BlogPost $post)
+    {
+        $validated = $request->validate([
+            'blog_category_id' => 'required|exists:blog_categories,id',
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:blog_posts,slug,' . $post->id,
+            'excerpt' => 'nullable|string',
+            'content' => 'required|string',
+            'image_file' => 'nullable|image|max:2048',
+            'is_published' => 'boolean',
+        ]);
+
+        if ($request->hasFile('image_file')) {
+            $path = $request->file('image_file')->store('blog', 'public');
+            $validated['featured_image'] = '/storage/' . $path;
+        }
+
+        if ($validated['is_published'] && !$post->is_published) {
+            $validated['published_at'] = now();
+        }
+
+        $post->update($validated);
+
+        return redirect()->route('admin.blog-posts.index')->with('success', 'Blog post updated.');
+    }
+
+    public function deleteBlogPost(\App\Models\BlogPost $post)
+    {
+        $post->delete();
+        return redirect()->back()->with('success', 'Blog post deleted.');
+    }
+
     // Orders & Quotes
     public function orders()
     {

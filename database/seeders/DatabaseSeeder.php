@@ -534,5 +534,50 @@ class DatabaseSeeder extends Seeder
                 'status' => 'pending'
             ]);
         }
+        // Blog Categories
+        $blogCategories = [
+            ['name' => 'Infrastructure', 'slug' => 'infrastructure', 'description' => 'Advanced server and network architecture.'],
+            ['name' => 'Cybersecurity', 'slug' => 'cybersecurity', 'description' => 'Protecting elite digital assets.'],
+            ['name' => 'Hardware Reviews', 'slug' => 'hardware-reviews', 'description' => 'In-depth analysis of high-performance components.'],
+            ['name' => 'Tech Trends', 'slug' => 'tech-trends', 'description' => 'The future of technological innovation in Kenya.'],
+        ];
+
+        foreach ($blogCategories as $cat) {
+            \App\Models\BlogCategory::firstOrCreate(['slug' => $cat['slug']], $cat);
+        }
+
+        // Demo Blog Post
+        $infraCat = \App\Models\BlogCategory::where('slug', 'infrastructure')->first();
+        if ($infraCat) {
+            \App\Models\BlogPost::firstOrCreate(
+                ['slug' => 'future-of-enterprise-infrastructure-kenya'],
+                [
+                    'blog_category_id' => $infraCat->id,
+                    'title' => 'The Future of Enterprise Infrastructure in Kenya',
+                    'slug' => 'future-of-enterprise-infrastructure-kenya',
+                    'excerpt' => 'How high-performance server clusters and precision networking are transforming the digital landscape of Kenyan enterprise.',
+                    'content' => '
+                        <h1>Architecting the Next Decade.</h1>
+                        <p>The Kenyan enterprise landscape is undergoing a tectonic shift. As digital transformation accelerates, the demand for robust, scalable, and secure infrastructure has never been higher. At Laptech, we see this as the "Handshake of Tech Excellence"—where vision meets precision engineering.</p>
+                        
+                        <h2>1. High-Performance Server Clusters</h2>
+                        <p>Standard rack mounts are no longer sufficient for the data-intensive workloads of modern fintech and logistics firms. We are seeing a move towards modular, liquid-cooled server clusters that provide 400% more compute density than traditional setups.</p>
+                        
+                        <blockquote>"Infrastructure is not just a support function; it is the competitive edge of the modern corporation." - Laptech Architects</blockquote>
+                        
+                        <h2>2. Precision Networking & Zero-Trust</h2>
+                        <p>With the rise of remote operations, networking has moved beyond the office walls. Implementing zero-trust architectures coupled with 40Gbps fiber backbones ensures that performance is never sacrificed for security.</p>
+                        
+                        <h2>3. The Hybrid Cloud Reality</h2>
+                        <p>The future isn\'t purely on-premise or purely cloud. It is a hybrid ecosystem where sensitive core banking systems run on local high-performance hardware, while customer-facing frontends scale in the cloud.</p>
+                        
+                        <p>Laptech remains committed to leading this charge, providing the elite hardware and technical services required to power Kenya\'s digital future.</p>
+                    ',
+                    'featured_image' => 'https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?auto=format&fit=crop&q=80&w=1200',
+                    'is_published' => true,
+                    'published_at' => now(),
+                ]
+            );
+        }
     }
 }

@@ -36,12 +36,17 @@ Route::get('/products/{slug}', [ProductController::class, 'show'])->name('produc
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 Route::get('/services/{slug}', [ServiceController::class, 'show'])->name('services.show');
 
-Route::get('/quotes/create', [QuoteController::class, 'create'])->name('quotes.create');
-Route::post('/quotes', [QuoteController::class, 'store'])->name('quotes.store');
+Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
 
-Route::get('/checkout', [OrderController::class, 'create'])->name('checkout');
-Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
-Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/quotes/create', [QuoteController::class, 'create'])->name('quotes.create');
+    Route::post('/quotes', [QuoteController::class, 'store'])->name('quotes.store');
+
+    Route::get('/checkout', [OrderController::class, 'create'])->name('checkout');
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+});
 
 Route::get('/compare', [\App\Http\Controllers\CompareController::class, 'index'])->name('compare.index');
 Route::post('/compare/{product}', [\App\Http\Controllers\CompareController::class, 'add'])->name('compare.add');
@@ -83,6 +88,20 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     Route::get('/quotes', [AdminController::class, 'quotes'])->name('quotes.index');
     Route::patch('/quotes/{quote}/status', [AdminController::class, 'updateQuoteStatus'])->name('quotes.update-status');
+
+    // Blog Categories
+    Route::get('/blog-categories', [AdminController::class, 'blogCategories'])->name('blog-categories.index');
+    Route::post('/blog-categories', [AdminController::class, 'storeBlogCategory'])->name('blog-categories.store');
+    Route::patch('/blog-categories/{category}', [AdminController::class, 'updateBlogCategory'])->name('blog-categories.update');
+    Route::delete('/blog-categories/{category}', [AdminController::class, 'deleteBlogCategory'])->name('blog-categories.delete');
+
+    // Blog Posts
+    Route::get('/blog-posts', [AdminController::class, 'blogPosts'])->name('blog-posts.index');
+    Route::get('/blog-posts/create', [AdminController::class, 'createBlogPost'])->name('blog-posts.create');
+    Route::post('/blog-posts', [AdminController::class, 'storeBlogPost'])->name('blog-posts.store');
+    Route::get('/blog-posts/{post}/edit', [AdminController::class, 'editBlogPost'])->name('blog-posts.edit');
+    Route::post('/blog-posts/{post}', [AdminController::class, 'updateBlogPost'])->name('blog-posts.update'); // Using POST for file upload with _method PATCH
+    Route::delete('/blog-posts/{post}', [AdminController::class, 'deleteBlogPost'])->name('blog-posts.delete');
 });
 
 
