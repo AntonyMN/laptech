@@ -11,11 +11,20 @@ class Service extends Model
         'name',
         'slug',
         'description',
+        'features',
         'icon',
         'image',
         'is_featured',
         'service_category_id'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'features' => 'array',
+            'is_featured' => 'boolean',
+        ];
+    }
 
     public function category()
     {

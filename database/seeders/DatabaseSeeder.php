@@ -400,7 +400,6 @@ class DatabaseSeeder extends Seeder
         $support = ServiceCategory::create(['name' => 'Technical Support', 'slug' => 'technical-support']);
         $security = ServiceCategory::create(['name' => 'Security Systems', 'slug' => 'security-systems']);
 
-        // Services from signage
         $services = [
             [
                 'name' => 'IT Consultancy',
@@ -409,6 +408,11 @@ class DatabaseSeeder extends Seeder
                 'icon' => 'fas fa-lightbulb',
                 'is_featured' => true,
                 'service_category_id' => $infra->id,
+                'features' => [
+                    ['title' => 'Strategic Planning', 'description' => 'Long-term IT roadmaps aligned with business objectives.'],
+                    ['title' => 'Infrastructure Audit', 'description' => 'Comprehensive evaluation of existing systems and security.'],
+                    ['title' => 'Digital Transformation', 'description' => 'Modernizing workflows with cutting-edge cloud solutions.']
+                ]
             ],
             [
                 'name' => 'Hardware Sales & Repair',
@@ -417,6 +421,11 @@ class DatabaseSeeder extends Seeder
                 'icon' => 'fas fa-laptop-medical',
                 'is_featured' => true,
                 'service_category_id' => $support->id,
+                'features' => [
+                    ['title' => 'Premium Sourcing', 'description' => 'Direct access to enterprise-grade hardware from top vendors.'],
+                    ['title' => 'Expert Diagnostics', 'description' => 'Component-level repair using state-of-the-art tools.'],
+                    ['title' => 'Warranty Support', 'description' => 'Full manufacturer warranty preservation and local support.']
+                ]
             ],
             [
                 'name' => 'CCTV & Networking',
@@ -425,6 +434,11 @@ class DatabaseSeeder extends Seeder
                 'icon' => 'fas fa-video',
                 'is_featured' => true,
                 'service_category_id' => $security->id,
+                'features' => [
+                    ['title' => '24/7 Surveillance', 'description' => 'High-definition IP cameras with remote monitoring capabilities.'],
+                    ['title' => 'Fiber Networking', 'description' => 'Robust backbone connectivity for zero-latency operations.'],
+                    ['title' => 'Access Control', 'description' => 'Biometric and RFID solutions for physical security.']
+                ]
             ],
             [
                 'name' => 'Server Solutions & Upgrades',
@@ -433,6 +447,11 @@ class DatabaseSeeder extends Seeder
                 'icon' => 'fas fa-server',
                 'is_featured' => true,
                 'service_category_id' => $infra->id,
+                'features' => [
+                    ['title' => 'Rack Deployment', 'description' => 'Precision installation of enterprise rack and tower servers.'],
+                    ['title' => 'Virtualization', 'description' => 'Optimizing resources with VMware and Hyper-V solutions.'],
+                    ['title' => 'Data Integrity', 'description' => 'Advanced RAID configurations and backup systems.']
+                ]
             ],
             [
                 'name' => 'Software Sales & Services',
@@ -441,6 +460,11 @@ class DatabaseSeeder extends Seeder
                 'icon' => 'fas fa-code',
                 'is_featured' => true,
                 'service_category_id' => $support->id,
+                'features' => [
+                    ['title' => 'License Compliance', 'description' => 'Genuine software keys for Windows, Office, and SQL Server.'],
+                    ['title' => 'Custom Deployment', 'description' => 'Silent installation and network-wide software rollout.'],
+                    ['title' => 'Cloud Integration', 'description' => 'Seamless migration to Microsoft 365 and Azure.']
+                ]
             ],
             [
                 'name' => 'Gaming & Rendering Machines',
@@ -449,6 +473,11 @@ class DatabaseSeeder extends Seeder
                 'icon' => 'fas fa-microchip',
                 'is_featured' => true,
                 'service_category_id' => $support->id,
+                'features' => [
+                    ['title' => 'Custom Cooling', 'description' => 'Advanced liquid and air cooling for thermal stability.'],
+                    ['title' => 'Component Matching', 'description' => 'Ensuring zero bottlenecks for maximum FPS and render speed.'],
+                    ['title' => 'Performance Tuning', 'description' => 'Expert overclocking and bios optimization.']
+                ]
             ],
         ];
 

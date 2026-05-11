@@ -49,6 +49,26 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/products/{product}', [AdminController::class, 'updateProduct'])->name('products.update');
     Route::delete('/products/{product}', [AdminController::class, 'deleteProduct'])->name('products.delete');
     
+    // Product Categories
+    Route::get('/categories', [AdminController::class, 'categories'])->name('categories.index');
+    Route::post('/categories', [AdminController::class, 'storeCategory'])->name('categories.store');
+    Route::patch('/categories/{category}', [AdminController::class, 'updateCategory'])->name('categories.update');
+    Route::delete('/categories/{category}', [AdminController::class, 'deleteCategory'])->name('categories.delete');
+
+    // Service Categories
+    Route::get('/service-categories', [AdminController::class, 'serviceCategories'])->name('service-categories.index');
+    Route::post('/service-categories', [AdminController::class, 'storeServiceCategory'])->name('service-categories.store');
+    Route::patch('/service-categories/{category}', [AdminController::class, 'updateServiceCategory'])->name('service-categories.update');
+    Route::delete('/service-categories/{category}', [AdminController::class, 'deleteServiceCategory'])->name('service-categories.delete');
+
+    // Services
+    Route::get('/services', [AdminController::class, 'services'])->name('services.index');
+    Route::get('/services/create', [AdminController::class, 'createService'])->name('services.create');
+    Route::post('/services', [AdminController::class, 'storeService'])->name('services.store');
+    Route::get('/services/{service}/edit', [AdminController::class, 'editService'])->name('services.edit');
+    Route::patch('/services/{service}', [AdminController::class, 'updateService'])->name('services.update');
+    Route::delete('/services/{service}', [AdminController::class, 'deleteService'])->name('services.delete');
+
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders.index');
     Route::patch('/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.update-status');
     

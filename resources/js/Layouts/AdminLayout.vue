@@ -18,16 +18,25 @@ defineProps({
             </Link>
 
             <nav class="space-y-2">
-                <Link :href="route('admin.dashboard')" :class="route().current('admin.dashboard') ? 'bg-red text-white' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
+                <Link :href="route('admin.dashboard')" :class="route().current('admin.dashboard') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
                     <i class="fas fa-th-large w-6"></i> Dashboard
                 </Link>
-                <Link :href="route('admin.products.index')" :class="route().current('admin.products.index') ? 'bg-red text-white' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
+                <Link :href="route('admin.products.index')" :class="route().current('admin.products.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
                     <i class="fas fa-box w-6"></i> Products
                 </Link>
-                <Link :href="route('admin.orders.index')" :class="route().current('admin.orders.index') ? 'bg-red text-white' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
+                <Link :href="route('admin.categories.index')" :class="route().current('admin.categories.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
+                    <i class="fas fa-tags w-6"></i> Product Categories
+                </Link>
+                <Link :href="route('admin.services.index')" :class="route().current('admin.services.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
+                    <i class="fas fa-tools w-6"></i> Services
+                </Link>
+                <Link :href="route('admin.service-categories.index')" :class="route().current('admin.service-categories.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
+                    <i class="fas fa-network-wired w-6"></i> Service Categories
+                </Link>
+                <Link :href="route('admin.orders.index')" :class="route().current('admin.orders.index') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
                     <i class="fas fa-shopping-bag w-6"></i> Orders
                 </Link>
-                <Link :href="route('admin.quotes.index')" :class="route().current('admin.quotes.index') ? 'bg-red text-white' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
+                <Link :href="route('admin.quotes.index')" :class="route().current('admin.quotes.index') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
                     <i class="fas fa-file-invoice-dollar w-6"></i> Quotes
                 </Link>
             </nav>

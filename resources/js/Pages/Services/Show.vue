@@ -55,13 +55,13 @@ const submitQuote = () => {
                     </div>
 
                     <div class="grid gap-6">
-                        <div v-for="i in 3" :key="i" class="flex gap-6 p-6 bg-white/5 border border-white/5 rounded-3xl items-start">
+                        <div v-for="(feature, index) in service.features" :key="index" class="flex gap-6 p-6 bg-white/5 border border-white/5 rounded-3xl items-start">
                             <div class="w-12 h-12 rounded-2xl bg-red/20 flex items-center justify-center shrink-0">
                                 <i class="fas fa-check text-red"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold mb-2">High-Performance Standard</h4>
-                                <p class="text-sm text-white/40">We use industry-leading metrics to ensure your infrastructure exceeds standard benchmarks.</p>
+                                <h4 class="font-bold mb-2">{{ feature.title }}</h4>
+                                <p class="text-sm text-white/40">{{ feature.description }}</p>
                             </div>
                         </div>
                     </div>
