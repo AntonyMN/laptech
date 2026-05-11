@@ -6,14 +6,9 @@ import { Link } from '@inertiajs/vue3';
     <footer class="bg-charcoal-dark pt-24 pb-12 px-6 border-t border-white/5">
         <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-16">
             <div class="col-span-2">
-                <div class="flex items-center gap-2 mb-8">
-                    <div class="w-8 h-8 bg-red rounded flex items-center justify-center">
-                        <i class="fas fa-microchip text-white"></i>
-                    </div>
-                    <span class="text-2xl font-heading font-extrabold tracking-tighter uppercase">
-                        Lap<span class="text-red">tech</span>
-                    </span>
-                </div>
+                <Link :href="route('welcome')" class="inline-block mb-8 group">
+                    <img src="/images/logo.png" alt="Laptech Logo" class="h-16 w-auto p-2 rounded-xl bg-white transition group-hover:scale-105 duration-500">
+                </Link>
                 <p class="text-white/40 max-w-sm leading-relaxed">
                     Premium technology solutions for the modern enterprise. We provide high-performance hardware and expert IT services.
                 </p>

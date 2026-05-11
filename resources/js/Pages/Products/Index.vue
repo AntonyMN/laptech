@@ -3,7 +3,6 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 import Navbar from '../../Components/Navbar.vue';
 import Footer from '../../Components/Footer.vue';
-import CartSidebar from '../../Components/CartSidebar.vue';
 
 
 const props = defineProps({
@@ -150,7 +149,6 @@ const clearFilters = () => {
         </main>
 
         <Footer />
-        <CartSidebar />
     </div>
 </template>
 

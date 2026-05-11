@@ -4,7 +4,6 @@ import { Head, Link, router } from '@inertiajs/vue3';
 
 import { ref, computed } from 'vue';
 import { useCartStore } from '../Stores/cart';
-import CartSidebar from '../Components/CartSidebar.vue';
 import Footer from '../Components/Footer.vue';
 
 
@@ -220,7 +219,6 @@ const filterByCategory = (id) => {
         
         <!-- Cart Sidebar -->
 
-        <CartSidebar />
     </div>
 </template>
 

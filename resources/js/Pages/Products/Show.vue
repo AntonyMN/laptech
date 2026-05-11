@@ -132,7 +132,6 @@ const activeImage = ref(props.product.images?.[0] || props.product.image || 'htt
         </main>
 
         <Footer />
-        <CartSidebar />
     </div>
 </template>
 

@@ -11,9 +11,7 @@ const showingNavigationDropdown = ref(false);
         <aside class="w-20 lg:w-72 border-r border-white/5 bg-charcoal-dark flex flex-col transition-all duration-500">
             <div class="p-6 lg:p-8 mb-8">
                 <Link :href="route('welcome')" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 bg-red rounded-xl flex items-center justify-center transition group-hover:scale-110 duration-500 shadow-lg shadow-red/20">
-                        <i class="fas fa-microchip text-white text-lg"></i>
-                    </div>
+                    <img src="/images/logo.png" alt="Laptech Logo" class="h-10 w-auto p-1.5 rounded-lg bg-white transition group-hover:scale-110 duration-500 shadow-lg shadow-white/10">
                     <span class="hidden lg:block text-xl font-heading font-extrabold tracking-tighter uppercase">
                         Lap<span class="text-red">tech</span>
                     </span>

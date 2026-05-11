@@ -1,8 +1,10 @@
 <script setup>
+import { onMounted } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
 import { useCartStore } from '../../Stores/cart';
 import Navbar from '../../Components/Navbar.vue';
+import Footer from '../../Components/Footer.vue';
 
 
 const cart = useCartStore();
@@ -21,8 +23,8 @@ const form = useForm({
 
 onMounted(() => {
     if (cart.items.length === 0) {
-        // Redirect back if cart is empty
-        // In a real app we might want to handle this better
+        window.location.href = route('products.index');
+        return;
     }
     form.items = cart.items;
     form.total = cart.totalPrice;
@@ -32,11 +34,11 @@ const submitOrder = () => {
     form.post(route('orders.store'), {
         onSuccess: () => {
             cart.clearCart();
-            window.swal.fire({
+            window.Swal.fire({
                 title: 'Order Confirmed!',
                 text: 'Your high-performance tech is on the way.',
                 icon: 'success',
-                confirmButtonColor: '#008080',
+                confirmButtonColor: '#E31B23',
             });
         },
     });

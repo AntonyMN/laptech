@@ -12,13 +12,9 @@ defineProps({
     <div class="min-h-screen bg-charcoal text-white font-sans flex">
         <!-- Sidebar -->
         <aside class="w-72 border-r border-white/5 bg-charcoal-dark p-8 flex flex-col gap-12 shrink-0">
-            <Link :href="route('welcome')" class="flex items-center gap-2">
-                <div class="w-10 h-10 bg-red rounded-lg flex items-center justify-center">
-                    <i class="fas fa-microchip text-white text-xl"></i>
-                </div>
-                <span class="text-2xl font-heading font-extrabold tracking-tighter uppercase">
-                    Admin
-                </span>
+            <Link :href="route('welcome')" class="flex flex-col gap-4 group">
+                <img src="/images/logo.png" alt="Laptech Logo" class="h-12 w-auto p-2 rounded-xl bg-white transition group-hover:scale-105 duration-500">
+                <span class="text-sm font-black text-red uppercase tracking-[0.2em] text-center">Admin Console</span>
             </Link>
 
             <nav class="space-y-2">

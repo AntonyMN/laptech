@@ -1,16 +1,24 @@
 <script setup>
+import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { useCartStore } from '../Stores/cart';
+import CartSidebar from './CartSidebar.vue';
 
 const cart = useCartStore();
+const isMobileMenuOpen = ref(false);
 
 defineProps({
     canLogin: Boolean,
     canRegister: Boolean,
 });
+
+const toggleMobileMenu = () => {
+    isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
 </script>
 
 <template>
+    <CartSidebar />
     <nav class="sticky top-0 z-50 bg-charcoal/80 backdrop-blur-md border-b border-white/10 px-6 py-4">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <!-- Logo -->
@@ -49,9 +57,31 @@ defineProps({
                 </div>
 
                 <!-- Mobile Menu Button -->
-                <button class="md:hidden text-2xl hover:text-red transition">
-                    <i class="fas fa-bars"></i>
+                <button @click="toggleMobileMenu" class="md:hidden text-2xl hover:text-red transition">
+                    <i class="fas" :class="isMobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
                 </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Drawer -->
+        <div v-if="isMobileMenuOpen" class="md:hidden absolute top-full left-0 w-full bg-charcoal border-b border-white/10 p-6 space-y-6 animate-in slide-in-from-top duration-300">
+            <div class="flex flex-col gap-4 font-semibold">
+                <Link :href="route('products.index')" @click="isMobileMenuOpen = false" class="hover:text-red transition">Hardware Hub</Link>
+                <Link :href="route('services.index')" @click="isMobileMenuOpen = false" class="hover:text-red transition">Service Hub</Link>
+                <Link :href="route('quotes.create')" @click="isMobileMenuOpen = false" class="hover:text-red transition">Request Quote</Link>
+            </div>
+            
+            <div class="pt-6 border-t border-white/10">
+                <div v-if="$page.props.auth.user" class="space-y-4">
+                    <p class="text-white/50 text-sm uppercase tracking-widest font-black">Account</p>
+                    <Link :href="route('dashboard')" @click="isMobileMenuOpen = false" class="block bg-red hover:bg-red-light px-6 py-3 rounded-xl font-bold transition text-center">
+                        Intelligence Hub
+                    </Link>
+                </div>
+                <div v-else class="flex flex-col gap-4">
+                    <Link :href="route('login')" @click="isMobileMenuOpen = false" class="block w-full py-3 rounded-xl border border-white/10 text-center font-bold">Log in</Link>
+                    <Link :href="route('register')" @click="isMobileMenuOpen = false" class="block w-full py-3 rounded-xl bg-red text-center font-bold">Join Hub</Link>
+                </div>
             </div>
         </div>
     </nav>
