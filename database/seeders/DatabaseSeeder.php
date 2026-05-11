@@ -18,12 +18,15 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Create Admin User
-        User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@laptech.com',
-            'password' => bcrypt('password'),
-            'is_admin' => true,
-        ]);
+        \App\Models\User::updateOrCreate(
+            ['email' => 'admin@laptech.com'],
+            [
+                'name' => 'Admin User',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                'is_admin' => true,
+                'email_verified_at' => now(),
+            ]
+        );
 
         // Categories
         $categories = [
