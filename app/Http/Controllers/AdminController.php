@@ -18,11 +18,12 @@ class AdminController extends Controller
     {
         return Inertia::render('Admin/Dashboard', [
             'stats' => [
-                'total_orders' => Order::count(),
-                'total_quotes' => Quote::count(),
-                'total_products' => Product::count(),
+                'total_orders' => \App\Models\Order::count(),
+                'total_quotes' => \App\Models\Quote::count(),
+                'total_products' => \App\Models\Product::count(),
                 'total_users' => User::count(),
-                'revenue' => Order::sum('total'),
+                'total_blog_posts' => \App\Models\BlogPost::count(),
+                'revenue' => \App\Models\Order::sum('total'),
             ],
             'recent_orders' => Order::latest()->limit(5)->get(),
         ]);

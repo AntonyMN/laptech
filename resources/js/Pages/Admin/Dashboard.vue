@@ -13,7 +13,7 @@ const props = defineProps({
 <template>
     <AdminLayout title="Dashboard">
         <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 mb-12">
             <div class="bg-charcoal-light border border-white/5 p-8 rounded-[2rem] hover:border-red/50 transition">
                 <div class="w-12 h-12 bg-red/20 text-red rounded-xl flex items-center justify-center mb-6">
                     <i class="fas fa-shopping-bag"></i>
@@ -34,6 +34,13 @@ const props = defineProps({
                 </div>
                 <div class="text-4xl font-black mb-2">{{ stats.total_products }}</div>
                 <div class="text-white/40 text-sm font-bold uppercase tracking-widest">Active Products</div>
+            </div>
+            <div class="bg-charcoal-light border border-white/5 p-8 rounded-[2rem] hover:border-red/50 transition">
+                <div class="w-12 h-12 bg-red/20 text-red rounded-xl flex items-center justify-center mb-6">
+                    <i class="fas fa-feather"></i>
+                </div>
+                <div class="text-4xl font-black mb-2">{{ stats.total_blog_posts }}</div>
+                <div class="text-white/40 text-sm font-bold uppercase tracking-widest">Blog Posts</div>
             </div>
             <div class="bg-charcoal-light border border-white/5 p-8 rounded-[2rem] hover:border-red/50 transition">
                 <div class="w-12 h-12 bg-red/20 text-red rounded-xl flex items-center justify-center mb-6">
