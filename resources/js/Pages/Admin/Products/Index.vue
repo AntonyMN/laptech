@@ -19,9 +19,9 @@ const deleteProduct = (id) => {
         <div class="bg-charcoal-light border border-white/5 rounded-[2.5rem] overflow-hidden">
             <div class="p-10 border-b border-white/5 flex justify-between items-center">
                 <h3 class="text-xl font-bold">Inventory List</h3>
-                <button class="bg-red hover:bg-red-light text-white px-6 py-3 rounded-xl font-bold transition flex items-center gap-2">
+                <Link :href="route('admin.products.create')" class="bg-red hover:bg-red-light text-white px-6 py-3 rounded-xl font-bold transition flex items-center gap-2">
                     <i class="fas fa-plus"></i> Add Product
-                </button>
+                </Link>
             </div>
             
             <div class="overflow-x-auto">
@@ -54,13 +54,12 @@ const deleteProduct = (id) => {
                             </td>
                             <td class="px-10 py-6 text-right">
                                 <div class="flex items-center justify-end gap-2">
-                                    <button class="w-8 h-8 rounded-lg bg-white/5 hover:bg-red transition flex items-center justify-center">
+                                    <Link :href="route('admin.products.edit', product.id)" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-red transition flex items-center justify-center">
                                         <i class="fas fa-edit text-xs"></i>
-                                    </button>
+                                    </Link>
                                     <button @click="deleteProduct(product.id)" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-red-500 transition flex items-center justify-center">
                                         <i class="fas fa-trash-alt text-xs"></i>
                                     </button>
-
                                 </div>
                             </td>
                         </tr>

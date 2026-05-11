@@ -61,6 +61,57 @@ class AdminController extends Controller
         return back()->with('success', 'Quote status updated.');
     }
 
+    public function createProduct()
+    {
+        return Inertia::render('Admin/Products/Create', [
+            'categories' => \App\Models\Category::all(),
+        ]);
+    }
+
+    public function storeProduct(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:products',
+            'description' => 'required|string',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|string',
+            'is_featured' => 'boolean',
+        ]);
+
+        Product::create($validated);
+
+        return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
+    }
+
+    public function editProduct(Product $product)
+    {
+        return Inertia::render('Admin/Products/Edit', [
+            'product' => $product,
+            'categories' => \App\Models\Category::all(),
+        ]);
+    }
+
+    public function updateProduct(Request $request, Product $product)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:products,slug,' . $product->id,
+            'description' => 'required|string',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|string',
+            'is_featured' => 'boolean',
+        ]);
+
+        $product->update($validated);
+
+        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
+    }
+
     public function deleteProduct(Product $product)
     {
         $product->delete();

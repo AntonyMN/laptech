@@ -455,5 +455,55 @@ class DatabaseSeeder extends Seeder
         foreach ($services as $serv) {
             Service::create($serv);
         }
+
+        // Create some sample orders for the Admin User
+        $admin = User::where('email', 'admin@laptech.com')->first();
+        $sampleProducts = Product::limit(3)->get();
+        
+        \App\Models\Order::create([
+            'user_id' => $admin->id,
+            'items' => $sampleProducts->map(fn($p) => [
+                'id' => $p->id,
+                'name' => $p->name,
+                'price' => $p->price,
+                'quantity' => 1,
+                'image' => $p->image
+            ])->toArray(),
+            'total' => $sampleProducts->sum('price'),
+            'status' => 'pending',
+            'shipping_address' => [
+                'name' => 'Antony Admin',
+                'email' => 'admin@laptech.com',
+                'address' => 'Laptech HQ, Nairobi',
+                'city' => 'Nairobi'
+            ]
+        ]);
+
+        \App\Models\Order::create([
+            'user_id' => $admin->id,
+            'items' => [['id' => $sampleProducts[0]->id, 'name' => $sampleProducts[0]->name, 'price' => $sampleProducts[0]->price, 'quantity' => 2]],
+            'total' => $sampleProducts[0]->price * 2,
+            'status' => 'delivered',
+            'shipping_address' => [
+                'name' => 'Samuel Client',
+                'email' => 'samuel@example.com',
+                'address' => 'Upper Hill',
+                'city' => 'Nairobi'
+            ]
+        ]);
+
+        // Create some sample quotes
+        $sampleServices = Service::limit(2)->get();
+        foreach ($sampleServices as $service) {
+            \App\Models\Quote::create([
+                'user_id' => $admin->id,
+                'service_id' => $service->id,
+                'name' => 'John Doe',
+                'email' => 'john@example.com',
+                'phone' => '+254700000000',
+                'details' => 'I need a custom ' . $service->name . ' for my new office setup in Westlands.',
+                'status' => 'pending'
+            ]);
+        }
     }
 }

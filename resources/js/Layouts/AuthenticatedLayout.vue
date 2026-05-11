@@ -12,9 +12,6 @@ const showingNavigationDropdown = ref(false);
             <div class="p-6 lg:p-8 mb-8">
                 <Link :href="route('welcome')" class="flex items-center gap-3 group">
                     <img src="/images/logo.png" alt="Laptech Logo" class="h-10 w-auto p-1.5 rounded-lg bg-white transition group-hover:scale-110 duration-500 shadow-lg shadow-white/10">
-                    <span class="hidden lg:block text-xl font-heading font-extrabold tracking-tighter uppercase">
-                        Lap<span class="text-red">tech</span>
-                    </span>
                 </Link>
             </div>
 
@@ -30,6 +27,11 @@ const showingNavigationDropdown = ref(false);
                 <Link :href="route('services.index')" :class="route().current('services.index') ? 'bg-red text-white' : 'text-white/40 hover:bg-white/5 hover:text-white'" class="flex items-center gap-4 px-4 py-4 rounded-2xl transition group">
                     <i class="fas fa-tools w-6 text-center text-lg"></i>
                     <span class="hidden lg:block font-bold">Service Hub</span>
+                </Link>
+
+                <Link v-if="$page.props.auth.user.is_admin" :href="route('admin.dashboard')" class="flex items-center gap-4 px-4 py-4 rounded-2xl text-red-400 hover:bg-red-400/10 transition group">
+                    <i class="fas fa-user-shield w-6 text-center text-lg"></i>
+                    <span class="hidden lg:block font-bold">Admin Hub</span>
                 </Link>
 
                 <Link :href="route('profile.edit')" :class="route().current('profile.edit') ? 'bg-red text-white' : 'text-white/40 hover:bg-white/5 hover:text-white'" class="flex items-center gap-4 px-4 py-4 rounded-2xl transition group">

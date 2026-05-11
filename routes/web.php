@@ -43,13 +43,17 @@ Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.sh
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/products', [AdminController::class, 'products'])->name('products.index');
+    Route::get('/products/create', [AdminController::class, 'createProduct'])->name('products.create');
+    Route::post('/products', [AdminController::class, 'storeProduct'])->name('products.store');
+    Route::get('/products/{product}/edit', [AdminController::class, 'editProduct'])->name('products.edit');
+    Route::patch('/products/{product}', [AdminController::class, 'updateProduct'])->name('products.update');
+    Route::delete('/products/{product}', [AdminController::class, 'deleteProduct'])->name('products.delete');
+    
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders.index');
     Route::patch('/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.update-status');
     
     Route::get('/quotes', [AdminController::class, 'quotes'])->name('quotes.index');
     Route::patch('/quotes/{quote}/status', [AdminController::class, 'updateQuoteStatus'])->name('quotes.update-status');
-    
-    Route::delete('/products/{product}', [AdminController::class, 'deleteProduct'])->name('products.delete');
 });
 
 
