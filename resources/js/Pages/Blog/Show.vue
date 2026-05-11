@@ -18,7 +18,7 @@ const props = defineProps({
         <article>
             <!-- Hero -->
             <header class="relative h-[70vh] flex items-end pb-20 px-6 overflow-hidden">
-                <img v-if="post.featured_image" :src="post.featured_image" class="absolute inset-0 w-full h-full object-cover opacity-40" />
+                <img :src="post.featured_image || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200'" class="absolute inset-0 w-full h-full object-cover opacity-40" />
                 <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-transparent"></div>
                 
                 <div class="max-w-4xl mx-auto relative z-10 w-full">

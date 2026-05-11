@@ -55,10 +55,8 @@ const filterByCategory = (slug) => {
                 <div v-for="post in posts.data" :key="post.id" class="group">
                     <Link :href="route('blog.show', post.slug)" class="block bg-charcoal-light border border-white/5 rounded-[2.5rem] overflow-hidden hover:border-red/50 transition duration-500 shadow-2xl">
                         <div class="h-64 bg-charcoal relative overflow-hidden">
-                            <img v-if="post.featured_image" :src="post.featured_image" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 opacity-80" />
-                            <div v-else class="w-full h-full flex items-center justify-center text-white/5">
-                                <i class="fas fa-feather text-6xl"></i>
-                            </div>
+                            <img :src="post.featured_image || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800'" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 opacity-80" />
+
                             <div class="absolute top-6 left-6">
                                 <span class="px-3 py-1 bg-red/20 backdrop-blur-md border border-red/30 rounded-full text-[10px] font-black text-red uppercase tracking-widest">
                                     {{ post.category?.name }}
