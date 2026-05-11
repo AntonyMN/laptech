@@ -105,7 +105,7 @@ class DatabaseSeeder extends Seeder
                     'title' => 'The Future of Enterprise Infrastructure in Kenya',
                     'excerpt' => 'Deep dive into tech trends.',
                     'content' => '<h1>Architecting the Next Decade.</h1><p>The Kenyan enterprise landscape is shifting...</p>',
-                    'featured_image' => 'https://images.unsplash.com/photo-1558494949-ef010cbdcc4b?auto=format&fit=crop&q=80&w=1200',
+                    'featured_image' => 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200',
                     'is_published' => true,
                     'published_at' => now(),
                 ]
