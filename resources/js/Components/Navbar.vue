@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { useCartStore } from '../Stores/cart';
 import CartSidebar from './CartSidebar.vue';
+import WhatsAppFAB from './WhatsAppFAB.vue';
 
 import { usePage } from '@inertiajs/vue3';
 
@@ -27,6 +28,7 @@ const toggleMobileMenu = () => {
 
 <template>
     <CartSidebar />
+    <WhatsAppFAB />
     <!-- Flash Notifications -->
     <div v-if="$page.props.flash?.success" class="fixed top-24 right-6 z-[60] p-6 bg-red border border-red/20 text-white rounded-2xl shadow-2xl shadow-red/20 flex items-center gap-4 animate-in slide-in-from-right duration-500">
         <i class="fas fa-check-circle"></i>
