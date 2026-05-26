@@ -1,18 +1,31 @@
 <script setup>
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
 
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useCartStore } from '../../Stores/cart';
 import Navbar from '../../Components/Navbar.vue';
 import Footer from '../../Components/Footer.vue';
 
 
 const cart = useCartStore();
-
+const page = usePage();
 
 const props = defineProps({
     product: Object,
     relatedProducts: Array,
+});
+
+const seo = computed(() => {
+    const baseUrl = page.props.appUrl || '';
+    const productImage = props.product.image
+        ? (props.product.image.startsWith('http') ? props.product.image : `${baseUrl}${props.product.image}`)
+        : `${baseUrl}/images/logo.png`;
+    return {
+        title: `${props.product.name} — Laptech Hardware Hub`,
+        description: props.product.description?.substring(0, 160) || `Buy ${props.product.name} at Laptech. Elite hardware and IT infrastructure in Nairobi, Kenya.`,
+        url: `${baseUrl}/products/${props.product.slug}`,
+        image: productImage,
+    };
 });
 
 const quantity = ref(1);
@@ -27,7 +40,18 @@ const activeImage = ref(props.product.images?.[0] || props.product.image || 'htt
 </script>
 
 <template>
-    <Head :title="product.name + ' - Laptech'" />
+    <Head :title="seo.title">
+        <meta name="description" :content="seo.description" />
+        <meta property="og:title" :content="seo.title" />
+        <meta property="og:description" :content="seo.description" />
+        <meta property="og:url" :content="seo.url" />
+        <meta property="og:image" :content="seo.image" />
+        <meta property="og:type" content="product" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" :content="seo.title" />
+        <meta name="twitter:description" :content="seo.description" />
+        <meta name="twitter:image" :content="seo.image" />
+    </Head>
 
     <div class="min-h-screen bg-charcoal text-white font-sans selection:bg-red selection:text-white">
         <Navbar :canLogin="$page.props.canLogin" :canRegister="$page.props.canRegister" />

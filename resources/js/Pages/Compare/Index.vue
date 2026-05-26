@@ -1,7 +1,20 @@
 <script setup>
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import Navbar from '@/Components/Navbar.vue';
 import Footer from '@/Components/Footer.vue';
+
+const page = usePage();
+
+const seo = computed(() => {
+    const baseUrl = page.props.appUrl || '';
+    return {
+        title: 'Compare Products — Hardware Comparison Matrix | Laptech',
+        description: 'Side-by-side comparison of enterprise hardware specifications. Find the perfect IT infrastructure fit with Laptech\'s comparison matrix.',
+        url: `${baseUrl}/compare`,
+        image: `${baseUrl}/images/logo.png`,
+    };
+});
 
 const props = defineProps({
     products: Array,
@@ -17,7 +30,18 @@ const clear = () => {
 </script>
 
 <template>
-    <Head title="Compare Products - Laptech" />
+    <Head :title="seo.title">
+        <meta name="description" :content="seo.description" />
+        <meta property="og:title" :content="seo.title" />
+        <meta property="og:description" :content="seo.description" />
+        <meta property="og:url" :content="seo.url" />
+        <meta property="og:image" :content="seo.image" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" :content="seo.title" />
+        <meta name="twitter:description" :content="seo.description" />
+        <meta name="twitter:image" :content="seo.image" />
+    </Head>
 
     <div class="min-h-screen bg-charcoal text-white font-sans">
         <Navbar />

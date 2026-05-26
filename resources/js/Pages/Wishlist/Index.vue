@@ -1,8 +1,21 @@
 <script setup>
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import Navbar from '@/Components/Navbar.vue';
 import Footer from '@/Components/Footer.vue';
 import { useCartStore } from '@/Stores/cart';
+
+const page = usePage();
+
+const seo = computed(() => {
+    const baseUrl = page.props.appUrl || '';
+    return {
+        title: 'My Wishlist — Laptech',
+        description: 'Your saved hardware and IT infrastructure wishlist on Laptech.',
+        url: `${baseUrl}/wishlist`,
+        image: `${baseUrl}/images/logo.png`,
+    };
+});
 
 const props = defineProps({
     wishlistItems: Array,
@@ -18,7 +31,14 @@ const toggleWishlist = (productId) => {
 </script>
 
 <template>
-    <Head title="My Wishlist - Laptech" />
+    <Head :title="seo.title">
+        <meta name="description" :content="seo.description" />
+        <meta property="og:title" :content="seo.title" />
+        <meta property="og:description" :content="seo.description" />
+        <meta property="og:url" :content="seo.url" />
+        <meta property="og:image" :content="seo.image" />
+        <meta name="robots" content="noindex, nofollow" />
+    </Head>
 
     <div class="min-h-screen bg-charcoal text-white font-sans">
         <Navbar />

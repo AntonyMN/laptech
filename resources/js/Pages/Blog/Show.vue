@@ -1,16 +1,43 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import Navbar from '@/Components/Navbar.vue';
 import Footer from '@/Components/Footer.vue';
+
+const page = usePage();
 
 const props = defineProps({
     post: Object,
     relatedPosts: Array,
 });
+
+const seo = computed(() => {
+    const baseUrl = page.props.appUrl || '';
+    const postImage = props.post.featured_image
+        ? (props.post.featured_image.startsWith('http') ? props.post.featured_image : `${baseUrl}${props.post.featured_image}`)
+        : `${baseUrl}/images/logo.png`;
+    return {
+        title: `${props.post.title} — Laptech Intelligence`,
+        description: props.post.excerpt?.substring(0, 160) || props.post.title,
+        url: `${baseUrl}/blog/${props.post.slug}`,
+        image: postImage,
+    };
+});
 </script>
 
 <template>
-    <Head :title="post.title + ' - Laptech'" />
+    <Head :title="seo.title">
+        <meta name="description" :content="seo.description" />
+        <meta property="og:title" :content="seo.title" />
+        <meta property="og:description" :content="seo.description" />
+        <meta property="og:url" :content="seo.url" />
+        <meta property="og:image" :content="seo.image" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" :content="seo.title" />
+        <meta name="twitter:description" :content="seo.description" />
+        <meta name="twitter:image" :content="seo.image" />
+    </Head>
 
     <div class="min-h-screen bg-charcoal text-white font-sans selection:bg-red selection:text-white">
         <Navbar />

@@ -1,12 +1,25 @@
 <script setup>
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import Navbar from '@/Components/Navbar.vue';
 import Footer from '@/Components/Footer.vue';
+
+const page = usePage();
 
 const props = defineProps({
     posts: Object,
     categories: Array,
     currentCategory: String,
+});
+
+const seo = computed(() => {
+    const baseUrl = page.props.appUrl || '';
+    return {
+        title: 'Technical Intelligence — IT Insights & News | Laptech',
+        description: 'Deep dives into enterprise infrastructure, cybersecurity, cloud migration, and the future of technology. Expert insights from Laptech specialists in Nairobi.',
+        url: `${baseUrl}/blog`,
+        image: `${baseUrl}/images/logo.png`,
+    };
 });
 
 const filterByCategory = (slug) => {
@@ -15,7 +28,18 @@ const filterByCategory = (slug) => {
 </script>
 
 <template>
-    <Head title="Technical Insights & News - Laptech" />
+    <Head :title="seo.title">
+        <meta name="description" :content="seo.description" />
+        <meta property="og:title" :content="seo.title" />
+        <meta property="og:description" :content="seo.description" />
+        <meta property="og:url" :content="seo.url" />
+        <meta property="og:image" :content="seo.image" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" :content="seo.title" />
+        <meta name="twitter:description" :content="seo.description" />
+        <meta name="twitter:image" :content="seo.image" />
+    </Head>
 
     <div class="min-h-screen bg-charcoal text-white font-sans">
         <Navbar />

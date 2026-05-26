@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
 
 
 import { ref, computed } from 'vue';
@@ -11,7 +11,17 @@ import Footer from '../Components/Footer.vue';
 import Navbar from '../Components/Navbar.vue';
 
 const cart = useCartStore();
+const page = usePage();
 
+const seo = computed(() => {
+    const baseUrl = page.props.appUrl || '';
+    return {
+        title: 'Innovative Tech Hub — Laptech',
+        description: 'Laptech is your premier gateway to elite hardware and precision technical services in Nairobi, Kenya. Enterprise servers, networking, security, and expert IT solutions.',
+        url: `${baseUrl}`,
+        image: `${baseUrl}/images/logo.png`,
+    };
+});
 
 const props = defineProps({
     canLogin: Boolean,
@@ -44,7 +54,18 @@ const filterByCategory = (id) => {
 </script>
 
 <template>
-    <Head title="Innovative Tech Hub - Laptech" />
+    <Head :title="seo.title">
+        <meta name="description" :content="seo.description" />
+        <meta property="og:title" :content="seo.title" />
+        <meta property="og:description" :content="seo.description" />
+        <meta property="og:url" :content="seo.url" />
+        <meta property="og:image" :content="seo.image" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" :content="seo.title" />
+        <meta name="twitter:description" :content="seo.description" />
+        <meta name="twitter:image" :content="seo.image" />
+    </Head>
     
     <div class="min-h-screen bg-charcoal text-white font-sans selection:bg-red selection:text-white">
         <!-- Navigation -->

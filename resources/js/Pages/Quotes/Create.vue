@@ -1,7 +1,20 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import Navbar from '../../Components/Navbar.vue';
 import Footer from '../../Components/Footer.vue';
+
+const page = usePage();
+
+const seo = computed(() => {
+    const baseUrl = page.props.appUrl || '';
+    return {
+        title: 'Request a Quote — Laptech IT Solutions',
+        description: 'Get a bespoke quote for enterprise hardware, IT infrastructure, server deployment, and technical services. Laptech specialists respond within 24 hours.',
+        url: `${baseUrl}/quotes/create`,
+        image: `${baseUrl}/images/logo.png`,
+    };
+});
 
 defineProps({
     services: Array,
@@ -33,7 +46,18 @@ const submitQuote = () => {
 </script>
 
 <template>
-    <Head title="Request Quote - Laptech" />
+    <Head :title="seo.title">
+        <meta name="description" :content="seo.description" />
+        <meta property="og:title" :content="seo.title" />
+        <meta property="og:description" :content="seo.description" />
+        <meta property="og:url" :content="seo.url" />
+        <meta property="og:image" :content="seo.image" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" :content="seo.title" />
+        <meta name="twitter:description" :content="seo.description" />
+        <meta name="twitter:image" :content="seo.image" />
+    </Head>
 
     <div class="min-h-screen bg-charcoal text-white font-sans selection:bg-red selection:text-white">
         <Navbar :canLogin="$page.props.canLogin" :canRegister="$page.props.canRegister" />

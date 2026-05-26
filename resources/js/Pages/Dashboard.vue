@@ -9,7 +9,9 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="System Dashboard - Laptech" />
+    <Head title="System Dashboard — Laptech">
+        <meta name="robots" content="noindex, nofollow" />
+    </Head>
 
     <AuthenticatedLayout>
         <template #header>
