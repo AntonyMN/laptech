@@ -12,10 +12,22 @@ const props = defineProps({
 });
 
 const seo = computed(() => {
-    const baseUrl = page.props.appUrl || '';
-    const postImage = props.post.featured_image
-        ? (props.post.featured_image.startsWith('http') ? props.post.featured_image : `${baseUrl}${props.post.featured_image}`)
-        : `${baseUrl}/favicon.png`;
+    let baseUrl = page.props.appUrl || 'https://laptech.co.ke';
+    if (baseUrl.includes('localhost') && typeof window !== 'undefined') {
+        baseUrl = window.location.origin;
+    } else if (baseUrl.includes('localhost')) {
+        baseUrl = 'https://laptech.co.ke';
+    }
+    if (baseUrl.endsWith('/')) {
+        baseUrl = baseUrl.slice(0, -1);
+    }
+    
+    const imagePath = props.post.featured_image 
+        ? (props.post.featured_image.startsWith('/') ? props.post.featured_image : `/${props.post.featured_image}`) 
+        : '/favicon.png';
+        
+    const postImage = imagePath.startsWith('http') ? imagePath : `${baseUrl}${imagePath}`;
+    
     return {
         title: `${props.post.title} — Laptech Intelligence`,
         description: props.post.excerpt?.substring(0, 160) || props.post.title,

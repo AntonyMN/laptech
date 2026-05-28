@@ -16,10 +16,22 @@ const props = defineProps({
 });
 
 const seo = computed(() => {
-    const baseUrl = page.props.appUrl || '';
-    const productImage = props.product.image
-        ? (props.product.image.startsWith('http') ? props.product.image : `${baseUrl}${props.product.image}`)
-        : `${baseUrl}/favicon.png`;
+    let baseUrl = page.props.appUrl || 'https://laptech.co.ke';
+    if (baseUrl.includes('localhost') && typeof window !== 'undefined') {
+        baseUrl = window.location.origin;
+    } else if (baseUrl.includes('localhost')) {
+        baseUrl = 'https://laptech.co.ke';
+    }
+    if (baseUrl.endsWith('/')) {
+        baseUrl = baseUrl.slice(0, -1);
+    }
+    
+    const imagePath = props.product.image 
+        ? (props.product.image.startsWith('/') ? props.product.image : `/${props.product.image}`) 
+        : '/favicon.png';
+        
+    const productImage = imagePath.startsWith('http') ? imagePath : `${baseUrl}${imagePath}`;
+    
     return {
         title: `${props.product.name} — Laptech Hardware Hub`,
         description: props.product.description?.substring(0, 160) || `Buy ${props.product.name} at Laptech. Elite hardware and IT infrastructure in Nairobi, Kenya.`,
