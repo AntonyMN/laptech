@@ -118,20 +118,20 @@ const filterByCategory = (id) => {
 
                 </div>
 
-                <div class="relative">
-                    <div class="absolute -inset-4 bg-red/20 blur-3xl rounded-full"></div>
-                    <div class="relative bg-charcoal-light border border-white/10 rounded-[3rem] p-4 shadow-2xl overflow-hidden group hover:border-red transition duration-500">
+                <div class="relative group">
+                    <div class="absolute -inset-4 bg-red/10 group-hover:bg-emerald-500/20 blur-3xl rounded-full transition duration-700"></div>
+                    <div class="relative bg-charcoal-light border border-white/10 rounded-[3rem] p-4 shadow-2xl overflow-hidden hover:border-emerald-500/50 transition duration-500">
                         <img 
                             src="/images/hero.png" 
                             alt="Laptech Hub" 
-                            class="rounded-[2.5rem] grayscale group-hover:grayscale-0 transition-all duration-700"
+                            class="rounded-[2.5rem] grayscale server-glow-img transition-all duration-700"
                         />
                         <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent opacity-60"></div>
-                        <div class="absolute bottom-8 left-8 right-8 p-6 bg-charcoal/80 backdrop-blur border border-white/10 rounded-2xl group-hover:bg-red/90 transition duration-500">
+                        <div class="absolute bottom-8 left-8 right-8 p-6 bg-charcoal/80 backdrop-blur border border-white/10 rounded-2xl group-hover:bg-emerald-600/90 transition duration-500">
                             <div class="flex items-center justify-between">
                                 <div>
                                     <h3 class="font-heading font-bold text-lg text-white">Advanced Infrastructure</h3>
-                                    <p class="text-sm text-red-bright group-hover:text-white transition">Hardware Hub & Service Hub</p>
+                                    <p class="text-sm text-green-400 group-hover:text-white transition">Hardware Hub & Service Hub</p>
                                 </div>
                                 <div class="flex gap-2">
                                     <Link :href="route('products.index')" class="w-10 h-10 bg-white/5 hover:bg-white/20 rounded-xl flex items-center justify-center transition">
@@ -258,5 +258,11 @@ const filterByCategory = (id) => {
 }
 .shadow-3xl {
     box-shadow: 0 35px 60px -15px rgba(227, 27, 35, 0.3);
+}
+.server-glow-img {
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.group:hover .server-glow-img {
+    filter: grayscale(0) hue-rotate(130deg) brightness(1.1) saturate(1.3);
 }
 </style>
