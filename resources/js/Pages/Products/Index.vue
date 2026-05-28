@@ -12,12 +12,12 @@ const seo = computed(() => {
         title: 'Hardware Hub — Browse Elite IT Hardware | Laptech',
         description: 'Discover cutting-edge enterprise servers, networking equipment, security hardware, and premium IT infrastructure from Dell, HPE, and more at Laptech Nairobi.',
         url: `${baseUrl}/products`,
-        image: `${baseUrl}/images/logo.png`,
+        image: `${baseUrl}/favicon.png`,
     };
 });
 
 const props = defineProps({
-    products: Array,
+    products: Object,
     categories: Array,
     filters: Object,
 });
@@ -50,6 +50,19 @@ const clearFilters = () => {
     min_price.value = '';
     max_price.value = '';
     applyFilters();
+};
+
+const getStatusClasses = (status) => {
+    switch (status) {
+        case 'Brand new':
+            return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
+        case 'Ex-UK':
+            return 'bg-purple-500/20 text-purple-400 border-purple-500/30';
+        case 'Certified Refurbished':
+            return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
+        default:
+            return 'bg-white/5 text-white/50 border-white/10';
+    }
 };
 </script>
 
@@ -134,17 +147,20 @@ const clearFilters = () => {
                 <div class="flex-1">
                     <div class="flex items-center justify-between mb-10">
                         <h2 class="text-3xl font-heading font-black">Hardware <span class="text-red">Collection</span></h2>
-                        <div class="text-white/20 text-sm font-bold">{{ products.length }} items discovered</div>
+                        <div class="text-white/20 text-sm font-bold">{{ products.total || products.data.length }} items discovered</div>
                     </div>
 
                     <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-8">
-                        <div v-for="product in products" :key="product.id" class="group bg-charcoal-light border border-white/5 rounded-[2.5rem] overflow-hidden hover:border-red/50 transition duration-500 shadow-2xl">
+                        <div v-for="product in products.data" :key="product.id" class="group bg-charcoal-light border border-white/5 rounded-[2.5rem] overflow-hidden hover:border-red/50 transition duration-500 shadow-2xl">
                             <div class="aspect-square relative overflow-hidden bg-charcoal">
                                 <img :src="product.image || 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&q=80&w=400'" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 opacity-80" />
                                 <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent opacity-60"></div>
-                                <div class="absolute top-6 left-6">
+                                <div class="absolute top-6 left-6 flex flex-col gap-2 items-start">
                                     <span class="px-3 py-1 bg-red/20 backdrop-blur-md border border-red/30 rounded-full text-[10px] font-black text-red uppercase tracking-widest">
                                         {{ product.category?.name }}
+                                    </span>
+                                    <span v-if="product.status" :class="getStatusClasses(product.status)" class="px-3 py-1 backdrop-blur-md border rounded-full text-[10px] font-black uppercase tracking-widest">
+                                        {{ product.status }}
                                     </span>
                                 </div>
                                 <!-- Quick Actions -->
@@ -168,11 +184,29 @@ const clearFilters = () => {
                             </div>
                         </div>
 
-                        <div v-if="products.length === 0" class="col-span-full py-32 text-center">
+                        <div v-if="!products.data || products.data.length === 0" class="col-span-full py-32 text-center">
                             <i class="fas fa-search text-6xl text-white/5 mb-6"></i>
                             <p class="text-white/20 font-bold text-xl uppercase tracking-widest italic">No hardware matches your parameters</p>
                             <button @click="clearFilters" class="mt-6 text-red font-black hover:underline">Clear all filters</button>
                         </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div v-if="products.links && products.links.length > 3" class="mt-16 flex flex-wrap justify-center gap-2">
+                        <component
+                            :is="link.url ? Link : 'span'"
+                            v-for="(link, index) in products.links"
+                            :key="index"
+                            :href="link.url"
+                            v-html="link.label"
+                            :class="[
+                                'px-4 py-3 rounded-xl font-bold text-xs transition border select-none',
+                                link.active 
+                                    ? 'bg-red border-red text-white' 
+                                    : 'bg-white/5 border-white/5 text-white/50 hover:bg-white/10 hover:text-white',
+                                !link.url ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
+                            ]"
+                        />
                     </div>
                 </div>
 

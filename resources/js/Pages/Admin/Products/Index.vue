@@ -12,6 +12,19 @@ const deleteProduct = (id) => {
         router.delete(route('admin.products.delete', id));
     }
 };
+
+const getStatusClasses = (status) => {
+    switch (status) {
+        case 'Brand new':
+            return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+        case 'Ex-UK':
+            return 'bg-purple-500/10 text-purple-400 border border-purple-500/20';
+        case 'Certified Refurbished':
+            return 'bg-blue-500/10 text-blue-400 border border-blue-500/20';
+        default:
+            return 'bg-white/5 text-white/50 border border-white/10';
+    }
+};
 </script>
 
 <template>
@@ -50,7 +63,9 @@ const deleteProduct = (id) => {
                             <td class="px-10 py-6 font-bold text-red">Ksh {{ product.price.toLocaleString() }}</td>
                             <td class="px-10 py-6">{{ product.stock }}</td>
                             <td class="px-10 py-6">
-                                <span class="px-3 py-1 bg-green-500/10 text-green-500 rounded-full text-[10px] font-bold uppercase tracking-tighter">Active</span>
+                                <span :class="getStatusClasses(product.status)" class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter">
+                                    {{ product.status || 'Brand new' }}
+                                </span>
                             </td>
                             <td class="px-10 py-6 text-right">
                                 <div class="flex items-center justify-end gap-2">

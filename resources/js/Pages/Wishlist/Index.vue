@@ -13,7 +13,7 @@ const seo = computed(() => {
         title: 'My Wishlist — Laptech',
         description: 'Your saved hardware and IT infrastructure wishlist on Laptech.',
         url: `${baseUrl}/wishlist`,
-        image: `${baseUrl}/images/logo.png`,
+        image: `${baseUrl}/favicon.png`,
     };
 });
 

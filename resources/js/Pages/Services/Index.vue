@@ -12,7 +12,7 @@ const seo = computed(() => {
         title: 'Service Hub — Expert IT Solutions | Laptech',
         description: 'Professional IT services including server deployment, network architecture, cloud migration, cybersecurity, and hardware repair. Certified technicians in Nairobi, Kenya.',
         url: `${baseUrl}/services`,
-        image: `${baseUrl}/images/logo.png`,
+        image: `${baseUrl}/favicon.png`,
     };
 });
 

@@ -19,7 +19,7 @@ const seo = computed(() => {
     const baseUrl = page.props.appUrl || '';
     const productImage = props.product.image
         ? (props.product.image.startsWith('http') ? props.product.image : `${baseUrl}${props.product.image}`)
-        : `${baseUrl}/images/logo.png`;
+        : `${baseUrl}/favicon.png`;
     return {
         title: `${props.product.name} — Laptech Hardware Hub`,
         description: props.product.description?.substring(0, 160) || `Buy ${props.product.name} at Laptech. Elite hardware and IT infrastructure in Nairobi, Kenya.`,
@@ -36,7 +36,18 @@ const addToCart = () => {
 
 const activeImage = ref(props.product.images?.[0] || props.product.image || 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&q=80&w=800');
 
-
+const getStatusClasses = (status) => {
+    switch (status) {
+        case 'Brand new':
+            return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
+        case 'Ex-UK':
+            return 'bg-purple-500/20 text-purple-400 border-purple-500/30';
+        case 'Certified Refurbished':
+            return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
+        default:
+            return 'bg-white/5 text-white/50 border-white/10';
+    }
+};
 </script>
 
 <template>
@@ -85,9 +96,14 @@ const activeImage = ref(props.product.images?.[0] || props.product.image || 'htt
                 <!-- Product Details -->
                 <div class="space-y-10">
                     <div>
-                        <span class="px-3 py-1 bg-red/20 text-red-bright rounded-full text-xs font-bold uppercase tracking-widest mb-4 inline-block">
-                            {{ product.category?.name }}
-                        </span>
+                        <div class="flex flex-wrap gap-3 mb-4 items-center">
+                            <span class="px-3 py-1 bg-red/20 text-red-bright rounded-full text-xs font-bold uppercase tracking-widest inline-block">
+                                {{ product.category?.name }}
+                            </span>
+                            <span v-if="product.status" :class="getStatusClasses(product.status)" class="px-3 py-1 border rounded-full text-xs font-bold uppercase tracking-widest inline-block">
+                                {{ product.status }}
+                            </span>
+                        </div>
                         <h1 class="text-5xl font-heading font-black mb-4">{{ product.name }}</h1>
                         <div class="flex items-center gap-4 text-white/40">
                             <div class="flex text-red text-sm">

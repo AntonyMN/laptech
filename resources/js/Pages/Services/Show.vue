@@ -16,7 +16,7 @@ const seo = computed(() => {
         title: `${props.service.name} — Laptech IT Services`,
         description: props.service.description?.substring(0, 160) || `Professional ${props.service.name} services by certified Laptech technicians in Nairobi, Kenya.`,
         url: `${baseUrl}/services/${props.service.slug}`,
-        image: `${baseUrl}/images/logo.png`,
+        image: `${baseUrl}/favicon.png`,
     };
 });
 

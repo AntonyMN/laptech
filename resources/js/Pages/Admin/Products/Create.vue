@@ -18,6 +18,7 @@ const form = useForm({
     image_file: null,
     is_featured: false,
     specifications: [],
+    status: 'Brand new',
 });
 
 const addSpec = () => {
@@ -69,7 +70,7 @@ const submit = () => {
                         <textarea v-model="form.description" rows="5" class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" required></textarea>
                     </div>
 
-                    <div class="grid md:grid-cols-3 gap-8 mt-8">
+                    <div class="grid md:grid-cols-4 gap-8 mt-8">
                         <div class="space-y-2">
                             <label class="text-xs font-bold uppercase tracking-widest text-white/30">Price (Ksh)</label>
                             <input v-model="form.price" type="number" class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" required />
@@ -83,6 +84,14 @@ const submit = () => {
                             <select v-model="form.category_id" class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" required>
                                 <option value="">Select Category</option>
                                 <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-widest text-white/30">Status / Condition</label>
+                            <select v-model="form.status" class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" required>
+                                <option value="Brand new">Brand new</option>
+                                <option value="Ex-UK">Ex-UK</option>
+                                <option value="Certified Refurbished">Certified Refurbished</option>
                             </select>
                         </div>
                     </div>

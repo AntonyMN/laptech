@@ -18,7 +18,7 @@ const seo = computed(() => {
         title: 'Technical Intelligence — IT Insights & News | Laptech',
         description: 'Deep dives into enterprise infrastructure, cybersecurity, cloud migration, and the future of technology. Expert insights from Laptech specialists in Nairobi.',
         url: `${baseUrl}/blog`,
-        image: `${baseUrl}/images/logo.png`,
+        image: `${baseUrl}/favicon.png`,
     };
 });
 

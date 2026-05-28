@@ -19,7 +19,7 @@ const seo = computed(() => {
         title: 'Innovative Tech Hub — Laptech',
         description: 'Laptech is your premier gateway to elite hardware and precision technical services in Nairobi, Kenya. Enterprise servers, networking, security, and expert IT solutions.',
         url: `${baseUrl}`,
-        image: `${baseUrl}/images/logo.png`,
+        image: `${baseUrl}/favicon.png`,
     };
 });
 

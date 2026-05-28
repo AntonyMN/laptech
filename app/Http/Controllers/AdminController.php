@@ -199,6 +199,7 @@ class AdminController extends Controller
             'image' => 'nullable|string',
             'specifications' => 'nullable|array',
             'is_featured' => 'boolean',
+            'status' => 'required|string|in:Brand new,Ex-UK,Certified Refurbished',
         ]);
 
         if ($request->hasFile('image_file')) {
@@ -243,6 +244,7 @@ class AdminController extends Controller
             'image' => 'nullable|string',
             'specifications' => 'nullable|array',
             'is_featured' => 'boolean',
+            'status' => 'required|string|in:Brand new,Ex-UK,Certified Refurbished',
         ]);
 
         if ($request->hasFile('image_file')) {

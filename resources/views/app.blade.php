@@ -21,7 +21,7 @@
         <meta property="og:title" content="Laptech — Innovative Tech Hub">
         <meta property="og:description" content="Your premier gateway to elite hardware and precision technical services. Enterprise servers, networking, security, and expert IT solutions in Nairobi, Kenya.">
         <meta property="og:url" content="{{ url()->current() }}">
-        <meta property="og:image" content="{{ asset('images/logo.png') }}">
+        <meta property="og:image" content="{{ asset('favicon.png') }}">
         <meta property="og:image:width" content="512">
         <meta property="og:image:height" content="512">
         <meta property="og:image:alt" content="Laptech Logo">
@@ -30,11 +30,11 @@
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Laptech — Innovative Tech Hub">
         <meta name="twitter:description" content="Elite hardware and precision technical services. Enterprise servers, networking, security, and IT solutions in Nairobi, Kenya.">
-        <meta name="twitter:image" content="{{ asset('images/logo.png') }}">
+        <meta name="twitter:image" content="{{ asset('favicon.png') }}">
 
         <!-- Favicon -->
         <link rel="icon" type="image/png" href="/favicon.png">
-        <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
+        <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">

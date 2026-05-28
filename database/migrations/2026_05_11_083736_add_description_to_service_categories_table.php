@@ -11,15 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('service_categories', function (Blueprint $table) {
-            $table->text('description')->nullable()->after('slug');
-        });
+        if (!Schema::hasColumn('service_categories', 'description')) {
+            Schema::table('service_categories', function (Blueprint $table) {
+                $table->text('description')->nullable()->after('slug');
+            });
+        }
     }
 
     public function down(): void
     {
-        Schema::table('service_categories', function (Blueprint $table) {
-            $table->dropColumn('description');
-        });
+        if (Schema::hasColumn('service_categories', 'description')) {
+            Schema::table('service_categories', function (Blueprint $table) {
+                $table->dropColumn('description');
+            });
+        }
     }
 };

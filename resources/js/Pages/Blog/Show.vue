@@ -15,7 +15,7 @@ const seo = computed(() => {
     const baseUrl = page.props.appUrl || '';
     const postImage = props.post.featured_image
         ? (props.post.featured_image.startsWith('http') ? props.post.featured_image : `${baseUrl}${props.post.featured_image}`)
-        : `${baseUrl}/images/logo.png`;
+        : `${baseUrl}/favicon.png`;
     return {
         title: `${props.post.title} — Laptech Intelligence`,
         description: props.post.excerpt?.substring(0, 160) || props.post.title,

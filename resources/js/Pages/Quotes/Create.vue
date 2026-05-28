@@ -12,7 +12,7 @@ const seo = computed(() => {
         title: 'Request a Quote — Laptech IT Solutions',
         description: 'Get a bespoke quote for enterprise hardware, IT infrastructure, server deployment, and technical services. Laptech specialists respond within 24 hours.',
         url: `${baseUrl}/quotes/create`,
-        image: `${baseUrl}/images/logo.png`,
+        image: `${baseUrl}/favicon.png`,
     };
 });
 

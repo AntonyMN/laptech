@@ -16,7 +16,8 @@ class Product extends Model
         'stock',
         'image',
         'specifications',
-        'is_featured'
+        'is_featured',
+        'status'
     ];
 
     protected function casts(): array

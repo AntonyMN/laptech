@@ -12,7 +12,7 @@ const seo = computed(() => {
         title: 'Compare Products — Hardware Comparison Matrix | Laptech',
         description: 'Side-by-side comparison of enterprise hardware specifications. Find the perfect IT infrastructure fit with Laptech\'s comparison matrix.',
         url: `${baseUrl}/compare`,
-        image: `${baseUrl}/images/logo.png`,
+        image: `${baseUrl}/favicon.png`,
     };
 });
 
