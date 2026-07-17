@@ -8,114 +8,105 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Order Traceability - Laptech" />
+    <Head title="Order Details — Laptech" />
 
     <AuthenticatedLayout>
         <template #header>
-            Order <span class="text-red">Traceability</span>
+            Order <span class="text-red">Details</span>
         </template>
 
-        <div class="max-w-4xl mx-auto space-y-12">
+        <div class="max-w-4xl mx-auto space-y-8">
             <!-- Order Header Card -->
-            <div class="bg-charcoal-light border border-white/5 rounded-[2.5rem] p-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 relative overflow-hidden">
-                <div class="relative z-10">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="px-4 py-1 bg-red/10 border border-red/20 rounded-full text-xs font-black text-red uppercase tracking-widest">
+            <div class="bg-surface border border-line rounded-2xl p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div>
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="px-3 py-1 bg-red/10 border border-red/20 rounded-full text-xs font-bold text-red uppercase tracking-widest">
                             {{ order.status }}
                         </div>
-                        <span class="text-white/20 text-xs font-bold">{{ new Date(order.created_at).toLocaleString() }}</span>
+                        <span class="text-muted text-xs font-semibold">{{ new Date(order.created_at).toLocaleString() }}</span>
                     </div>
-                    <h2 class="text-4xl font-heading font-black mb-2">#{{ order.id.toString().slice(-12).toUpperCase() }}</h2>
-                    <p class="text-white/40 font-bold">Total Investment: <span class="text-red text-xl ml-2">Ksh {{ order.total.toLocaleString() }}</span></p>
+                    <h2 class="text-2xl font-heading font-extrabold mb-1">#{{ order.id.toString().slice(-12).toUpperCase() }}</h2>
+                    <p class="text-muted font-semibold">Total: <span class="text-red text-lg ml-2">Ksh {{ order.total.toLocaleString() }}</span></p>
                 </div>
-                <div class="relative z-10 w-full md:w-auto">
-                    <Link :href="route('dashboard')" class="block text-center px-8 py-4 bg-white/5 hover:bg-white/10 rounded-2xl font-bold transition text-sm">
-                        <i class="fas fa-arrow-left mr-2"></i> Return to Intelligence
-                    </Link>
-                </div>
-                <i class="fas fa-box-open absolute -right-4 -bottom-4 text-white/5 text-9xl"></i>
+                <Link :href="route('dashboard')" class="block text-center px-6 py-3 bg-surface-muted hover:bg-line rounded-xl font-bold transition text-sm">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
+                </Link>
             </div>
 
-            <!-- Traceability Timeline -->
-            <section class="space-y-8">
-                <h3 class="text-xl font-heading font-black flex items-center gap-4">
+            <!-- Timeline -->
+            <section class="space-y-5">
+                <h3 class="text-lg font-heading font-bold flex items-center gap-3">
                     <i class="fas fa-stream text-red text-sm"></i>
-                    Status <span class="text-red">Timeline</span>
+                    Status Timeline
                 </h3>
-                <div class="relative pl-12 space-y-12 before:absolute before:left-5 before:top-0 before:bottom-0 before:w-0.5 before:bg-white/5">
+                <div class="relative pl-12 space-y-8 before:absolute before:left-5 before:top-0 before:bottom-0 before:w-0.5 before:bg-line">
                     <div class="relative">
                         <div class="absolute -left-12 w-10 h-10 rounded-xl bg-red flex items-center justify-center z-10 shadow-lg shadow-red/20">
                             <i class="fas fa-check text-xs text-white"></i>
                         </div>
-                        <div class="bg-white/5 border border-white/5 rounded-3xl p-6">
-                            <h4 class="font-bold mb-1">Order Initiated</h4>
-                            <p class="text-sm text-white/40">Request received and validated by system.</p>
+                        <div class="bg-surface border border-line rounded-2xl p-5">
+                            <h4 class="font-bold mb-1">Order Placed</h4>
+                            <p class="text-sm text-muted">Your order has been received and confirmed.</p>
                         </div>
                     </div>
-                    <div class="relative opacity-30">
-                        <div class="absolute -left-12 w-10 h-10 rounded-xl bg-charcoal border border-white/10 flex items-center justify-center z-10">
-                            <i class="fas fa-truck text-xs text-white/40"></i>
+                    <div class="relative opacity-50">
+                        <div class="absolute -left-12 w-10 h-10 rounded-xl bg-surface border border-line flex items-center justify-center z-10">
+                            <i class="fas fa-truck text-xs text-muted"></i>
                         </div>
-                        <div class="bg-white/5 border border-white/5 rounded-3xl p-6">
-                            <h4 class="font-bold mb-1">Logistics Transition</h4>
-                            <p class="text-sm text-white/40">Hardware package moving to dispatch terminal.</p>
+                        <div class="bg-surface border border-line rounded-2xl p-5">
+                            <h4 class="font-bold mb-1">Out for Delivery</h4>
+                            <p class="text-sm text-muted">Your package is on its way.</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Order Components -->
-            <section class="space-y-8">
-                <h3 class="text-xl font-heading font-black flex items-center gap-4">
-                    <i class="fas fa-microchip text-red text-sm"></i>
-                    Package <span class="text-red">Components</span>
+            <!-- Order Items -->
+            <section class="space-y-5">
+                <h3 class="text-lg font-heading font-bold flex items-center gap-3">
+                    <i class="fas fa-box text-red text-sm"></i>
+                    Items
                 </h3>
-                <div class="bg-charcoal-light border border-white/5 rounded-[2.5rem] overflow-hidden">
+                <div class="bg-surface border border-line rounded-2xl overflow-hidden">
                     <table class="w-full text-left">
                         <thead>
-                            <tr class="bg-white/5 text-[10px] uppercase tracking-widest text-white/40 font-black">
-                                <th class="px-10 py-6">Component Name</th>
-                                <th class="px-10 py-6">Qty</th>
-                                <th class="px-10 py-6 text-right">Value</th>
+                            <tr class="bg-surface-muted text-[10px] uppercase tracking-widest text-muted font-bold">
+                                <th class="px-6 py-4">Product</th>
+                                <th class="px-6 py-4">Qty</th>
+                                <th class="px-6 py-4 text-right">Price</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-white/5">
-                            <tr v-for="item in order.items" :key="item.id" class="hover:bg-white/5 transition group">
-                                <td class="px-10 py-6 font-bold">{{ item.name }}</td>
-                                <td class="px-10 py-6 text-white/40 font-mono text-sm">{{ item.quantity }}</td>
-                                <td class="px-10 py-6 text-right font-black text-red">Ksh {{ item.price.toLocaleString() }}</td>
+                        <tbody class="divide-y divide-line">
+                            <tr v-for="item in order.items" :key="item.id" class="hover:bg-surface-muted transition">
+                                <td class="px-6 py-4 font-bold">{{ item.name }}</td>
+                                <td class="px-6 py-4 text-muted text-sm">{{ item.quantity }}</td>
+                                <td class="px-6 py-4 text-right font-extrabold text-ink">Ksh {{ item.price.toLocaleString() }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- Shipping Destination -->
-            <section class="space-y-8">
-                <h3 class="text-xl font-heading font-black flex items-center gap-4">
+            <!-- Shipping -->
+            <section class="space-y-5">
+                <h3 class="text-lg font-heading font-bold flex items-center gap-3">
                     <i class="fas fa-map-marker-alt text-red text-sm"></i>
-                    Logistics <span class="text-red">Destination</span>
+                    Delivery Details
                 </h3>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-white/5 border border-white/5 rounded-3xl p-8 space-y-4">
-                        <div class="text-xs font-black uppercase tracking-widest text-white/20">Recipient</div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-surface border border-line rounded-2xl p-6 space-y-2">
+                        <div class="text-xs font-bold uppercase tracking-widest text-muted">Recipient</div>
                         <div class="font-bold text-lg">{{ order.shipping_address.name }}</div>
-                        <div class="text-sm text-white/40">{{ order.shipping_address.email }}</div>
-                        <div class="text-sm text-white/40">{{ order.shipping_address.phone }}</div>
+                        <div class="text-sm text-muted">{{ order.shipping_address.email }}</div>
+                        <div class="text-sm text-muted">{{ order.shipping_address.phone }}</div>
                     </div>
-                    <div class="bg-white/5 border border-white/5 rounded-3xl p-8 space-y-4">
-                        <div class="text-xs font-black uppercase tracking-widest text-white/20">Terminal Location</div>
+                    <div class="bg-surface border border-line rounded-2xl p-6 space-y-2">
+                        <div class="text-xs font-bold uppercase tracking-widest text-muted">Address</div>
                         <div class="font-bold text-lg text-red">{{ order.shipping_address.city }}</div>
-                        <div class="text-sm text-white/40 leading-relaxed">{{ order.shipping_address.address }}</div>
+                        <div class="text-sm text-muted leading-relaxed">{{ order.shipping_address.address }}</div>
                     </div>
                 </div>
             </section>
         </div>
     </AuthenticatedLayout>
 </template>
-
-<style scoped>
-.font-heading {
-    font-family: 'Montserrat', sans-serif;
-}
-</style>

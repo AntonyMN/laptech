@@ -9,8 +9,8 @@ const page = usePage();
 const seo = computed(() => {
     const baseUrl = page.props.appUrl || '';
     return {
-        title: 'Request a Quote — Laptech IT Solutions',
-        description: 'Get a bespoke quote for enterprise hardware, IT infrastructure, server deployment, and technical services. Laptech specialists respond within 24 hours.',
+        title: 'Request a Quote — Laptech Electronics',
+        description: 'Get a custom quote for hardware and IT services from Laptech Electronics, Nairobi. Our team responds within 24 hours.',
         url: `${baseUrl}/quotes/create`,
         image: `${baseUrl}/favicon.png`,
     };
@@ -32,12 +32,10 @@ const submitQuote = () => {
     form.post(route('quotes.store'), {
         onSuccess: () => {
             window.swal.fire({
-                title: 'Transmission Received!',
-                text: 'Your request is being processed by our technical specialists.',
+                title: 'Request Received!',
+                text: 'Our team will get back to you within 24 hours.',
                 icon: 'success',
-                confirmButtonColor: '#E31B23',
-                background: '#1A1A1A',
-                color: '#FFFFFF',
+                confirmButtonColor: '#F05423',
             });
             form.reset();
         },
@@ -59,109 +57,96 @@ const submitQuote = () => {
         <meta name="twitter:image" :content="seo.image" />
     </Head>
 
-    <div class="min-h-screen bg-charcoal text-white font-sans selection:bg-red selection:text-white">
+    <div class="min-h-screen bg-page text-ink font-sans selection:bg-red selection:text-white">
         <Navbar :canLogin="$page.props.canLogin" :canRegister="$page.props.canRegister" />
 
-        <main class="py-24 px-6">
+        <main class="py-14 px-6">
             <div class="max-w-7xl mx-auto">
-                <div class="grid lg:grid-cols-2 gap-20 items-start">
-                    
-                    <!-- Left Side: Contact Info & Aesthetic -->
-                    <div class="space-y-12">
+                <div class="grid lg:grid-cols-2 gap-12 items-start">
+
+                    <!-- Left: Contact Info -->
+                    <div class="space-y-8">
                         <div>
-                            <h1 class="text-7xl font-heading font-black mb-8 italic tracking-tighter leading-none">
-                                Request a <span class="text-red text-shadow-red">Quote.</span>
+                            <h1 class="text-3xl md:text-4xl font-heading font-extrabold mb-4 leading-tight">
+                                Request a <span class="text-red">Quote</span>
                             </h1>
-                            <p class="text-xl text-white/50 leading-relaxed max-w-xl">
-                                Partner with Laptech for high-performance hardware and expert IT infrastructure solutions. Our team typically responds within 24 operational hours.
+                            <p class="text-lg text-muted leading-relaxed max-w-xl">
+                                Tell us what you need — hardware, repairs or a custom setup — and our team will get back to you within 24 hours.
                             </p>
                         </div>
 
-                        <div class="grid gap-8">
-                            <div class="flex gap-6 items-center p-8 bg-white/5 border border-white/5 rounded-[2rem] hover:border-red/30 transition duration-500 group">
-                                <div class="w-14 h-14 rounded-2xl bg-red/10 flex items-center justify-center shrink-0 group-hover:bg-red transition duration-500">
-                                    <i class="fas fa-map-marker-alt text-red group-hover:text-white text-xl"></i>
+                        <div class="grid gap-4">
+                            <div class="flex gap-5 items-center p-5 bg-surface border border-line rounded-2xl">
+                                <div class="w-12 h-12 rounded-xl bg-red/10 flex items-center justify-center shrink-0">
+                                    <i class="fas fa-map-marker-alt text-red text-lg"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white/40 uppercase tracking-widest text-xs mb-1">Global Terminal</h4>
-                                    <p class="font-bold text-lg">Tech Plaza, Nairobi, Kenya</p>
+                                    <h4 class="font-bold text-muted uppercase tracking-widest text-xs mb-0.5">Location</h4>
+                                    <p class="font-bold text-ink">Nairobi, Kenya</p>
                                 </div>
                             </div>
 
-                            <div class="flex gap-6 items-center p-8 bg-white/5 border border-white/5 rounded-[2rem] hover:border-red/30 transition duration-500 group">
-                                <div class="w-14 h-14 rounded-2xl bg-red/10 flex items-center justify-center shrink-0 group-hover:bg-red transition duration-500">
-                                    <i class="fas fa-phone-alt text-red group-hover:text-white text-xl"></i>
+                            <a href="tel:+254722964566" class="flex gap-5 items-center p-5 bg-surface border border-line rounded-2xl hover:border-red/40 transition">
+                                <div class="w-12 h-12 rounded-xl bg-red/10 flex items-center justify-center shrink-0">
+                                    <i class="fas fa-phone-alt text-red text-lg"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white/40 uppercase tracking-widest text-xs mb-1">Direct Signal</h4>
-                                    <p class="font-bold text-lg">+254 700 000 000</p>
+                                    <h4 class="font-bold text-muted uppercase tracking-widest text-xs mb-0.5">Phone</h4>
+                                    <p class="font-bold text-ink">+254 722 964566</p>
                                 </div>
-                            </div>
+                            </a>
 
-                            <div class="flex gap-6 items-center p-8 bg-white/5 border border-white/5 rounded-[2rem] hover:border-red/30 transition duration-500 group">
-                                <div class="w-14 h-14 rounded-2xl bg-red/10 flex items-center justify-center shrink-0 group-hover:bg-red transition duration-500">
-                                    <i class="fas fa-envelope text-red group-hover:text-white text-xl"></i>
+                            <a href="mailto:info@laptech.co.ke" class="flex gap-5 items-center p-5 bg-surface border border-line rounded-2xl hover:border-red/40 transition">
+                                <div class="w-12 h-12 rounded-xl bg-red/10 flex items-center justify-center shrink-0">
+                                    <i class="fas fa-envelope text-red text-lg"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white/40 uppercase tracking-widest text-xs mb-1">Digital Frequency</h4>
-                                    <p class="font-bold text-lg">specialists@laptech.co.ke</p>
+                                    <h4 class="font-bold text-muted uppercase tracking-widest text-xs mb-0.5">Email</h4>
+                                    <p class="font-bold text-ink">info@laptech.co.ke</p>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Aesthetic Decoration -->
-                        <div class="relative pt-12">
-                             <div class="absolute -top-4 -left-4 w-32 h-32 bg-red/10 blur-3xl rounded-full"></div>
-                             <div class="flex gap-4">
-                                 <div v-for="i in 3" :key="i" class="w-12 h-1 bg-red/20 rounded-full"></div>
-                                 <div class="w-24 h-1 bg-red rounded-full"></div>
-                             </div>
+                            </a>
                         </div>
                     </div>
 
-                    <!-- Right Side: Contact Form -->
-                    <div class="bg-charcoal-light border border-white/10 rounded-[3rem] p-12 md:p-16 shadow-3xl relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-8 opacity-5">
-                            <i class="fas fa-paper-plane text-9xl -rotate-12"></i>
-                        </div>
-
-                        <form @submit.prevent="submitQuote" class="space-y-8 relative z-10">
-                            <div class="space-y-2">
-                                <label class="text-xs font-bold uppercase tracking-widest text-white/30 ml-4">Select Service Type</label>
-                                <select v-model="form.service_id" class="w-full bg-charcoal border-white/5 rounded-2xl p-5 focus:border-red focus:ring-red transition appearance-none" required>
-                                    <option value="" disabled>Choose a service...</option>
+                    <!-- Right: Form -->
+                    <div class="bg-surface border border-line rounded-3xl p-8 md:p-10 shadow-xl">
+                        <form @submit.prevent="submitQuote" class="space-y-6">
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-bold uppercase tracking-widest text-muted">Service Type</label>
+                                <select v-model="form.service_id" class="w-full bg-surface-muted border border-line rounded-xl p-3.5 text-ink focus:border-red focus:ring-0 transition" required>
+                                    <option value="" disabled>Choose a service…</option>
                                     <option v-for="s in services" :key="s.id" :value="s.id">{{ s.name }}</option>
                                 </select>
                             </div>
 
-                            <div class="grid md:grid-cols-2 gap-8">
-                                <div class="space-y-2">
-                                    <label class="text-xs font-bold uppercase tracking-widest text-white/30 ml-4">Full Name</label>
-                                    <input v-model="form.name" type="text" placeholder="John Doe" class="w-full bg-charcoal border-white/5 rounded-2xl p-5 focus:border-red focus:ring-red transition" required />
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="space-y-1.5">
+                                    <label class="text-xs font-bold uppercase tracking-widest text-muted">Full Name</label>
+                                    <input v-model="form.name" type="text" placeholder="John Doe" class="w-full bg-surface-muted border border-line rounded-xl p-3.5 text-ink focus:border-red focus:ring-0 transition" required />
                                 </div>
-                                <div class="space-y-2">
-                                    <label class="text-xs font-bold uppercase tracking-widest text-white/30 ml-4">Email Address</label>
-                                    <input v-model="form.email" type="email" placeholder="john@example.com" class="w-full bg-charcoal border-white/5 rounded-2xl p-5 focus:border-red focus:ring-red transition" required />
+                                <div class="space-y-1.5">
+                                    <label class="text-xs font-bold uppercase tracking-widest text-muted">Email Address</label>
+                                    <input v-model="form.email" type="email" placeholder="john@example.com" class="w-full bg-surface-muted border border-line rounded-xl p-3.5 text-ink focus:border-red focus:ring-0 transition" required />
                                 </div>
                             </div>
 
-                            <div class="space-y-2">
-                                <label class="text-xs font-bold uppercase tracking-widest text-white/30 ml-4">Phone Contact</label>
-                                <input v-model="form.phone" type="tel" placeholder="+254..." class="w-full bg-charcoal border-white/5 rounded-2xl p-5 focus:border-red focus:ring-red transition" />
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-bold uppercase tracking-widest text-muted">Phone</label>
+                                <input v-model="form.phone" type="tel" placeholder="+254…" class="w-full bg-surface-muted border border-line rounded-xl p-3.5 text-ink focus:border-red focus:ring-0 transition" />
                             </div>
 
-                            <div class="space-y-2">
-                                <label class="text-xs font-bold uppercase tracking-widest text-white/30 ml-4">Project Requirements</label>
-                                <textarea v-model="form.details" rows="5" placeholder="Tell us about your technical requirements..." class="w-full bg-charcoal border-white/5 rounded-2xl p-5 focus:border-red focus:ring-red transition" required></textarea>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-bold uppercase tracking-widest text-muted">Details</label>
+                                <textarea v-model="form.details" rows="5" placeholder="Tell us about your requirements…" class="w-full bg-surface-muted border border-line rounded-xl p-3.5 text-ink focus:border-red focus:ring-0 transition" required></textarea>
                             </div>
 
-                            <button 
-                                type="submit" 
+                            <button
+                                type="submit"
                                 :disabled="form.processing"
-                                class="w-full bg-red hover:bg-red-light disabled:opacity-50 text-white font-black py-6 rounded-2xl transition shadow-2xl shadow-red/20 text-xl flex items-center justify-center gap-4 group"
+                                class="w-full bg-red hover:bg-red-dark disabled:opacity-50 text-white font-bold py-4 rounded-xl transition shadow-lg shadow-red/20 flex items-center justify-center gap-3 group"
                             >
-                                {{ form.processing ? 'Transmitting...' : 'Initialize Request' }}
-                                <i class="fas fa-arrow-right group-hover:translate-x-2 transition duration-500"></i>
+                                {{ form.processing ? 'Sending…' : 'Submit Request' }}
+                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition"></i>
                             </button>
                         </form>
                     </div>
@@ -173,15 +158,3 @@ const submitQuote = () => {
         <Footer />
     </div>
 </template>
-
-<style scoped>
-.font-heading {
-    font-family: 'Montserrat', sans-serif;
-}
-.shadow-3xl {
-    box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.6);
-}
-.text-shadow-red {
-    text-shadow: 0 0 20px rgba(227, 27, 35, 0.4);
-}
-</style>

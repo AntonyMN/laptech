@@ -23,20 +23,20 @@ const verificationLinkSent = computed(
 
 <template>
     <GuestLayout>
-        <Head title="Verify Identity - Laptech" />
+        <Head title="Verify email — Laptech" />
 
         <div class="mb-8">
-            <h2 class="text-3xl font-heading font-black">Verify <span class="text-red">Identity</span></h2>
-            <p class="text-white/40 text-sm mt-4 leading-relaxed">
-                Almost there! We've dispatched a verification signal to your email. Please activate it to initialize your profile.
+            <h2 class="text-2xl font-heading font-extrabold">Verify your <span class="text-red">email</span></h2>
+            <p class="text-muted text-sm mt-3 leading-relaxed">
+                Almost there! We've sent a verification link to your email. Please click it to activate your account.
             </p>
         </div>
 
         <div
-            class="mb-8 p-4 bg-red/10 border border-red/20 rounded-2xl text-red text-sm font-bold"
+            class="mb-8 p-4 bg-red/10 border border-red/20 rounded-xl text-red text-sm font-bold"
             v-if="verificationLinkSent"
         >
-            Signal re-transmitted. Check your inbox for the activation link.
+            A new verification link has been sent. Check your inbox.
         </div>
 
         <form @submit.prevent="submit">
@@ -45,18 +45,17 @@ const verificationLinkSent = computed(
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Resend Signal
-                    <i class="fas fa-sync-alt text-xs opacity-50 ml-1"></i>
+                    Resend verification email
                 </PrimaryButton>
 
-                <div class="text-center pt-6 border-t border-white/5">
+                <div class="text-center pt-6 border-t border-line">
                     <Link
                         :href="route('logout')"
                         method="post"
                         as="button"
-                        class="text-sm text-white/30 hover:text-red-400 transition"
+                        class="text-sm text-muted hover:text-red transition"
                     >
-                        De-authenticate Session
+                        Log out
                     </Link>
                 </div>
             </div>

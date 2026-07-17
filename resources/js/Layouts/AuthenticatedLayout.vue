@@ -6,44 +6,44 @@ const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
-    <div class="min-h-screen bg-charcoal text-white font-sans flex">
+    <div class="min-h-screen bg-page text-ink font-sans flex">
         <!-- Sidebar Navigation -->
-        <aside class="w-20 lg:w-72 border-r border-white/5 bg-charcoal-dark flex flex-col transition-all duration-500">
-            <div class="p-6 lg:p-8 mb-8">
+        <aside class="w-20 lg:w-64 border-r border-line bg-surface flex flex-col">
+            <div class="p-5 lg:p-6 mb-4">
                 <Link :href="route('welcome')" class="flex items-center gap-3 group">
-                    <img src="/images/logo.png" alt="Laptech Logo" class="h-10 w-auto p-1.5 rounded-lg bg-white transition group-hover:scale-110 duration-500 shadow-lg shadow-white/10">
+                    <img src="/images/logo.png" alt="Laptech" class="h-10 w-auto transition group-hover:scale-105 duration-300">
                 </Link>
             </div>
 
-            <nav class="flex-1 px-4 space-y-2">
-                <Link :href="route('dashboard')" :class="route().current('dashboard') ? 'bg-red text-white shadow-lg shadow-red/20' : 'text-white/40 hover:bg-white/5 hover:text-white'" class="flex items-center gap-4 px-4 py-4 rounded-2xl transition group">
+            <nav class="flex-1 px-3 space-y-1">
+                <Link :href="route('dashboard')" :class="route().current('dashboard') ? 'bg-red text-white shadow-lg shadow-red/20' : 'text-muted hover:bg-surface-muted hover:text-ink'" class="flex items-center gap-4 px-4 py-3 rounded-xl transition">
                     <i class="fas fa-th-large w-6 text-center text-lg"></i>
                     <span class="hidden lg:block font-bold">Dashboard</span>
                 </Link>
-                <Link :href="route('welcome')" class="flex items-center gap-4 px-4 py-4 rounded-2xl text-white/40 hover:bg-white/5 hover:text-white transition group">
+                <Link :href="route('products.index')" class="flex items-center gap-4 px-4 py-3 rounded-xl text-muted hover:bg-surface-muted hover:text-ink transition">
                     <i class="fas fa-shopping-cart w-6 text-center text-lg"></i>
-                    <span class="hidden lg:block font-bold">Hardware Hub</span>
+                    <span class="hidden lg:block font-bold">Shop</span>
                 </Link>
-                <Link :href="route('services.index')" :class="route().current('services.index') ? 'bg-red text-white' : 'text-white/40 hover:bg-white/5 hover:text-white'" class="flex items-center gap-4 px-4 py-4 rounded-2xl transition group">
+                <Link :href="route('services.index')" :class="route().current('services.index') ? 'bg-red text-white' : 'text-muted hover:bg-surface-muted hover:text-ink'" class="flex items-center gap-4 px-4 py-3 rounded-xl transition">
                     <i class="fas fa-tools w-6 text-center text-lg"></i>
-                    <span class="hidden lg:block font-bold">Service Hub</span>
+                    <span class="hidden lg:block font-bold">Services</span>
                 </Link>
 
-                <Link v-if="$page.props.auth.user.is_admin" :href="route('admin.dashboard')" class="flex items-center gap-4 px-4 py-4 rounded-2xl text-red-400 hover:bg-red-400/10 transition group">
+                <Link v-if="$page.props.auth.user.is_admin" :href="route('admin.dashboard')" class="flex items-center gap-4 px-4 py-3 rounded-xl text-red hover:bg-red/10 transition">
                     <i class="fas fa-user-shield w-6 text-center text-lg"></i>
-                    <span class="hidden lg:block font-bold">Admin Hub</span>
+                    <span class="hidden lg:block font-bold">Admin</span>
                 </Link>
 
-                <Link :href="route('profile.edit')" :class="route().current('profile.edit') ? 'bg-red text-white' : 'text-white/40 hover:bg-white/5 hover:text-white'" class="flex items-center gap-4 px-4 py-4 rounded-2xl transition group">
+                <Link :href="route('profile.edit')" :class="route().current('profile.edit') ? 'bg-red text-white' : 'text-muted hover:bg-surface-muted hover:text-ink'" class="flex items-center gap-4 px-4 py-3 rounded-xl transition">
                     <i class="fas fa-user-cog w-6 text-center text-lg"></i>
                     <span class="hidden lg:block font-bold">Settings</span>
                 </Link>
             </nav>
 
-            <div class="p-4 lg:p-8 mt-auto">
-                <Link :href="route('logout')" method="post" as="button" class="w-full flex items-center gap-4 px-4 py-4 text-red-400 hover:bg-red-400/10 rounded-2xl transition group">
+            <div class="p-3 lg:p-5 mt-auto">
+                <Link :href="route('logout')" method="post" as="button" class="w-full flex items-center gap-4 px-4 py-3 text-red hover:bg-red/10 rounded-xl transition">
                     <i class="fas fa-sign-out-alt w-6 text-center text-lg"></i>
-                    <span class="hidden lg:block font-bold">Initialize Logout</span>
+                    <span class="hidden lg:block font-bold">Log out</span>
                 </Link>
             </div>
         </aside>
@@ -51,26 +51,24 @@ const showingNavigationDropdown = ref(false);
         <!-- Main Content Area -->
         <main class="flex-1 flex flex-col h-screen overflow-hidden">
             <!-- Header -->
-            <header class="h-20 border-b border-white/5 flex items-center justify-between px-8 bg-charcoal/50 backdrop-blur-xl z-20">
-                <div class="flex items-center gap-4">
-                    <h2 class="text-xl font-heading font-black hidden sm:block">
-                        <slot name="header" />
-                    </h2>
-                </div>
+            <header class="h-16 border-b border-line flex items-center justify-between px-6 bg-surface z-20">
+                <h2 class="text-lg font-heading font-bold hidden sm:block">
+                    <slot name="header" />
+                </h2>
 
-                <div class="flex items-center gap-6">
+                <div class="flex items-center gap-4">
                     <div class="flex flex-col items-end hidden sm:flex">
                         <span class="text-sm font-bold">{{ $page.props.auth.user.name }}</span>
-                        <span class="text-[10px] text-red font-black uppercase tracking-widest">Active Session</span>
+                        <span class="text-[10px] text-red font-bold uppercase tracking-widest">Active</span>
                     </div>
-                    <div class="w-10 h-10 bg-red/20 rounded-xl flex items-center justify-center border border-red/30">
+                    <div class="w-10 h-10 bg-red/10 rounded-xl flex items-center justify-center border border-red/20">
                         <i class="fas fa-user text-red text-sm"></i>
                     </div>
                 </div>
             </header>
 
             <!-- Scrollable Content -->
-            <div class="flex-1 overflow-y-auto p-8 lg:p-12 custom-scrollbar">
+            <div class="flex-1 overflow-y-auto p-6 lg:p-10">
                 <div class="max-w-6xl mx-auto">
                     <slot />
                 </div>
@@ -78,22 +76,3 @@ const showingNavigationDropdown = ref(false);
         </main>
     </div>
 </template>
-
-<style scoped>
-.font-heading {
-    font-family: 'Montserrat', sans-serif;
-}
-.custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(227, 27, 35, 0.3);
-}
-</style>

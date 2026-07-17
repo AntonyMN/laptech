@@ -21,15 +21,15 @@ const seo = computed(() => {
     if (baseUrl.endsWith('/')) {
         baseUrl = baseUrl.slice(0, -1);
     }
-    
-    const imagePath = props.post.featured_image 
-        ? (props.post.featured_image.startsWith('/') ? props.post.featured_image : `/${props.post.featured_image}`) 
+
+    const imagePath = props.post.featured_image
+        ? (props.post.featured_image.startsWith('/') ? props.post.featured_image : `/${props.post.featured_image}`)
         : '/favicon.png';
-        
+
     const postImage = imagePath.startsWith('http') ? imagePath : `${baseUrl}${imagePath}`;
-    
+
     return {
-        title: `${props.post.title} — Laptech Intelligence`,
+        title: `${props.post.title} — Laptech Blog`,
         description: props.post.excerpt?.substring(0, 160) || props.post.title,
         url: `${baseUrl}/blog/${props.post.slug}`,
         image: postImage,
@@ -51,65 +51,70 @@ const seo = computed(() => {
         <meta name="twitter:image" :content="seo.image" />
     </Head>
 
-    <div class="min-h-screen bg-charcoal text-white font-sans selection:bg-red selection:text-white">
+    <div class="min-h-screen bg-page text-ink font-sans selection:bg-red selection:text-white">
         <Navbar />
 
         <article>
             <!-- Hero -->
-            <header class="relative h-[70vh] flex items-end pb-20 px-6 overflow-hidden">
-                <img :src="post.featured_image || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200'" class="absolute inset-0 w-full h-full object-cover opacity-40" />
-                <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-transparent"></div>
-                
-                <div class="max-w-4xl mx-auto relative z-10 w-full">
-                    <Link :href="route('blog.index', { category: post.category?.slug })" class="inline-block px-4 py-1 bg-red/20 border border-red/30 rounded-full text-xs font-black text-red-bright uppercase tracking-widest mb-8">
+            <header class="bg-surface border-b border-line">
+                <div class="max-w-4xl mx-auto px-6 py-12">
+                    <nav class="text-xs text-muted mb-6">
+                        <Link :href="route('welcome')" class="hover:text-red">Home</Link>
+                        <span class="mx-2">/</span>
+                        <Link :href="route('blog.index')" class="hover:text-red">Blog</Link>
+                    </nav>
+                    <Link :href="route('blog.index', { category: post.category?.slug })" class="inline-block px-3 py-1 bg-red/10 rounded-full text-xs font-bold text-red uppercase tracking-widest mb-5">
                         {{ post.category?.name }}
                     </Link>
-                    <h1 class="text-5xl md:text-7xl font-black italic leading-tight tracking-tighter mb-8">{{ post.title }}</h1>
-                    <div class="flex items-center gap-6 text-white/40 font-bold uppercase tracking-widest text-xs">
+                    <h1 class="text-3xl md:text-5xl font-heading font-extrabold leading-tight mb-5">{{ post.title }}</h1>
+                    <div class="flex items-center gap-4 text-muted text-sm">
                         <span>{{ new Date(post.published_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) }}</span>
                         <span class="w-1.5 h-1.5 rounded-full bg-red"></span>
-                        <span>Laptech Intelligence</span>
+                        <span>Laptech Electronics</span>
                     </div>
+                </div>
+                <div v-if="post.featured_image" class="max-w-4xl mx-auto px-6 pb-12">
+                    <img :src="post.featured_image" class="w-full rounded-2xl border border-line" />
                 </div>
             </header>
 
             <!-- Content -->
-            <div class="max-w-4xl mx-auto py-24 px-6">
-                <div class="prose prose-invert prose-red max-w-none 
-                    prose-h1:font-black prose-h1:italic prose-h1:tracking-tighter
-                    prose-h2:text-3xl prose-h2:font-black prose-h2:italic prose-h2:mt-16 prose-h2:mb-8
-                    prose-p:text-xl prose-p:leading-relaxed prose-p:text-white/70 prose-p:mb-10
-                    prose-blockquote:border-red prose-blockquote:bg-white/5 prose-blockquote:p-10 prose-blockquote:rounded-[2rem] prose-blockquote:not-italic prose-blockquote:font-bold
-                    prose-img:rounded-[3rem] prose-img:shadow-2xl prose-img:my-16"
+            <div class="max-w-3xl mx-auto py-14 px-6">
+                <div class="prose prose-lg max-w-none
+                    prose-headings:font-heading prose-headings:font-bold prose-headings:text-ink
+                    prose-p:text-muted prose-p:leading-relaxed
+                    prose-a:text-red prose-a:no-underline hover:prose-a:underline
+                    prose-strong:text-ink
+                    prose-blockquote:border-red prose-blockquote:bg-surface prose-blockquote:not-italic
+                    prose-img:rounded-2xl"
                     v-html="post.content">
                 </div>
             </div>
         </article>
 
         <!-- Related -->
-        <section v-if="relatedPosts.length > 0" class="py-24 px-6 bg-charcoal-light">
+        <section v-if="relatedPosts.length > 0" class="py-16 px-6 bg-surface border-t border-line">
             <div class="max-w-7xl mx-auto">
-                <h2 class="text-4xl font-black italic mb-16">Related <span class="text-red">Intelligence.</span></h2>
-                <div class="grid md:grid-cols-3 gap-12">
+                <h2 class="text-2xl font-heading font-extrabold mb-8">Related Articles</h2>
+                <div class="grid md:grid-cols-3 gap-8">
                     <Link v-for="rp in relatedPosts" :key="rp.id" :href="route('blog.show', rp.slug)" class="group block">
-                        <div class="h-48 bg-charcoal rounded-[2rem] overflow-hidden mb-6 border border-white/5 group-hover:border-red/30 transition">
-                            <img v-if="rp.featured_image" :src="rp.featured_image" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition duration-700" />
+                        <div class="h-44 bg-surface-muted rounded-2xl overflow-hidden mb-4 border border-line group-hover:border-red/40 transition">
+                            <img v-if="rp.featured_image" :src="rp.featured_image" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
                         </div>
-                        <h3 class="text-xl font-bold mb-2 group-hover:text-red transition leading-tight">{{ rp.title }}</h3>
-                        <p class="text-white/40 text-sm italic">{{ rp.category?.name }}</p>
+                        <h3 class="font-heading font-bold mb-1 group-hover:text-red transition leading-snug line-clamp-2">{{ rp.title }}</h3>
+                        <p class="text-muted text-sm">{{ rp.category?.name }}</p>
                     </Link>
                 </div>
             </div>
         </section>
 
         <!-- CTA -->
-        <section class="py-32 px-6">
-            <div class="max-w-5xl mx-auto bg-red rounded-[4rem] p-20 text-center relative overflow-hidden shadow-3xl">
-                <div class="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                <h2 class="text-4xl md:text-5xl font-black italic mb-8 text-white">Power your next big vision.</h2>
-                <p class="text-xl text-white/80 mb-12 max-w-xl mx-auto font-bold">Our technical architects are ready to transform your infrastructure.</p>
-                <Link :href="route('quotes.create')" class="bg-white text-charcoal hover:bg-charcoal hover:text-white px-12 py-5 rounded-2xl font-black text-xl transition shadow-2xl">
-                    Request Architecture Quote
+        <section class="px-6 py-16">
+            <div class="max-w-5xl mx-auto bg-gradient-to-br from-red to-red-dark rounded-3xl p-10 md:p-14 text-center text-white shadow-xl">
+                <h2 class="text-2xl md:text-3xl font-heading font-extrabold mb-4">Ready to shop?</h2>
+                <p class="text-lg text-white/80 mb-8 max-w-xl mx-auto">Browse our latest laptops, desktops and accessories.</p>
+                <Link :href="route('products.index')" class="inline-block bg-white text-red hover:bg-charcoal hover:text-white px-8 py-3.5 rounded-full font-bold transition">
+                    Shop Now
                 </Link>
             </div>
         </section>
@@ -117,14 +122,3 @@ const seo = computed(() => {
         <Footer />
     </div>
 </template>
-
-<style>
-/* Custom prose styles for dark mode and premium look */
-.prose blockquote p::before,
-.prose blockquote p::after {
-    content: none !important;
-}
-.shadow-3xl {
-    box-shadow: 0 35px 60px -15px rgba(227, 27, 35, 0.3);
-}
-</style>

@@ -9,8 +9,8 @@ const page = usePage();
 const seo = computed(() => {
     const baseUrl = page.props.appUrl || '';
     return {
-        title: 'Service Hub — Expert IT Solutions | Laptech',
-        description: 'Professional IT services including server deployment, network architecture, cloud migration, cybersecurity, and hardware repair. Certified technicians in Nairobi, Kenya.',
+        title: 'IT Services — Repair, Setup & Support | Laptech Electronics',
+        description: 'Professional IT services including laptop & PC repair, network setup, CCTV installation and hardware upgrades. Certified technicians in Nairobi, Kenya.',
         url: `${baseUrl}/services`,
         image: `${baseUrl}/favicon.png`,
     };
@@ -56,114 +56,105 @@ const clearFilters = () => {
         <meta name="twitter:image" :content="seo.image" />
     </Head>
 
-    <div class="min-h-screen bg-charcoal text-white font-sans selection:bg-red selection:text-white">
+    <div class="min-h-screen bg-page text-ink font-sans selection:bg-red selection:text-white">
         <Navbar :canLogin="$page.props.canLogin" :canRegister="$page.props.canRegister" />
 
-        <main class="max-w-7xl mx-auto py-12 px-6">
-            <!-- Search Section -->
-            <div class="mb-16 text-center max-w-2xl mx-auto">
-                <h1 class="text-5xl font-heading font-black mb-6 italic tracking-tighter">Service <span class="text-red">Matrix.</span></h1>
-                <p class="text-white/40 font-bold mb-10">Advanced technical capabilities delivered with precision.</p>
-                <div class="relative group">
-                    <input 
-                        v-model="search" 
+        <div class="bg-surface border-b border-line">
+            <div class="max-w-7xl mx-auto px-6 py-12 text-center max-w-2xl">
+                <h1 class="text-3xl md:text-4xl font-heading font-extrabold mb-3">Our Services</h1>
+                <p class="text-muted mb-8">Professional IT solutions delivered by certified technicians.</p>
+                <div class="relative max-w-xl mx-auto">
+                    <input
+                        v-model="search"
                         @keyup.enter="applyFilters"
-                        type="text" 
-                        placeholder="Search for solutions (e.g. Server, Cloud, Repair)..." 
-                        class="w-full bg-white/5 border-white/10 rounded-2xl px-14 py-5 focus:border-red focus:ring-red transition text-lg"
+                        type="text"
+                        placeholder="Search services (e.g. Repair, Setup, CCTV)…"
+                        class="w-full bg-surface-muted border border-line rounded-full pl-12 pr-28 py-3 text-ink placeholder:text-muted focus:border-red focus:ring-0 transition"
                     />
-                    <i class="fas fa-search absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-red transition"></i>
-                    <button @click="applyFilters" class="absolute right-3 top-1/2 -translate-y-1/2 bg-red hover:bg-red-light px-6 py-2 rounded-xl font-bold transition shadow-lg shadow-red/20">
-                        Execute
+                    <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-muted"></i>
+                    <button @click="applyFilters" class="absolute right-2 top-1/2 -translate-y-1/2 bg-red hover:bg-red-dark text-white px-5 py-2 rounded-full text-sm font-bold transition">
+                        Search
                     </button>
                 </div>
             </div>
+        </div>
 
-            <div class="flex flex-col lg:flex-row gap-12">
-                
-                <!-- Filters Sidebar -->
-                <aside class="w-full lg:w-72 shrink-0 space-y-10">
-                    <div>
-                        <h3 class="text-xs font-bold uppercase tracking-widest text-white/20 mb-6">Service Domain</h3>
-                        <div class="space-y-2">
-                            <button 
+        <main class="max-w-7xl mx-auto py-10 px-6">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Filters -->
+                <aside class="w-full lg:w-64 shrink-0 space-y-6">
+                    <div class="bg-surface border border-line rounded-2xl p-5">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-muted mb-4">Categories</h3>
+                        <div class="space-y-1">
+                            <button
                                 @click="category = ''; applyFilters()"
-                                :class="category === '' ? 'bg-red text-white' : 'hover:bg-white/5 text-white/40 hover:text-white'"
-                                class="w-full text-left px-4 py-3 rounded-xl transition font-bold text-sm"
+                                :class="category === '' ? 'bg-red text-white' : 'text-muted hover:bg-surface-muted hover:text-ink'"
+                                class="w-full text-left px-3 py-2 rounded-lg transition font-semibold text-sm"
                             >
-                                All Solutions
+                                All Services
                             </button>
-                            <button 
-                                v-for="cat in categories" 
+                            <button
+                                v-for="cat in categories"
                                 :key="cat.id"
                                 @click="category = cat.id; applyFilters()"
-                                :class="category === cat.id ? 'bg-red text-white' : 'hover:bg-white/5 text-white/40 hover:text-white'"
-                                class="w-full text-left px-4 py-3 rounded-xl transition font-bold text-sm"
+                                :class="category === cat.id ? 'bg-red text-white' : 'text-muted hover:bg-surface-muted hover:text-ink'"
+                                class="w-full text-left px-3 py-2 rounded-lg transition font-semibold text-sm"
                             >
                                 {{ cat.name }}
                             </button>
                         </div>
                     </div>
 
-                    <div class="p-8 bg-red/10 border border-red/20 rounded-[2rem]">
-                        <h4 class="font-bold mb-4">Bespoke Project?</h4>
-                        <p class="text-xs text-white/50 leading-relaxed mb-6">If you don't see the specific service you need, our technicians can build a custom solution for you.</p>
-                        <button class="w-full py-3 bg-red text-white rounded-xl text-xs font-black uppercase tracking-widest transition hover:bg-red-light">
-                            Start Consultation
-                        </button>
+                    <div class="p-6 bg-red/5 border border-red/20 rounded-2xl">
+                        <h4 class="font-bold mb-2 text-ink">Custom Project?</h4>
+                        <p class="text-xs text-muted leading-relaxed mb-4">Don't see what you need? Our technicians can build a custom solution for you.</p>
+                        <Link :href="route('quotes.create')" class="block text-center w-full py-2.5 bg-red hover:bg-red-dark text-white rounded-lg text-xs font-bold uppercase tracking-widest transition">
+                            Request a Quote
+                        </Link>
                     </div>
 
-                    <button @click="clearFilters" class="w-full py-4 border border-white/5 rounded-2xl text-xs font-bold text-white/20 hover:text-red-400 transition uppercase tracking-widest">
+                    <button @click="clearFilters" class="w-full py-3 border border-line rounded-xl text-xs font-bold text-muted hover:text-red hover:border-red/40 transition uppercase tracking-widest">
                         Reset Filters
                     </button>
                 </aside>
 
-                <!-- Results Grid -->
+                <!-- Results -->
                 <div class="flex-1">
-                    <div class="flex items-center justify-between mb-10">
-                        <h2 class="text-3xl font-heading font-black">Expert <span class="text-red">Solutions</span></h2>
-                        <div class="text-white/20 text-sm font-bold">{{ services.length }} capabilities found</div>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-lg font-heading font-bold">Services</h2>
+                        <div class="text-muted text-sm">{{ services.length }} available</div>
                     </div>
 
-                    <div class="grid sm:grid-cols-2 gap-8">
-                        <Link v-for="service in services" :key="service.id" :href="route('services.show', service.slug)" class="group p-10 bg-charcoal-light border border-white/5 rounded-[2.5rem] hover:bg-red hover:border-red transition-all duration-500 shadow-2xl relative overflow-hidden">
-                            <!-- Background Decor -->
-                            <i :class="service.icon" class="absolute -right-4 -bottom-4 text-white/5 text-9xl group-hover:text-white/10 transition duration-700"></i>
-                            
+                    <div class="grid sm:grid-cols-2 gap-6">
+                        <Link v-for="service in services" :key="service.id" :href="route('services.show', service.slug)" class="group relative p-8 bg-surface border border-line rounded-2xl hover:border-red hover:shadow-lg transition overflow-hidden">
+                            <i :class="service.icon" class="absolute -right-3 -bottom-3 text-surface-muted text-8xl transition"></i>
                             <div class="relative z-10">
-                                <div class="w-16 h-16 bg-red group-hover:bg-white rounded-2xl flex items-center justify-center mb-8 transition shadow-lg shadow-red/20">
-                                    <i :class="service.icon" class="text-white group-hover:text-red text-3xl"></i>
+                                <div class="w-14 h-14 bg-red/10 group-hover:bg-red rounded-xl flex items-center justify-center mb-5 transition">
+                                    <i :class="service.icon" class="text-red group-hover:text-white text-2xl transition"></i>
                                 </div>
-                                <div class="text-xs font-black text-red group-hover:text-white/60 uppercase tracking-widest mb-2">
+                                <div class="text-xs font-bold text-red uppercase tracking-widest mb-2">
                                     {{ service.category?.name }}
                                 </div>
-                                <h3 class="text-2xl font-heading font-bold mb-4 group-hover:text-white transition">{{ service.name }}</h3>
-                                <p class="text-white/50 group-hover:text-white/80 transition leading-relaxed mb-8">
+                                <h3 class="text-lg font-heading font-bold mb-3 group-hover:text-red transition">{{ service.name }}</h3>
+                                <p class="text-muted text-sm leading-relaxed mb-5 line-clamp-3">
                                     {{ service.description }}
                                 </p>
-                                <div class="flex items-center gap-2 text-red group-hover:text-white font-bold">
-                                    Request Technical Quote <i class="fas fa-arrow-right"></i>
+                                <div class="flex items-center gap-2 text-red font-bold text-sm">
+                                    Request a Quote <i class="fas fa-arrow-right group-hover:translate-x-1 transition"></i>
                                 </div>
                             </div>
                         </Link>
 
-                        <div v-if="services.length === 0" class="col-span-full py-32 text-center">
-                            <i class="fas fa-microscope text-6xl text-white/5 mb-6"></i>
-                            <p class="text-white/20 font-bold text-xl uppercase tracking-widest italic">No service capabilities matching search</p>
-                            <button @click="clearFilters" class="mt-6 text-red font-black hover:underline">Clear all filters</button>
+                        <div v-if="services.length === 0" class="col-span-full py-24 text-center">
+                            <i class="fas fa-tools text-5xl text-line mb-5"></i>
+                            <p class="text-muted font-semibold text-lg">No services match your search</p>
+                            <button @click="clearFilters" class="mt-4 text-red font-bold hover:underline">Clear all filters</button>
                         </div>
                     </div>
                 </div>
-
             </div>
         </main>
 
         <Footer />
     </div>
 </template>
-
-<style scoped>
-.font-heading {
-    font-family: 'Montserrat', sans-serif;
-}
-</style>

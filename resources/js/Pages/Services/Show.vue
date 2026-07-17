@@ -33,15 +33,14 @@ const submitQuote = () => {
         onSuccess: () => {
             window.swal.fire({
                 title: 'Quote Requested!',
-                text: 'Our technical specialists will contact you within 24 hours.',
+                text: 'Our specialists will contact you within 24 hours.',
                 icon: 'success',
-                confirmButtonColor: '#008080',
+                confirmButtonColor: '#F05423',
             });
             form.reset('details', 'phone');
         },
     });
 };
-
 </script>
 
 <template>
@@ -58,68 +57,76 @@ const submitQuote = () => {
         <meta name="twitter:image" :content="seo.image" />
     </Head>
 
-    <div class="min-h-screen bg-charcoal text-white font-sans selection:bg-red selection:text-white">
+    <div class="min-h-screen bg-page text-ink font-sans selection:bg-red selection:text-white">
         <Navbar :canLogin="$page.props.canLogin" :canRegister="$page.props.canRegister" />
 
-        <main class="max-w-7xl mx-auto py-20 px-6">
-            <div class="grid lg:grid-cols-2 gap-20 items-center">
+        <main class="max-w-7xl mx-auto py-14 px-6">
+            <nav class="text-xs text-muted mb-8">
+                <Link :href="route('welcome')" class="hover:text-red">Home</Link>
+                <span class="mx-2">/</span>
+                <Link :href="route('services.index')" class="hover:text-red">Services</Link>
+                <span class="mx-2">/</span>
+                <span class="text-ink font-semibold">{{ service.name }}</span>
+            </nav>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
                 <!-- Service Info -->
-                <div class="space-y-12">
+                <div class="space-y-10">
                     <div>
-                        <div class="w-20 h-20 bg-red rounded-3xl flex items-center justify-center mb-10 shadow-2xl shadow-red/30">
-                            <i :class="service.icon" class="text-white text-4xl"></i>
+                        <div class="w-16 h-16 bg-red rounded-2xl flex items-center justify-center mb-8 shadow-lg shadow-red/30">
+                            <i :class="service.icon" class="text-white text-3xl"></i>
                         </div>
-                        <h1 class="text-6xl font-heading font-black mb-6 leading-tight">
+                        <h1 class="text-3xl md:text-4xl font-heading font-extrabold mb-4 leading-tight">
                             {{ service.name }}
                         </h1>
-                        <p class="text-xl text-white/50 leading-relaxed max-w-xl">
-                            {{ service.description }} Our "Innovative Tech Hub" approach ensures you get the highest performance solutions tailored to your specific requirements.
+                        <p class="text-lg text-muted leading-relaxed max-w-xl">
+                            {{ service.description }}
                         </p>
                     </div>
 
-                    <div class="grid gap-6">
-                        <div v-for="(feature, index) in service.features" :key="index" class="flex gap-6 p-6 bg-white/5 border border-white/5 rounded-3xl items-start">
-                            <div class="w-12 h-12 rounded-2xl bg-red/20 flex items-center justify-center shrink-0">
+                    <div v-if="service.features" class="grid gap-4">
+                        <div v-for="(feature, index) in service.features" :key="index" class="flex gap-5 p-5 bg-surface border border-line rounded-2xl items-start">
+                            <div class="w-11 h-11 rounded-xl bg-red/10 flex items-center justify-center shrink-0">
                                 <i class="fas fa-check text-red"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold mb-2">{{ feature.title }}</h4>
-                                <p class="text-sm text-white/40">{{ feature.description }}</p>
+                                <h4 class="font-bold mb-1 text-ink">{{ feature.title }}</h4>
+                                <p class="text-sm text-muted">{{ feature.description }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Quote Form -->
-                <div class="bg-charcoal-light border border-white/10 rounded-[3rem] p-12 shadow-3xl">
-                    <div class="mb-10">
-                        <h2 class="text-3xl font-heading font-black mb-2">Request a <span class="text-red">Quote</span></h2>
-                        <p class="text-white/40">Provide your details and we'll send a custom proposal.</p>
+                <div class="bg-surface border border-line rounded-3xl p-8 md:p-10 shadow-xl lg:sticky lg:top-40">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-heading font-extrabold mb-2">Request a <span class="text-red">Quote</span></h2>
+                        <p class="text-muted text-sm">Provide your details and we'll send a custom proposal.</p>
                     </div>
 
-                    <form @submit.prevent="submitQuote" class="space-y-6">
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div class="space-y-2">
-                                <label class="text-xs font-bold uppercase tracking-widest text-white/30">Full Name</label>
-                                <input v-model="form.name" type="text" placeholder="John Doe" class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" required />
+                    <form @submit.prevent="submitQuote" class="space-y-5">
+                        <div class="grid md:grid-cols-2 gap-5">
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-bold uppercase tracking-widest text-muted">Full Name</label>
+                                <input v-model="form.name" type="text" placeholder="John Doe" class="w-full bg-surface-muted border border-line rounded-xl p-3.5 text-ink focus:border-red focus:ring-0 transition" required />
                             </div>
-                            <div class="space-y-2">
-                                <label class="text-xs font-bold uppercase tracking-widest text-white/30">Email Address</label>
-                                <input v-model="form.email" type="email" placeholder="john@example.com" class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" required />
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-bold uppercase tracking-widest text-muted">Email Address</label>
+                                <input v-model="form.email" type="email" placeholder="john@example.com" class="w-full bg-surface-muted border border-line rounded-xl p-3.5 text-ink focus:border-red focus:ring-0 transition" required />
                             </div>
                         </div>
 
-                        <div class="space-y-2">
-                            <label class="text-xs font-bold uppercase tracking-widest text-white/30">Phone Number</label>
-                            <input v-model="form.phone" type="tel" placeholder="+254..." class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" />
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold uppercase tracking-widest text-muted">Phone Number</label>
+                            <input v-model="form.phone" type="tel" placeholder="+254…" class="w-full bg-surface-muted border border-line rounded-xl p-3.5 text-ink focus:border-red focus:ring-0 transition" />
                         </div>
 
-                        <div class="space-y-2">
-                            <label class="text-xs font-bold uppercase tracking-widest text-white/30">Project Details</label>
-                            <textarea v-model="form.details" rows="4" placeholder="Tell us more about your requirements..." class="w-full bg-charcoal border-white/5 rounded-2xl p-4 focus:border-red focus:ring-red transition" required></textarea>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold uppercase tracking-widest text-muted">Project Details</label>
+                            <textarea v-model="form.details" rows="4" placeholder="Tell us more about your requirements…" class="w-full bg-surface-muted border border-line rounded-xl p-3.5 text-ink focus:border-red focus:ring-0 transition" required></textarea>
                         </div>
 
-                        <button type="submit" class="w-full bg-red hover:bg-red-light text-white font-black py-5 rounded-2xl transition shadow-xl shadow-red/20 text-lg flex items-center justify-center gap-3">
+                        <button type="submit" :disabled="form.processing" class="w-full bg-red hover:bg-red-dark text-white font-bold py-4 rounded-xl transition shadow-lg shadow-red/20 flex items-center justify-center gap-3 disabled:opacity-60">
                             Submit Request <i class="fas fa-paper-plane"></i>
                         </button>
                     </form>
@@ -129,14 +136,4 @@ const submitQuote = () => {
 
         <Footer />
     </div>
-
 </template>
-
-<style scoped>
-.font-heading {
-    font-family: 'Montserrat', sans-serif;
-}
-.shadow-3xl {
-    box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.5);
-}
-</style>

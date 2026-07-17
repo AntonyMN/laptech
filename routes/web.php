@@ -19,10 +19,20 @@ Route::get('/', function () {
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'categories' => \App\Models\Category::has('products')->get(),
+        'serverProducts' => \App\Models\Product::with('category')
+            ->whereHas('category', fn ($q) => $q->where('name', 'Servers'))
+            ->latest()
+            ->limit(8)
+            ->get(),
         'featuredProducts' => \App\Models\Product::with('category')
             ->where('is_featured', true)
             ->latest()
-            ->limit(6)
+            ->limit(8)
+            ->get(),
+        'hotDeals' => \App\Models\Product::with('category')
+            ->where('stock', '>', 0)
+            ->latest()
+            ->limit(10)
             ->get(),
         'featuredServices' => \App\Models\Service::where('is_featured', true)->get(),
     ]);

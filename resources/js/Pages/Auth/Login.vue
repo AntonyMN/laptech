@@ -31,20 +31,20 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Access Hub - Laptech" />
+        <Head title="Log in — Laptech" />
 
-        <div class="mb-10">
-            <h2 class="text-3xl font-heading font-black">Access <span class="text-red">Hub</span></h2>
-            <p class="text-white/40 text-sm mt-2">Enter your credentials to continue to the tech ecosystem.</p>
+        <div class="mb-8">
+            <h2 class="text-2xl font-heading font-extrabold">Welcome <span class="text-red">back</span></h2>
+            <p class="text-muted text-sm mt-2">Log in to your account to continue.</p>
         </div>
 
-        <div v-if="status" class="mb-6 p-4 bg-red/10 border border-red/20 rounded-2xl text-red text-sm font-bold">
+        <div v-if="status" class="mb-6 p-4 bg-red/10 border border-red/20 rounded-xl text-red text-sm font-bold">
             {{ status }}
         </div>
 
         <form @submit.prevent="submit" class="space-y-6">
             <div>
-                <InputLabel for="email" value="Tech Email" />
+                <InputLabel for="email" value="Email" />
                 <TextInput
                     id="email"
                     type="email"
@@ -59,11 +59,11 @@ const submit = () => {
 
             <div>
                 <div class="flex justify-between items-center mb-2">
-                    <InputLabel for="password" value="Access Key" class="mb-0" />
+                    <InputLabel for="password" value="Password" class="mb-0" />
                     <Link
                         v-if="canResetPassword"
                         :href="route('password.request')"
-                        class="text-xs text-white/30 hover:text-red transition"
+                        class="text-xs text-muted hover:text-red transition"
                     >
                         Forgot?
                     </Link>
@@ -82,7 +82,7 @@ const submit = () => {
             <div class="flex items-center justify-between">
                 <label class="flex items-center cursor-pointer group">
                     <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-3 text-sm text-white/40 group-hover:text-white transition">Keep me active</span>
+                    <span class="ms-3 text-sm text-muted group-hover:text-ink transition">Remember me</span>
                 </label>
             </div>
 
@@ -91,23 +91,16 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Initialize Session
-                    <i class="fas fa-terminal text-xs opacity-50 ml-1"></i>
+                    Log in
                 </PrimaryButton>
             </div>
 
-            <div class="text-center pt-6 border-t border-white/5">
-                <p class="text-white/40 text-sm">
-                    New to the hub? 
-                    <Link :href="route('register')" class="text-red font-bold hover:underline">Register Platform</Link>
+            <div class="text-center pt-6 border-t border-line">
+                <p class="text-muted text-sm">
+                    New here?
+                    <Link :href="route('register')" class="text-red font-bold hover:underline">Create an account</Link>
                 </p>
             </div>
         </form>
     </GuestLayout>
 </template>
-
-<style scoped>
-.font-heading {
-    font-family: 'Montserrat', sans-serif;
-}
-</style>

@@ -22,11 +22,11 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Join Hub - Laptech" />
+        <Head title="Create account — Laptech" />
 
-        <div class="mb-10">
-            <h2 class="text-3xl font-heading font-black">Join the <span class="text-red">Hub</span></h2>
-            <p class="text-white/40 text-sm mt-2">Create your account to access high-performance tech.</p>
+        <div class="mb-8">
+            <h2 class="text-2xl font-heading font-extrabold">Create an <span class="text-red">account</span></h2>
+            <p class="text-muted text-sm mt-2">Join Laptech to shop faster and track your orders.</p>
         </div>
 
         <form @submit.prevent="submit" class="space-y-6">
@@ -45,7 +45,7 @@ const submit = () => {
             </div>
 
             <div>
-                <InputLabel for="email" value="Work Email" />
+                <InputLabel for="email" value="Email" />
                 <TextInput
                     id="email"
                     type="email"
@@ -59,7 +59,7 @@ const submit = () => {
 
             <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <InputLabel for="password" value="Passphrase" />
+                    <InputLabel for="password" value="Password" />
                     <TextInput
                         id="password"
                         type="password"
@@ -90,14 +90,13 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Create Identity
-                    <i class="fas fa-plus-circle text-xs opacity-50 ml-1"></i>
+                    Create account
                 </PrimaryButton>
             </div>
 
-            <div class="text-center pt-6 border-t border-white/5">
-                <p class="text-white/40 text-sm">
-                    Already a member? 
+            <div class="text-center pt-6 border-t border-line">
+                <p class="text-muted text-sm">
+                    Already have an account?
                     <Link :href="route('login')" class="text-red font-bold hover:underline">Log in</Link>
                 </p>
             </div>

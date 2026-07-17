@@ -38,13 +38,13 @@ onMounted(() => {
         >
             <div 
                 v-if="showBubble" 
-                class="pointer-events-auto relative w-72 md:w-80 bg-charcoal-light/95 backdrop-blur-md border border-white/10 p-5 rounded-2xl shadow-[0_20px_50px_rgba(37,211,102,0.15)] text-white mr-2 cursor-pointer hover:border-emerald-500/30 transition duration-300 group"
+                class="pointer-events-auto relative w-72 md:w-80 bg-surface backdrop-blur-md border border-line p-5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] text-ink mr-2 cursor-pointer hover:border-emerald-400/40 transition duration-300 group"
                 @click="openWhatsApp"
             >
                 <!-- Close Button -->
-                <button 
+                <button
                     @click="dismissBubble"
-                    class="absolute top-3 right-3 text-white/40 hover:text-white hover:bg-white/10 rounded-full w-6 h-6 flex items-center justify-center transition"
+                    class="absolute top-3 right-3 text-muted hover:text-ink hover:bg-surface-muted rounded-full w-6 h-6 flex items-center justify-center transition"
                     aria-label="Close message"
                 >
                     <i class="fas fa-times text-xs"></i>
@@ -56,22 +56,22 @@ onMounted(() => {
                         <div class="w-10 h-10 bg-gradient-to-tr from-emerald-500 to-green-400 rounded-full flex items-center justify-center shadow-md">
                             <i class="fab fa-whatsapp text-white text-xl"></i>
                         </div>
-                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-charcoal-light rounded-full animate-ping"></span>
-                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-charcoal-light rounded-full"></span>
+                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-surface rounded-full animate-ping"></span>
+                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-surface rounded-full"></span>
                     </div>
                     <div>
-                        <h4 class="font-heading font-bold text-sm text-white flex items-center gap-1.5">
+                        <h4 class="font-heading font-bold text-sm text-ink flex items-center gap-1.5">
                             Laptech Support
-                            <span class="inline-block px-1.5 py-0.5 rounded text-[9px] bg-emerald-500/20 text-emerald-400 font-bold uppercase tracking-wider">Online</span>
+                            <span class="inline-block px-1.5 py-0.5 rounded text-[9px] bg-emerald-100 text-emerald-700 font-bold uppercase tracking-wider">Online</span>
                         </h4>
-                        <p class="text-xs text-white/50">Typically replies instantly</p>
+                        <p class="text-xs text-muted">Typically replies instantly</p>
                     </div>
                 </div>
 
                 <!-- Chat message -->
-                <div class="bg-charcoal/40 border border-white/5 rounded-xl p-3 text-sm text-white/90 leading-relaxed mb-3">
-                    <p class="mb-1 text-emerald-400 font-medium font-heading">👋 Hello there!</p>
-                    <p>Looking for premium hardware components or planning high-performance servicing? Let's chat directly on WhatsApp!</p>
+                <div class="bg-surface-muted border border-line rounded-xl p-3 text-sm text-ink leading-relaxed mb-3">
+                    <p class="mb-1 text-emerald-600 font-medium font-heading">👋 Hello there!</p>
+                    <p>Looking for a laptop, accessory or a repair? Let's chat directly on WhatsApp!</p>
                 </div>
 
                 <!-- Call to action -->
@@ -104,7 +104,7 @@ onMounted(() => {
             </button>
 
             <!-- Hover Tooltip (visible on larger displays) -->
-            <div class="absolute right-full top-1/2 -translate-y-1/2 mr-4 px-4 py-2 bg-charcoal-dark border border-white/10 text-white text-xs font-bold rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition duration-300 whitespace-nowrap pointer-events-none translate-x-2 group-hover:translate-x-0">
+            <div class="absolute right-full top-1/2 -translate-y-1/2 mr-4 px-4 py-2 bg-charcoal text-white text-xs font-bold rounded-xl shadow-2xl opacity-0 group-hover:opacity-100 transition duration-300 whitespace-nowrap pointer-events-none translate-x-2 group-hover:translate-x-0">
                 WhatsApp Us
             </div>
         </div>

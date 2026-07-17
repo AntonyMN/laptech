@@ -10,11 +10,26 @@
   --color-red-light: #F57B56;
   --color-red-dark: #C8441D;
   --color-red-bright: #FF6B3D;
-  
+
   --color-charcoal: #1a1a1a;
   --color-charcoal-light: #2d2d2d;
   --color-charcoal-dark: #0d0d0d;
 
+  /* Light surface palette (retail marketplace look) */
+  --color-surface: #ffffff;
+  --color-surface-muted: #f2f3f5;
+  --color-page: #f7f7f8;
+  --color-ink: #17181c;
+  --color-muted: #6b7280;
+  --color-line: #e5e7eb;
+
   --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
   --font-heading: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-page);
+    color: var(--color-ink);
+  }
 }

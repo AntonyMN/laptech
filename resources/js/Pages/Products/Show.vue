@@ -5,6 +5,7 @@ import { ref, computed } from 'vue';
 import { useCartStore } from '../../Stores/cart';
 import Navbar from '../../Components/Navbar.vue';
 import Footer from '../../Components/Footer.vue';
+import ProductCard from '../../Components/ProductCard.vue';
 
 
 const cart = useCartStore();
@@ -25,16 +26,16 @@ const seo = computed(() => {
     if (baseUrl.endsWith('/')) {
         baseUrl = baseUrl.slice(0, -1);
     }
-    
-    const imagePath = props.product.image 
-        ? (props.product.image.startsWith('/') ? props.product.image : `/${props.product.image}`) 
+
+    const imagePath = props.product.image
+        ? (props.product.image.startsWith('/') ? props.product.image : `/${props.product.image}`)
         : '/favicon.png';
-        
+
     const productImage = imagePath.startsWith('http') ? imagePath : `${baseUrl}${imagePath}`;
-    
+
     return {
-        title: `${props.product.name} — Laptech Hardware Hub`,
-        description: props.product.description?.substring(0, 160) || `Buy ${props.product.name} at Laptech. Elite hardware and IT infrastructure in Nairobi, Kenya.`,
+        title: `${props.product.name} — Laptech Electronics`,
+        description: props.product.description?.substring(0, 160) || `Buy ${props.product.name} at Laptech Electronics, Nairobi. Quality hardware with nationwide delivery.`,
         url: `${baseUrl}/products/${props.product.slug}`,
         image: productImage,
     };
@@ -51,13 +52,13 @@ const activeImage = ref(props.product.images?.[0] || props.product.image || 'htt
 const getStatusClasses = (status) => {
     switch (status) {
         case 'Brand new':
-            return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
+            return 'bg-emerald-50 text-emerald-700 border-emerald-200';
         case 'Ex-UK':
-            return 'bg-purple-500/20 text-purple-400 border-purple-500/30';
+            return 'bg-purple-50 text-purple-700 border-purple-200';
         case 'Certified Refurbished':
-            return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
+            return 'bg-blue-50 text-blue-700 border-blue-200';
         default:
-            return 'bg-white/5 text-white/50 border-white/10';
+            return 'bg-surface-muted text-muted border-line';
     }
 };
 </script>
@@ -76,49 +77,56 @@ const getStatusClasses = (status) => {
         <meta name="twitter:image" :content="seo.image" />
     </Head>
 
-    <div class="min-h-screen bg-charcoal text-white font-sans selection:bg-red selection:text-white">
+    <div class="min-h-screen bg-page text-ink font-sans selection:bg-red selection:text-white">
         <Navbar :canLogin="$page.props.canLogin" :canRegister="$page.props.canRegister" />
 
-        <main class="max-w-7xl mx-auto py-16 px-6">
-            <div class="grid lg:grid-cols-2 gap-16 items-start">
+        <main class="max-w-7xl mx-auto py-10 px-6">
+            <nav class="text-xs text-muted mb-6">
+                <Link :href="route('welcome')" class="hover:text-red">Home</Link>
+                <span class="mx-2">/</span>
+                <Link :href="route('products.index')" class="hover:text-red">Shop</Link>
+                <span class="mx-2">/</span>
+                <span class="text-ink font-semibold">{{ product.name }}</span>
+            </nav>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
                 <!-- Product Image -->
-                <div class="space-y-6">
-                    <div class="bg-charcoal-light border border-white/10 rounded-[2rem] overflow-hidden aspect-square group">
-                        <img 
-                            :src="activeImage" 
+                <div class="space-y-4">
+                    <div class="bg-surface border border-line rounded-2xl overflow-hidden aspect-square">
+                        <img
+                            :src="activeImage"
                             :alt="product.name"
-                            class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-700 group-hover:scale-105"
+                            class="w-full h-full object-cover"
                         />
                     </div>
                     <!-- Thumbnails -->
-                    <div v-if="product.images && product.images.length > 0" class="grid grid-cols-5 gap-4">
-                        <div 
-                            v-for="(img, idx) in product.images" 
-                            :key="idx" 
+                    <div v-if="product.images && product.images.length > 0" class="grid grid-cols-5 gap-3">
+                        <div
+                            v-for="(img, idx) in product.images"
+                            :key="idx"
                             @click="activeImage = img"
-                            :class="activeImage === img ? 'border-red' : 'border-white/10 opacity-40 hover:opacity-100'"
-                            class="aspect-square bg-charcoal-light border rounded-xl cursor-pointer transition overflow-hidden"
+                            :class="activeImage === img ? 'border-red' : 'border-line opacity-60 hover:opacity-100'"
+                            class="aspect-square bg-surface border rounded-lg cursor-pointer transition overflow-hidden"
                         >
                             <img :src="img" class="w-full h-full object-cover" />
                         </div>
                     </div>
-
                 </div>
 
                 <!-- Product Details -->
-                <div class="space-y-10">
+                <div class="space-y-6">
                     <div>
-                        <div class="flex flex-wrap gap-3 mb-4 items-center">
-                            <span class="px-3 py-1 bg-red/20 text-red-bright rounded-full text-xs font-bold uppercase tracking-widest inline-block">
+                        <div class="flex flex-wrap gap-2 mb-3 items-center">
+                            <span class="px-3 py-1 bg-red/10 text-red rounded-full text-xs font-bold uppercase tracking-widest inline-block">
                                 {{ product.category?.name }}
                             </span>
                             <span v-if="product.status" :class="getStatusClasses(product.status)" class="px-3 py-1 border rounded-full text-xs font-bold uppercase tracking-widest inline-block">
                                 {{ product.status }}
                             </span>
                         </div>
-                        <h1 class="text-5xl font-heading font-black mb-4">{{ product.name }}</h1>
-                        <div class="flex items-center gap-4 text-white/40">
-                            <div class="flex text-red text-sm">
+                        <h1 class="text-3xl md:text-4xl font-heading font-extrabold mb-3">{{ product.name }}</h1>
+                        <div class="flex items-center gap-3 text-muted text-sm">
+                            <div class="flex text-red">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -129,60 +137,55 @@ const getStatusClasses = (status) => {
                         </div>
                     </div>
 
-                    <div class="text-5xl font-heading font-black text-red">
+                    <div class="text-4xl font-heading font-extrabold text-ink">
                         Ksh {{ product.price.toLocaleString() }}
                     </div>
 
-                    <p class="text-lg text-white/60 leading-relaxed">
+                    <p class="text-muted leading-relaxed">
                         {{ product.description }}
                     </p>
 
-                    <div v-if="product.specifications" class="bg-white/5 rounded-2xl p-6 border border-white/5">
-                        <h3 class="font-bold mb-4 uppercase tracking-widest text-xs text-white/40">Technical Specs</h3>
+                    <div v-if="product.specifications" class="bg-surface rounded-2xl p-6 border border-line">
+                        <h3 class="font-bold mb-4 uppercase tracking-widest text-xs text-muted">Technical Specs</h3>
                         <div class="grid grid-cols-2 gap-y-4">
                             <div v-for="(val, key) in product.specifications" :key="key">
-                                <div class="text-white/30 text-xs uppercase font-bold">{{ key }}</div>
-                                <div class="font-semibold">{{ val }}</div>
+                                <div class="text-muted text-xs uppercase font-bold">{{ key }}</div>
+                                <div class="font-semibold text-ink">{{ val }}</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Actions -->
-                    <div class="flex flex-col sm:flex-row gap-4 pt-6">
-                        <div class="flex items-center bg-charcoal-light border border-white/10 rounded-2xl p-1 w-fit">
-                            <button @click="quantity > 1 ? quantity-- : null" class="w-12 h-12 flex items-center justify-center hover:bg-white/5 rounded-xl transition">-</button>
-                            <input v-model="quantity" type="number" class="bg-transparent border-none focus:ring-0 w-16 text-center font-bold" />
-                            <button @click="quantity++" class="w-12 h-12 flex items-center justify-center hover:bg-white/5 rounded-xl transition">+</button>
+                    <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                        <div class="flex items-center bg-surface border border-line rounded-xl p-1 w-fit">
+                            <button @click="quantity > 1 ? quantity-- : null" class="w-11 h-11 flex items-center justify-center hover:bg-surface-muted rounded-lg transition">-</button>
+                            <input v-model="quantity" type="number" class="bg-transparent border-none focus:ring-0 w-14 text-center font-bold text-ink" />
+                            <button @click="quantity++" class="w-11 h-11 flex items-center justify-center hover:bg-surface-muted rounded-lg transition">+</button>
                         </div>
-                        <button @click="addToCart" class="flex-1 bg-red hover:bg-red-light text-white font-black py-4 rounded-2xl transition shadow-xl shadow-red/20 text-lg">
-                            Add to Cart
+                        <button @click="addToCart" class="flex-1 bg-red hover:bg-red-dark text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-red/20">
+                            <i class="fas fa-cart-plus mr-2"></i> Add to Cart
                         </button>
-                        <button v-if="$page.props.auth.user" @click="router.post(route('wishlist.toggle', product.id))" class="w-16 h-16 bg-white/5 hover:bg-red border border-white/10 rounded-2xl flex items-center justify-center transition" title="Add to Wishlist">
-                            <i class="fas fa-heart text-xl"></i>
+                        <button v-if="$page.props.auth.user" @click="router.post(route('wishlist.toggle', product.id))" class="w-14 h-14 bg-surface hover:bg-red hover:text-white border border-line rounded-xl flex items-center justify-center transition" title="Add to Wishlist">
+                            <i class="far fa-heart text-lg"></i>
                         </button>
-                        <button @click="router.post(route('compare.add', product.id))" class="w-16 h-16 bg-white/5 hover:bg-red border border-white/10 rounded-2xl flex items-center justify-center transition" title="Add to Compare">
-                            <i class="fas fa-balance-scale text-xl"></i>
+                        <button @click="router.post(route('compare.add', product.id))" class="w-14 h-14 bg-surface hover:bg-red hover:text-white border border-line rounded-xl flex items-center justify-center transition" title="Add to Compare">
+                            <i class="fas fa-balance-scale text-lg"></i>
                         </button>
                     </div>
 
-                    <div class="pt-8 border-t border-white/5 flex items-center gap-8 text-sm text-white/40">
-                        <div class="flex items-center gap-2"><i class="fas fa-truck text-red"></i> Express Delivery</div>
-                        <div class="flex items-center gap-2"><i class="fas fa-shield-alt text-red"></i> 2 Year Warranty</div>
+                    <div class="pt-6 border-t border-line flex flex-wrap items-center gap-6 text-sm text-muted">
+                        <div class="flex items-center gap-2"><i class="fas fa-truck text-red"></i> Nationwide Delivery</div>
+                        <div class="flex items-center gap-2"><i class="fas fa-shield-alt text-red"></i> Genuine Warranty</div>
+                        <div class="flex items-center gap-2"><i class="fas fa-undo text-red"></i> 7-Day Returns</div>
                     </div>
                 </div>
             </div>
 
             <!-- Related Products -->
-            <section class="mt-32">
-                <h2 class="text-3xl font-heading font-black mb-12">Related <span class="text-red">Hardware</span></h2>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <Link v-for="rp in relatedProducts" :key="rp.id" :href="route('products.show', rp.slug)" class="group bg-charcoal-light border border-white/5 rounded-3xl p-6 hover:border-red/50 transition duration-500">
-                        <div class="aspect-video bg-charcoal rounded-2xl mb-6 overflow-hidden">
-                            <img :src="rp.image || 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&q=80&w=400'" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 opacity-80" />
-                        </div>
-                        <h3 class="font-bold text-lg mb-2 group-hover:text-red transition">{{ rp.name }}</h3>
-                        <div class="text-red font-black">Ksh {{ rp.price.toLocaleString() }}</div>
-                    </Link>
+            <section v-if="relatedProducts?.length" class="mt-20">
+                <h2 class="text-2xl font-heading font-extrabold mb-6">Related Products</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+                    <ProductCard v-for="rp in relatedProducts" :key="rp.id" :product="rp" />
                 </div>
             </section>
         </main>
@@ -190,10 +193,3 @@ const getStatusClasses = (status) => {
         <Footer />
     </div>
 </template>
-
-
-<style scoped>
-.font-heading {
-    font-family: 'Montserrat', sans-serif;
-}
-</style>

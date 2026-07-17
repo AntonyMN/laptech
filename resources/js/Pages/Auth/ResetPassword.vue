@@ -33,16 +33,16 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Reset Key - Laptech" />
+        <Head title="Reset password — Laptech" />
 
-        <div class="mb-10">
-            <h2 class="text-3xl font-heading font-black">Reset <span class="text-red">Key</span></h2>
-            <p class="text-white/40 text-sm mt-2">Initialize a new access passphrase for your account.</p>
+        <div class="mb-8">
+            <h2 class="text-2xl font-heading font-extrabold">Reset <span class="text-red">password</span></h2>
+            <p class="text-muted text-sm mt-2">Choose a new password for your account.</p>
         </div>
 
         <form @submit.prevent="submit" class="space-y-6">
             <div>
-                <InputLabel for="email" value="Tech Email" />
+                <InputLabel for="email" value="Email" />
                 <TextInput
                     id="email"
                     type="email"
@@ -55,7 +55,7 @@ const submit = () => {
             </div>
 
             <div>
-                <InputLabel for="password" value="New Passphrase" />
+                <InputLabel for="password" value="New Password" />
                 <TextInput
                     id="password"
                     type="password"
@@ -69,7 +69,7 @@ const submit = () => {
             </div>
 
             <div>
-                <InputLabel for="password_confirmation" value="Verify New Key" />
+                <InputLabel for="password_confirmation" value="Confirm Password" />
                 <TextInput
                     id="password_confirmation"
                     type="password"
@@ -86,8 +86,7 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Update Access Key
-                    <i class="fas fa-key text-xs opacity-50 ml-1"></i>
+                    Reset password
                 </PrimaryButton>
             </div>
         </form>

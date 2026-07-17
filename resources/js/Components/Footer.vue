@@ -1,48 +1,104 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
+
+const page = usePage();
+const categories = computed(() => page.props.navCategories || []);
 </script>
 
 <template>
-    <footer class="bg-charcoal-dark pt-24 pb-12 px-6 border-t border-white/5">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-16">
-            <div class="col-span-2">
-                <Link :href="route('welcome')" class="inline-block mb-8 group">
-                    <img src="/images/logo.png" alt="Laptech Logo" class="h-16 w-auto p-2 rounded-xl bg-white transition group-hover:scale-105 duration-500">
-                </Link>
-                <p class="text-white/40 max-w-sm leading-relaxed">
-                    Premium technology solutions for the modern enterprise. We provide high-performance hardware and expert IT services.
-                </p>
+    <!-- Trust / payment strip -->
+    <section class="bg-surface border-t border-line">
+        <div class="max-w-7xl mx-auto px-6 py-8 grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-truck text-red text-2xl"></i>
+                <div>
+                    <p class="text-sm font-bold text-ink">Nationwide Delivery</p>
+                    <p class="text-xs text-muted">Delivered in 1–3 business days</p>
+                </div>
             </div>
+            <div class="flex items-center gap-3">
+                <i class="fas fa-undo text-red text-2xl"></i>
+                <div>
+                    <p class="text-sm font-bold text-ink">7-Day Returns</p>
+                    <p class="text-xs text-muted">Shop with confidence</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <i class="fas fa-shield-alt text-red text-2xl"></i>
+                <div>
+                    <p class="text-sm font-bold text-ink">Genuine Warranty</p>
+                    <p class="text-xs text-muted">Certified quality products</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <i class="fas fa-headset text-red text-2xl"></i>
+                <div>
+                    <p class="text-sm font-bold text-ink">Expert Support</p>
+                    <p class="text-xs text-muted">Mon–Sat 9am–7pm</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main footer -->
+    <footer class="bg-charcoal text-white/70 pt-16 pb-8 px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+            <div class="lg:col-span-2">
+                <Link :href="route('welcome')" class="inline-block mb-5">
+                    <img src="/images/logo.png" alt="Laptech" class="h-12 w-auto p-2 rounded-lg bg-white">
+                </Link>
+                <p class="text-sm leading-relaxed text-white/50 max-w-sm mb-6">
+                    Your trusted store for laptops, desktops, accessories and expert IT services in Nairobi. Quality hardware, honest prices, reliable support.
+                </p>
+                <div class="flex gap-3">
+                    <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-red flex items-center justify-center transition"><i class="fab fa-facebook-f text-sm"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-red flex items-center justify-center transition"><i class="fab fa-instagram text-sm"></i></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-red flex items-center justify-center transition"><i class="fab fa-tiktok text-sm"></i></a>
+                    <a href="https://wa.me/254722964566" target="_blank" rel="noopener" class="w-9 h-9 rounded-full bg-white/10 hover:bg-red flex items-center justify-center transition"><i class="fab fa-whatsapp text-sm"></i></a>
+                </div>
+            </div>
+
             <div>
-                <h4 class="font-bold mb-6 uppercase tracking-widest text-xs text-white/50">Company</h4>
-                <ul class="space-y-4 text-white/70 text-sm">
-                    <li><Link :href="route('welcome')" class="hover:text-red transition">Home Intelligence</Link></li>
-                    <li><Link :href="route('products.index')" class="hover:text-red transition">Hardware Inventory</Link></li>
-                    <li><Link :href="route('services.index')" class="hover:text-red transition">Service Hub</Link></li>
+                <h4 class="font-bold mb-5 uppercase tracking-widest text-xs text-white/40">Shop</h4>
+                <ul class="space-y-3 text-sm">
+                    <li><Link :href="route('products.index')" class="hover:text-red transition">All Products</Link></li>
+                    <li v-for="cat in categories.slice(0, 5)" :key="cat.id">
+                        <Link :href="route('products.index', { category: cat.id })" class="hover:text-red transition">{{ cat.name }}</Link>
+                    </li>
                 </ul>
             </div>
+
             <div>
-                <h4 class="font-bold mb-6 uppercase tracking-widest text-xs text-white/50">Support</h4>
-                <ul class="space-y-4 text-white/70 text-sm">
-                    <li><a href="#" class="hover:text-red transition">Knowledge Base</a></li>
-                    <li><a href="#" class="hover:text-red transition">Contact Support</a></li>
-                    <li><a href="#" class="hover:text-red transition">Warranty Signal</a></li>
+                <h4 class="font-bold mb-5 uppercase tracking-widest text-xs text-white/40">Customer Service</h4>
+                <ul class="space-y-3 text-sm">
+                    <li><Link :href="route('services.index')" class="hover:text-red transition">Services</Link></li>
+                    <li><Link :href="route('quotes.create')" class="hover:text-red transition">Request a Quote</Link></li>
+                    <li><Link :href="route('blog.index')" class="hover:text-red transition">Blog</Link></li>
+                    <li><Link :href="route('compare.index')" class="hover:text-red transition">Compare Products</Link></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="font-bold mb-5 uppercase tracking-widest text-xs text-white/40">Contact</h4>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt text-red mt-1"></i> Nairobi, Kenya</li>
+                    <li class="flex items-center gap-3"><i class="fas fa-phone-alt text-red"></i> <a href="tel:+254722964566" class="hover:text-red transition">+254 722 964566</a></li>
+                    <li class="flex items-center gap-3"><i class="fas fa-envelope text-red"></i> <a href="mailto:info@laptech.co.ke" class="hover:text-red transition">info@laptech.co.ke</a></li>
                 </ul>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-white/30 text-sm">
-            <p>&copy; 2026 Laptech Solutions. All rights reserved.</p>
-            <div class="flex gap-6">
-                <i class="fab fa-twitter hover:text-red transition cursor-pointer"></i>
-                <i class="fab fa-linkedin hover:text-red transition cursor-pointer"></i>
-                <i class="fab fa-github hover:text-red transition cursor-pointer"></i>
+
+        <!-- Payment methods -->
+        <div class="max-w-7xl mx-auto pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
+            <p class="text-xs text-white/40">&copy; 2026 Laptech Electronics. All rights reserved.</p>
+            <div class="flex items-center gap-2 text-white/70">
+                <span class="text-[11px] uppercase tracking-widest text-white/30 mr-1">We accept</span>
+                <span class="px-2 py-1 rounded bg-white/10 text-[11px] font-bold">M-Pesa</span>
+                <span class="px-2 py-1 rounded bg-white/10 text-[11px] font-bold">Airtel</span>
+                <i class="fab fa-cc-visa text-2xl"></i>
+                <i class="fab fa-cc-mastercard text-2xl"></i>
             </div>
         </div>
     </footer>
 </template>
-
-<style scoped>
-.font-heading {
-    font-family: 'Montserrat', sans-serif;
-}
-</style>

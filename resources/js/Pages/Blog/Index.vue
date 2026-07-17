@@ -15,8 +15,8 @@ const props = defineProps({
 const seo = computed(() => {
     const baseUrl = page.props.appUrl || '';
     return {
-        title: 'Technical Intelligence — IT Insights & News | Laptech',
-        description: 'Deep dives into enterprise infrastructure, cybersecurity, cloud migration, and the future of technology. Expert insights from Laptech specialists in Nairobi.',
+        title: 'Blog — Tech Tips, Guides & News | Laptech Electronics',
+        description: 'Buying guides, tips and tech news to help you choose the right laptop, desktop and accessories. Expert insights from Laptech Electronics, Nairobi.',
         url: `${baseUrl}/blog`,
         image: `${baseUrl}/favicon.png`,
     };
@@ -41,85 +41,81 @@ const filterByCategory = (slug) => {
         <meta name="twitter:image" :content="seo.image" />
     </Head>
 
-    <div class="min-h-screen bg-charcoal text-white font-sans">
+    <div class="min-h-screen bg-page text-ink font-sans">
         <Navbar />
 
         <!-- Hero -->
-        <header class="py-24 px-6 relative overflow-hidden">
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(227,27,35,0.1),transparent_70%)]"></div>
-            <div class="max-w-7xl mx-auto text-center relative z-10">
-                <h1 class="text-6xl md:text-7xl font-black italic tracking-tighter mb-6">Technical <span class="text-red">Intelligence.</span></h1>
-                <p class="text-white/40 text-xl max-w-2xl mx-auto font-bold">Deep dives into infrastructure, security, and the future of tech.</p>
+        <header class="bg-surface border-b border-line py-12 px-6">
+            <div class="max-w-7xl mx-auto text-center">
+                <h1 class="text-3xl md:text-4xl font-heading font-extrabold mb-3">Laptech <span class="text-red">Blog</span></h1>
+                <p class="text-muted max-w-2xl mx-auto">Buying guides, tips and the latest tech news.</p>
             </div>
         </header>
 
-        <main class="max-w-7xl mx-auto pb-32 px-6">
+        <main class="max-w-7xl mx-auto pb-20 px-6">
             <!-- Categories -->
-            <div class="flex flex-wrap justify-center gap-4 mb-20">
-                <button 
+            <div class="flex flex-wrap justify-center gap-3 py-10">
+                <button
                     @click="filterByCategory('')"
-                    :class="!currentCategory ? 'bg-red text-white shadow-xl shadow-red/20' : 'bg-white/5 text-white/40 hover:bg-white/10'"
-                    class="px-8 py-3 rounded-xl font-bold transition text-sm uppercase tracking-widest"
+                    :class="!currentCategory ? 'bg-red text-white' : 'bg-surface border border-line text-muted hover:text-ink'"
+                    class="px-6 py-2.5 rounded-full font-bold transition text-sm"
                 >
                     All Articles
                 </button>
-                <button 
-                    v-for="cat in categories" 
+                <button
+                    v-for="cat in categories"
                     :key="cat.id"
                     @click="filterByCategory(cat.slug)"
-                    :class="currentCategory === cat.slug ? 'bg-red text-white shadow-xl shadow-red/20' : 'bg-white/5 text-white/40 hover:bg-white/10'"
-                    class="px-8 py-3 rounded-xl font-bold transition text-sm uppercase tracking-widest"
+                    :class="currentCategory === cat.slug ? 'bg-red text-white' : 'bg-surface border border-line text-muted hover:text-ink'"
+                    class="px-6 py-2.5 rounded-full font-bold transition text-sm"
                 >
                     {{ cat.name }}
                 </button>
             </div>
 
             <!-- Posts Grid -->
-            <div v-if="posts.data.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-                <div v-for="post in posts.data" :key="post.id" class="group">
-                    <Link :href="route('blog.show', post.slug)" class="block bg-charcoal-light border border-white/5 rounded-[2.5rem] overflow-hidden hover:border-red/50 transition duration-500 shadow-2xl">
-                        <div class="h-64 bg-charcoal relative overflow-hidden">
-                            <img :src="post.featured_image || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800'" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 opacity-80" />
-
-                            <div class="absolute top-6 left-6">
-                                <span class="px-3 py-1 bg-red/20 backdrop-blur-md border border-red/30 rounded-full text-[10px] font-black text-red uppercase tracking-widest">
-                                    {{ post.category?.name }}
-                                </span>
-                            </div>
+            <div v-if="posts.data.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <Link v-for="post in posts.data" :key="post.id" :href="route('blog.show', post.slug)" class="group block bg-surface border border-line rounded-2xl overflow-hidden hover:border-red/40 hover:shadow-lg transition">
+                    <div class="h-52 bg-surface-muted relative overflow-hidden">
+                        <img :src="post.featured_image || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800'" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-surface/90 backdrop-blur border border-line rounded-full text-[10px] font-bold text-red uppercase tracking-widest">
+                                {{ post.category?.name }}
+                            </span>
                         </div>
-                        <div class="p-10">
-                            <h2 class="text-2xl font-bold mb-4 group-hover:text-red transition leading-tight">{{ post.title }}</h2>
-                            <p class="text-white/40 text-sm mb-8 line-clamp-3 leading-relaxed italic">{{ post.excerpt }}</p>
-                            <div class="flex items-center justify-between pt-8 border-t border-white/5">
-                                <span class="text-[10px] font-black uppercase tracking-widest text-white/20">
-                                    {{ new Date(post.published_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) }}
-                                </span>
-                                <span class="text-red font-black text-xs uppercase tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all">
-                                    Read Article <i class="fas fa-arrow-right"></i>
-                                </span>
-                            </div>
+                    </div>
+                    <div class="p-6">
+                        <h2 class="text-lg font-heading font-bold mb-2 group-hover:text-red transition leading-snug line-clamp-2">{{ post.title }}</h2>
+                        <p class="text-muted text-sm mb-5 line-clamp-3 leading-relaxed">{{ post.excerpt }}</p>
+                        <div class="flex items-center justify-between pt-4 border-t border-line">
+                            <span class="text-xs text-muted">
+                                {{ new Date(post.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) }}
+                            </span>
+                            <span class="text-red font-bold text-xs flex items-center gap-2 group-hover:gap-3 transition-all">
+                                Read <i class="fas fa-arrow-right"></i>
+                            </span>
                         </div>
-                    </Link>
-                </div>
+                    </div>
+                </Link>
             </div>
 
             <!-- Empty State -->
-            <div v-else class="py-32 text-center bg-charcoal-light border border-white/5 rounded-[3rem]">
-                <i class="fas fa-search text-6xl text-white/5 mb-6"></i>
-                <h2 class="text-2xl font-bold mb-2">No articles found</h2>
-                <p class="text-white/40">We're currently drafting new intelligence. Check back soon.</p>
+            <div v-else class="py-24 text-center bg-surface border border-line rounded-2xl">
+                <i class="fas fa-newspaper text-5xl text-line mb-5"></i>
+                <h2 class="text-xl font-bold mb-2">No articles found</h2>
+                <p class="text-muted">We're drafting new content. Check back soon.</p>
             </div>
 
             <!-- Pagination -->
-            <div v-if="posts.links.length > 3" class="mt-20 flex justify-center gap-2">
+            <div v-if="posts.links.length > 3" class="mt-14 flex justify-center gap-2">
                 <template v-for="(link, k) in posts.links" :key="k">
-                    <div v-if="link.url === null" class="px-4 py-2 text-white/20 text-sm font-bold uppercase tracking-widest" v-html="link.label" />
-                    <Link 
-                        v-else 
-                        :href="link.url" 
-                        class="px-6 py-2 rounded-xl text-sm font-bold transition uppercase tracking-widest" 
-                        :class="link.active ? 'bg-red text-white' : 'bg-white/5 text-white/40 hover:bg-white/10'" 
-                        v-html="link.label" 
+                    <span v-if="link.url === null" class="px-4 py-2 text-muted text-sm font-bold" v-html="link.label" />
+                    <Link
+                        v-else
+                        :href="link.url"
+                        class="px-5 py-2 rounded-lg text-sm font-bold transition border"
+                        :class="link.active ? 'bg-red border-red text-white' : 'bg-surface border-line text-muted hover:text-ink'"
+                        v-html="link.label"
                     />
                 </template>
             </div>

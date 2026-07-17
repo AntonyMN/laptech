@@ -24,7 +24,7 @@ defineProps({
                 <Link :href="route('admin.products.index')" :class="route().current('admin.products.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
                     <i class="fas fa-box w-6"></i> Products
                 </Link>
-                <Link :href="route('admin.product-categories.index')" :class="route().current('admin.product-categories.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition group">
+                <Link :href="route('admin.categories.index')" :class="route().current('admin.categories.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition group">
                     <i class="fas fa-tags w-5"></i> <span class="font-bold text-sm">Product Categories</span>
                 </Link>
                 <Link :href="route('admin.blog-posts.index')" :class="route().current('admin.blog-posts.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition group">

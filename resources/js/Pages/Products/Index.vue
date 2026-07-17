@@ -1,16 +1,17 @@
 <script setup>
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
-import { ref, watch, computed } from 'vue';
+import { ref, computed } from 'vue';
 import Navbar from '../../Components/Navbar.vue';
 import Footer from '../../Components/Footer.vue';
+import ProductCard from '../../Components/ProductCard.vue';
 
 const page = usePage();
 
 const seo = computed(() => {
     const baseUrl = page.props.appUrl || '';
     return {
-        title: 'Hardware Hub — Browse Elite IT Hardware | Laptech',
-        description: 'Discover cutting-edge enterprise servers, networking equipment, security hardware, and premium IT infrastructure from Dell, HPE, and more at Laptech Nairobi.',
+        title: 'Shop Laptops, Desktops & Accessories | Laptech Electronics',
+        description: 'Browse quality laptops, desktops, accessories and CCTV from Laptech Electronics Nairobi. Brand new & certified refurbished with nationwide delivery.',
         url: `${baseUrl}/products`,
         image: `${baseUrl}/favicon.png`,
     };
@@ -39,30 +40,12 @@ const applyFilters = () => {
     });
 };
 
-watch([search, category, min_price, max_price], () => {
-    // debounce would be better, but for now:
-    // applyFilters(); 
-});
-
 const clearFilters = () => {
     search.value = '';
     category.value = '';
     min_price.value = '';
     max_price.value = '';
     applyFilters();
-};
-
-const getStatusClasses = (status) => {
-    switch (status) {
-        case 'Brand new':
-            return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
-        case 'Ex-UK':
-            return 'bg-purple-500/20 text-purple-400 border-purple-500/30';
-        case 'Certified Refurbished':
-            return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
-        default:
-            return 'bg-white/5 text-white/50 border-white/10';
-    }
 };
 </script>
 
@@ -80,119 +63,93 @@ const getStatusClasses = (status) => {
         <meta name="twitter:image" :content="seo.image" />
     </Head>
 
-    <div class="min-h-screen bg-charcoal text-white font-sans selection:bg-red selection:text-white">
+    <div class="min-h-screen bg-page text-ink font-sans selection:bg-red selection:text-white">
         <Navbar :canLogin="$page.props.canLogin" :canRegister="$page.props.canRegister" />
 
-        <main class="max-w-7xl mx-auto py-12 px-6">
-            <!-- Search Section -->
-            <div class="mb-16 text-center max-w-2xl mx-auto">
-                <h1 class="text-5xl font-heading font-black mb-6 italic tracking-tighter">Hardware <span class="text-red">Hub.</span></h1>
-                <p class="text-white/40 font-bold mb-10">Discover cutting-edge inventory for high-performance ecosystems.</p>
-                <div class="relative group">
-                    <input 
-                        v-model="search" 
+        <!-- Page header -->
+        <div class="bg-surface border-b border-line">
+            <div class="max-w-7xl mx-auto px-6 py-8">
+                <nav class="text-xs text-muted mb-3">
+                    <Link :href="route('welcome')" class="hover:text-red">Home</Link>
+                    <span class="mx-2">/</span>
+                    <span class="text-ink font-semibold">Shop</span>
+                </nav>
+                <h1 class="text-3xl font-heading font-extrabold">All Products</h1>
+                <div class="relative mt-6 max-w-xl">
+                    <input
+                        v-model="search"
                         @keyup.enter="applyFilters"
-                        type="text" 
-                        placeholder="Search high-end hardware..." 
-                        class="w-full bg-white/5 border-white/10 rounded-2xl px-14 py-5 focus:border-red focus:ring-red transition text-lg"
+                        type="text"
+                        placeholder="Search products…"
+                        class="w-full bg-surface-muted border border-line rounded-full pl-12 pr-28 py-3 text-ink placeholder:text-muted focus:border-red focus:ring-0 transition"
                     />
-                    <i class="fas fa-search absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-red transition"></i>
-                    <button @click="applyFilters" class="absolute right-3 top-1/2 -translate-y-1/2 bg-red hover:bg-red-light px-6 py-2 rounded-xl font-bold transition shadow-lg shadow-red/20">
-                        Discover
+                    <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-muted"></i>
+                    <button @click="applyFilters" class="absolute right-2 top-1/2 -translate-y-1/2 bg-red hover:bg-red-dark text-white px-5 py-2 rounded-full text-sm font-bold transition">
+                        Search
                     </button>
                 </div>
             </div>
+        </div>
 
-            <div class="flex flex-col lg:flex-row gap-12">
-                
-                <!-- Filters Sidebar -->
-                <aside class="w-full lg:w-72 shrink-0 space-y-10">
-                    <div>
-                        <h3 class="text-xs font-bold uppercase tracking-widest text-white/20 mb-6">Categories</h3>
-                        <div class="space-y-2">
-                            <button 
+        <main class="max-w-7xl mx-auto px-6 py-10">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Filters -->
+                <aside class="w-full lg:w-64 shrink-0 space-y-8">
+                    <div class="bg-surface border border-line rounded-2xl p-5">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-muted mb-4">Categories</h3>
+                        <div class="space-y-1">
+                            <button
                                 @click="category = ''; applyFilters()"
-                                :class="category === '' ? 'bg-red text-white' : 'hover:bg-white/5 text-white/40 hover:text-white'"
-                                class="w-full text-left px-4 py-3 rounded-xl transition font-bold text-sm"
+                                :class="category === '' ? 'bg-red text-white' : 'text-muted hover:bg-surface-muted hover:text-ink'"
+                                class="w-full text-left px-3 py-2 rounded-lg transition font-semibold text-sm"
                             >
                                 All Categories
                             </button>
-                            <button 
-                                v-for="cat in categories" 
+                            <button
+                                v-for="cat in categories"
                                 :key="cat.id"
                                 @click="category = cat.id; applyFilters()"
-                                :class="category === cat.id ? 'bg-red text-white' : 'hover:bg-white/5 text-white/40 hover:text-white'"
-                                class="w-full text-left px-4 py-3 rounded-xl transition font-bold text-sm"
+                                :class="category === cat.id ? 'bg-red text-white' : 'text-muted hover:bg-surface-muted hover:text-ink'"
+                                class="w-full text-left px-3 py-2 rounded-lg transition font-semibold text-sm"
                             >
                                 {{ cat.name }}
                             </button>
                         </div>
                     </div>
 
-                    <div>
-                        <h3 class="text-xs font-bold uppercase tracking-widest text-white/20 mb-6">Price Range</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <input v-model="min_price" type="number" placeholder="Min" class="bg-white/5 border-white/10 rounded-xl px-4 py-2 text-sm focus:border-red focus:ring-red" />
-                            <input v-model="max_price" type="number" placeholder="Max" class="bg-white/5 border-white/10 rounded-xl px-4 py-2 text-sm focus:border-red focus:ring-red" />
+                    <div class="bg-surface border border-line rounded-2xl p-5">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-muted mb-4">Price Range</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <input v-model="min_price" type="number" placeholder="Min" class="bg-surface-muted border border-line rounded-lg px-3 py-2 text-sm focus:border-red focus:ring-0" />
+                            <input v-model="max_price" type="number" placeholder="Max" class="bg-surface-muted border border-line rounded-lg px-3 py-2 text-sm focus:border-red focus:ring-0" />
                         </div>
-                        <button @click="applyFilters" class="w-full mt-4 bg-white/5 hover:bg-white/10 py-2 rounded-xl text-xs font-bold transition uppercase tracking-widest">Apply Range</button>
+                        <button @click="applyFilters" class="w-full mt-4 bg-ink hover:bg-charcoal text-white py-2 rounded-lg text-xs font-bold transition uppercase tracking-widest">Apply</button>
                     </div>
 
-                    <button @click="clearFilters" class="w-full py-4 border border-white/5 rounded-2xl text-xs font-bold text-white/20 hover:text-red-400 hover:border-red-400/20 transition uppercase tracking-widest">
-                        Reset All Filters
+                    <button @click="clearFilters" class="w-full py-3 border border-line rounded-xl text-xs font-bold text-muted hover:text-red hover:border-red/40 transition uppercase tracking-widest">
+                        Reset Filters
                     </button>
                 </aside>
 
-                <!-- Results Grid -->
+                <!-- Results -->
                 <div class="flex-1">
-                    <div class="flex items-center justify-between mb-10">
-                        <h2 class="text-3xl font-heading font-black">Hardware <span class="text-red">Collection</span></h2>
-                        <div class="text-white/20 text-sm font-bold">{{ products.total || products.data.length }} items discovered</div>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-lg font-heading font-bold">Products</h2>
+                        <div class="text-muted text-sm">{{ products.total || products.data.length }} items</div>
                     </div>
 
-                    <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-8">
-                        <div v-for="product in products.data" :key="product.id" class="group bg-charcoal-light border border-white/5 rounded-[2.5rem] overflow-hidden hover:border-red/50 transition duration-500 shadow-2xl">
-                            <div class="aspect-square relative overflow-hidden bg-charcoal">
-                                <img :src="product.image || 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&q=80&w=400'" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 opacity-80" />
-                                <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent opacity-60"></div>
-                                <div class="absolute top-6 left-6 flex flex-col gap-2 items-start">
-                                    <span class="px-3 py-1 bg-red/20 backdrop-blur-md border border-red/30 rounded-full text-[10px] font-black text-red uppercase tracking-widest">
-                                        {{ product.category?.name }}
-                                    </span>
-                                    <span v-if="product.status" :class="getStatusClasses(product.status)" class="px-3 py-1 backdrop-blur-md border rounded-full text-[10px] font-black uppercase tracking-widest">
-                                        {{ product.status }}
-                                    </span>
-                                </div>
-                                <!-- Quick Actions -->
-                                <div class="absolute top-6 right-6 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition duration-300">
-                                    <button v-if="$page.props.auth.user" @click.prevent="router.post(route('wishlist.toggle', product.id))" class="w-10 h-10 bg-charcoal/80 backdrop-blur rounded-xl flex items-center justify-center hover:bg-red transition text-white">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                    <button @click.prevent="router.post(route('compare.add', product.id))" class="w-10 h-10 bg-charcoal/80 backdrop-blur rounded-xl flex items-center justify-center hover:bg-red transition text-white">
-                                        <i class="fas fa-balance-scale"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="p-8">
-                                <Link :href="route('products.show', product.slug)">
-                                    <h3 class="text-xl font-bold mb-2 group-hover:text-red transition">{{ product.name }}</h3>
-                                </Link>
-                                <div class="text-2xl font-black text-red mb-6">Ksh {{ product.price.toLocaleString() }}</div>
-                                <Link :href="route('products.show', product.slug)" class="block w-full text-center py-4 rounded-2xl bg-white/5 hover:bg-red text-white font-bold transition group-hover:shadow-lg group-hover:shadow-red/20">
-                                    View Specification
-                                </Link>
-                            </div>
-                        </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-5">
+                        <ProductCard v-for="product in products.data" :key="product.id" :product="product" />
 
-                        <div v-if="!products.data || products.data.length === 0" class="col-span-full py-32 text-center">
-                            <i class="fas fa-search text-6xl text-white/5 mb-6"></i>
-                            <p class="text-white/20 font-bold text-xl uppercase tracking-widest italic">No hardware matches your parameters</p>
-                            <button @click="clearFilters" class="mt-6 text-red font-black hover:underline">Clear all filters</button>
+                        <div v-if="!products.data || products.data.length === 0" class="col-span-full py-24 text-center">
+                            <i class="fas fa-box-open text-5xl text-line mb-5"></i>
+                            <p class="text-muted font-semibold text-lg">No products match your filters</p>
+                            <button @click="clearFilters" class="mt-4 text-red font-bold hover:underline">Clear all filters</button>
                         </div>
                     </div>
 
                     <!-- Pagination -->
-                    <div v-if="products.links && products.links.length > 3" class="mt-16 flex flex-wrap justify-center gap-2">
+                    <div v-if="products.links && products.links.length > 3" class="mt-12 flex flex-wrap justify-center gap-2">
                         <component
                             :is="link.url ? Link : 'span'"
                             v-for="(link, index) in products.links"
@@ -200,25 +157,18 @@ const getStatusClasses = (status) => {
                             :href="link.url"
                             v-html="link.label"
                             :class="[
-                                'px-4 py-3 rounded-xl font-bold text-xs transition border select-none',
-                                link.active 
-                                    ? 'bg-red border-red text-white' 
-                                    : 'bg-white/5 border-white/5 text-white/50 hover:bg-white/10 hover:text-white',
+                                'px-4 py-2.5 rounded-lg font-bold text-sm transition border select-none',
+                                link.active
+                                    ? 'bg-red border-red text-white'
+                                    : 'bg-surface border-line text-muted hover:text-ink hover:border-red/40',
                                 !link.url ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'
                             ]"
                         />
                     </div>
                 </div>
-
             </div>
         </main>
 
         <Footer />
     </div>
 </template>
-
-<style scoped>
-.font-heading {
-    font-family: 'Montserrat', sans-serif;
-}
-</style>

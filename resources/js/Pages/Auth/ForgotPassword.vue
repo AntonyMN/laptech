@@ -23,22 +23,22 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Recover Access - Laptech" />
+        <Head title="Forgot password — Laptech" />
 
         <div class="mb-8">
-            <h2 class="text-3xl font-heading font-black">Recover <span class="text-red">Access</span></h2>
-            <p class="text-white/40 text-sm mt-4 leading-relaxed">
-                Lost your key? Provide your registered email and we'll transmit a recovery link.
+            <h2 class="text-2xl font-heading font-extrabold">Forgot your <span class="text-red">password?</span></h2>
+            <p class="text-muted text-sm mt-3 leading-relaxed">
+                Enter your registered email and we'll send you a reset link.
             </p>
         </div>
 
-        <div v-if="status" class="mb-6 p-4 bg-red/10 border border-red/20 rounded-2xl text-red text-sm font-bold">
+        <div v-if="status" class="mb-6 p-4 bg-red/10 border border-red/20 rounded-xl text-red text-sm font-bold">
             {{ status }}
         </div>
 
         <form @submit.prevent="submit" class="space-y-8">
             <div>
-                <InputLabel for="email" value="Recovery Email" />
+                <InputLabel for="email" value="Email" />
                 <TextInput
                     id="email"
                     type="email"
@@ -56,8 +56,7 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Transmit Recovery Link
-                    <i class="fas fa-paper-plane text-xs opacity-50 ml-1"></i>
+                    Send reset link
                 </PrimaryButton>
             </div>
         </form>

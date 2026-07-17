@@ -1,14 +1,14 @@
 <script setup>
-import { ref } from 'vue';
-import { Link } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
+import { Link, router, usePage } from '@inertiajs/vue3';
 import { useCartStore } from '../Stores/cart';
 import CartSidebar from './CartSidebar.vue';
 import WhatsAppFAB from './WhatsAppFAB.vue';
 
-import { usePage } from '@inertiajs/vue3';
-
 const cart = useCartStore();
+const page = usePage();
 const isMobileMenuOpen = ref(false);
+const searchQuery = ref('');
 
 const props = defineProps({
     canLogin: {
@@ -21,99 +21,194 @@ const props = defineProps({
     },
 });
 
+const categories = computed(() => page.props.navCategories || []);
+
 const toggleMobileMenu = () => {
     isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
+
+const submitSearch = () => {
+    if (searchQuery.value.trim()) {
+        router.get(route('products.index'), { search: searchQuery.value });
+        isMobileMenuOpen.value = false;
+    }
+};
+
+const filterByCategory = (id) => {
+    router.get(route('products.index'), { category: id });
+    isMobileMenuOpen.value = false;
+};
+
+const phone = '+254 722 964566';
+const whatsapp = 'https://wa.me/254722964566';
 </script>
 
 <template>
     <CartSidebar />
     <WhatsAppFAB />
+
     <!-- Flash Notifications -->
-    <div v-if="$page.props.flash?.success" class="fixed top-24 right-6 z-[60] p-6 bg-red border border-red/20 text-white rounded-2xl shadow-2xl shadow-red/20 flex items-center gap-4 animate-in slide-in-from-right duration-500">
-        <i class="fas fa-check-circle"></i>
-        <span class="font-bold text-sm">{{ $page.props.flash.success }}</span>
+    <div v-if="page.props.flash?.success" class="fixed top-24 right-6 z-[60] p-4 bg-white border border-emerald-200 text-emerald-700 rounded-xl shadow-xl flex items-center gap-3 animate-in slide-in-from-right duration-500">
+        <i class="fas fa-check-circle text-emerald-500"></i>
+        <span class="font-semibold text-sm">{{ page.props.flash.success }}</span>
     </div>
-    <div v-if="$page.props.flash?.error" class="fixed top-24 right-6 z-[60] p-6 bg-charcoal-light border border-red text-red rounded-2xl shadow-2xl flex items-center gap-4 animate-in slide-in-from-right duration-500">
-        <i class="fas fa-exclamation-circle"></i>
-        <span class="font-bold text-sm">{{ $page.props.flash.error }}</span>
+    <div v-if="page.props.flash?.error" class="fixed top-24 right-6 z-[60] p-4 bg-white border border-red/30 text-red-dark rounded-xl shadow-xl flex items-center gap-3 animate-in slide-in-from-right duration-500">
+        <i class="fas fa-exclamation-circle text-red"></i>
+        <span class="font-semibold text-sm">{{ page.props.flash.error }}</span>
     </div>
-    <nav class="sticky top-0 z-50 bg-charcoal/80 backdrop-blur-md border-b border-white/10 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <!-- Logo -->
-            <Link :href="route('welcome')" class="flex items-center gap-2 group">
-                <img src="/images/logo.png" alt="Laptech Logo" class="h-12 w-auto p-2 rounded-xl bg-white transition group-hover:scale-105 duration-500">
-            </Link>
 
-            <!-- Main Nav -->
-            <div class="hidden md:flex items-center gap-8 font-semibold">
-                <Link :href="route('products.index')" :class="route().current('products.index') ? 'text-red' : 'hover:text-red'" class="transition">Hardware Hub</Link>
-                <Link :href="route('services.index')" :class="route().current('services.index') ? 'text-red' : 'hover:text-red'" class="transition">Service Hub</Link>
-                <Link :href="route('blog.index')" :class="route().current('blog.*') ? 'text-red' : 'hover:text-red'" class="transition">Intelligence</Link>
-                <Link :href="route('quotes.create')" :class="route().current('quotes.create') ? 'text-red' : 'hover:text-red'" class="transition">Request Quote</Link>
-                <Link :href="route('compare.index')" :class="route().current('compare.index') ? 'text-red' : 'hover:text-red'" class="transition">Compare</Link>
-                <Link v-if="$page.props.auth.user" :href="route('wishlist.index')" :class="route().current('wishlist.index') ? 'text-red' : 'hover:text-red'" class="transition">Wishlist</Link>
-            </div>
-
-            <!-- Actions -->
-            <div class="flex items-center gap-4">
-                <!-- Cart -->
-                <div @click="cart.toggleCart" class="relative cursor-pointer group p-2 hover:bg-white/5 rounded-xl transition">
-                    <i class="fas fa-shopping-cart text-xl group-hover:text-red transition"></i>
-                    <span v-if="cart.totalItems > 0" class="absolute -top-1 -right-1 bg-red text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold shadow-lg">
-                        {{ cart.totalItems }}
+    <header class="sticky top-0 z-50">
+        <!-- Tier 1: Utility bar -->
+        <div class="hidden md:block bg-charcoal text-white/80 text-xs">
+            <div class="max-w-7xl mx-auto px-6 h-9 flex items-center justify-between">
+                <div class="flex items-center gap-6">
+                    <a :href="`tel:${phone.replace(/\s/g, '')}`" class="flex items-center gap-2 hover:text-white transition">
+                        <i class="fas fa-phone-alt text-red"></i> {{ phone }}
+                    </a>
+                    <a :href="whatsapp" target="_blank" rel="noopener" class="flex items-center gap-2 hover:text-white transition">
+                        <i class="fab fa-whatsapp text-green-400"></i> WhatsApp
+                    </a>
+                    <span class="flex items-center gap-2">
+                        <i class="far fa-clock text-white/40"></i> Mon–Sat 9am–7pm
                     </span>
                 </div>
+                <div class="flex items-center gap-2 font-semibold text-white">
+                    <i class="fas fa-truck text-red"></i> Free delivery within Nairobi
+                </div>
+            </div>
+        </div>
 
-                <!-- Auth -->
-                <div v-if="canLogin" class="hidden sm:block">
-                    <Link v-if="$page.props.auth.user" :href="route('dashboard')" class="bg-red hover:bg-red-light px-6 py-2 rounded-full font-bold transition">
-                        Intelligence Hub
+        <!-- Tier 2: Main bar -->
+        <div class="bg-surface border-b border-line">
+            <div class="max-w-7xl mx-auto px-6 h-16 flex items-center gap-4">
+                <!-- Logo -->
+                <Link :href="route('welcome')" class="flex items-center shrink-0 group">
+                    <img src="/images/logo.png" alt="Laptech" class="h-10 w-auto transition group-hover:scale-105 duration-300">
+                </Link>
+
+                <!-- Search -->
+                <div class="hidden md:flex flex-1 max-w-2xl mx-auto">
+                    <div class="flex w-full items-center bg-surface-muted border border-line rounded-full overflow-hidden focus-within:border-red transition">
+                        <i class="fas fa-search ml-4 text-muted text-sm"></i>
+                        <input
+                            v-model="searchQuery"
+                            @keyup.enter="submitSearch"
+                            type="text"
+                            placeholder="Search laptops, accessories, services…"
+                            class="flex-1 bg-transparent border-none focus:ring-0 px-3 py-2 text-sm text-ink placeholder:text-muted"
+                        />
+                        <button @click="submitSearch" class="bg-red hover:bg-red-dark text-white text-sm font-bold px-5 py-2.5 transition">
+                            Search
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-1 sm:gap-2 ml-auto">
+                    <Link v-if="page.props.auth?.user" :href="route('wishlist.index')" class="hidden sm:flex w-10 h-10 items-center justify-center text-ink hover:text-red rounded-full hover:bg-surface-muted transition" title="Wishlist">
+                        <i class="far fa-heart text-lg"></i>
                     </Link>
-                    <template v-else>
-                        <Link :href="route('login')" class="hover:text-red transition font-bold">Log in</Link>
-                        <Link v-if="canRegister" :href="route('register')" class="ml-4 bg-red hover:bg-red-light px-6 py-2 rounded-full font-bold transition">
-                            Join Hub
+
+                    <button @click="cart.toggleCart" class="relative w-10 h-10 flex items-center justify-center text-ink hover:text-red rounded-full hover:bg-surface-muted transition" title="Cart">
+                        <i class="fas fa-shopping-cart text-lg"></i>
+                        <span v-if="cart.totalItems > 0" class="absolute top-0 right-0 bg-red text-white text-[10px] h-[18px] min-w-[18px] px-1 rounded-full flex items-center justify-center font-bold">
+                            {{ cart.totalItems }}
+                        </span>
+                    </button>
+
+                    <div v-if="canLogin" class="hidden sm:block ml-1">
+                        <Link v-if="page.props.auth?.user" :href="route('dashboard')" class="flex items-center gap-2 bg-red hover:bg-red-dark text-white px-4 py-2 rounded-full text-sm font-bold transition">
+                            <i class="fas fa-user-circle"></i> Account
                         </Link>
-                    </template>
-                </div>
+                        <template v-else>
+                            <Link :href="route('login')" class="text-sm font-bold text-ink hover:text-red transition">Log in</Link>
+                            <Link v-if="canRegister" :href="route('register')" class="ml-3 bg-red hover:bg-red-dark text-white px-4 py-2 rounded-full text-sm font-bold transition">
+                                Register
+                            </Link>
+                        </template>
+                    </div>
 
-                <!-- Mobile Menu Button -->
-                <button @click="toggleMobileMenu" class="md:hidden text-2xl hover:text-red transition">
-                    <i class="fas" :class="isMobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
-                </button>
+                    <button @click="toggleMobileMenu" class="md:hidden w-10 h-10 flex items-center justify-center text-ink text-xl">
+                        <i class="fas" :class="isMobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Mobile Menu Drawer -->
-        <div v-if="isMobileMenuOpen" class="md:hidden absolute top-full left-0 w-full bg-charcoal border-b border-white/10 p-6 space-y-6 animate-in slide-in-from-top duration-300">
-            <div class="flex flex-col gap-4 font-semibold">
-                <Link :href="route('products.index')" class="text-sm font-bold text-white/70 hover:text-red transition">Hardware Hub</Link>
-                <Link :href="route('services.index')" class="text-sm font-bold text-white/70 hover:text-red transition">Service Hub</Link>
-                <Link :href="route('blog.index')" class="text-sm font-bold text-white/70 hover:text-red transition">Intelligence</Link>
-                <Link :href="route('quotes.create')" class="text-sm font-bold text-white/70 hover:text-red transition">Request Quote</Link>
-                <Link :href="route('compare.index')" class="text-sm font-bold text-white/70 hover:text-red transition">Compare</Link>
-                <Link v-if="$page.props.auth.user" class="text-sm font-bold text-white/70 hover:text-red transition" :href="route('wishlist.index')">Wishlist</Link>
+        <!-- Tier 3: Category nav -->
+        <div class="hidden md:block bg-surface border-b border-line">
+            <div class="max-w-7xl mx-auto px-6 h-11 flex items-center gap-1 text-sm font-semibold overflow-x-auto">
+                <Link :href="route('products.index')" class="flex items-center gap-2 px-3 py-2 rounded-lg text-ink hover:text-red hover:bg-surface-muted transition whitespace-nowrap">
+                    <i class="fas fa-th-large text-red"></i> All Products
+                </Link>
+                <Link
+                    v-for="cat in categories"
+                    :key="cat.id"
+                    :href="route('products.index', { category: cat.id })"
+                    class="px-3 py-2 rounded-lg text-muted hover:text-red hover:bg-surface-muted transition whitespace-nowrap"
+                >
+                    {{ cat.name }}
+                </Link>
+                <span class="mx-1 h-4 w-px bg-line"></span>
+                <Link :href="route('services.index')" class="px-3 py-2 rounded-lg text-muted hover:text-red hover:bg-surface-muted transition whitespace-nowrap">Services</Link>
+                <Link :href="route('blog.index')" class="px-3 py-2 rounded-lg text-muted hover:text-red hover:bg-surface-muted transition whitespace-nowrap">Blog</Link>
+                <Link :href="route('compare.index')" class="px-3 py-2 rounded-lg text-muted hover:text-red hover:bg-surface-muted transition whitespace-nowrap">Compare</Link>
+                <Link :href="route('quotes.create')" class="ml-auto px-4 py-2 rounded-lg text-red hover:bg-red/10 font-bold transition whitespace-nowrap">
+                    Request a Quote <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                </Link>
             </div>
-            
-            <div class="pt-6 border-t border-white/10">
-                <div v-if="$page.props.auth.user" class="space-y-4">
-                    <p class="text-white/50 text-sm uppercase tracking-widest font-black">Account</p>
-                    <Link :href="route('dashboard')" @click="isMobileMenuOpen = false" class="block bg-red hover:bg-red-light px-6 py-3 rounded-xl font-bold transition text-center">
-                        Intelligence Hub
-                    </Link>
+        </div>
+
+        <!-- Mobile drawer -->
+        <div v-if="isMobileMenuOpen" class="md:hidden bg-surface border-b border-line shadow-lg animate-in slide-in-from-top duration-300">
+            <div class="p-5 space-y-5">
+                <!-- Search -->
+                <div class="flex items-center bg-surface-muted border border-line rounded-full overflow-hidden">
+                    <i class="fas fa-search ml-4 text-muted text-sm"></i>
+                    <input
+                        v-model="searchQuery"
+                        @keyup.enter="submitSearch"
+                        type="text"
+                        placeholder="Search products…"
+                        class="flex-1 bg-transparent border-none focus:ring-0 px-3 py-2 text-sm text-ink placeholder:text-muted"
+                    />
+                    <button @click="submitSearch" class="bg-red text-white text-sm font-bold px-5 py-2.5">Go</button>
                 </div>
-                <div v-else class="flex flex-col gap-4">
-                    <Link :href="route('login')" @click="isMobileMenuOpen = false" class="block w-full py-3 rounded-xl border border-white/10 text-center font-bold">Log in</Link>
-                    <Link :href="route('register')" @click="isMobileMenuOpen = false" class="block w-full py-3 rounded-xl bg-red text-center font-bold">Join Hub</Link>
+
+                <div class="flex flex-col gap-1 text-sm font-semibold">
+                    <Link :href="route('products.index')" class="py-2 text-ink hover:text-red transition">All Products</Link>
+                    <button
+                        v-for="cat in categories"
+                        :key="cat.id"
+                        @click="filterByCategory(cat.id)"
+                        class="text-left py-2 text-muted hover:text-red transition"
+                    >
+                        {{ cat.name }}
+                    </button>
+                    <Link :href="route('services.index')" class="py-2 text-ink hover:text-red transition">Services</Link>
+                    <Link :href="route('blog.index')" class="py-2 text-ink hover:text-red transition">Blog</Link>
+                    <Link :href="route('compare.index')" class="py-2 text-ink hover:text-red transition">Compare</Link>
+                    <Link v-if="page.props.auth?.user" :href="route('wishlist.index')" class="py-2 text-ink hover:text-red transition">Wishlist</Link>
+                    <Link :href="route('quotes.create')" class="py-2 text-red font-bold transition">Request a Quote</Link>
+                </div>
+
+                <div class="pt-4 border-t border-line">
+                    <div v-if="page.props.auth?.user">
+                        <Link :href="route('dashboard')" @click="isMobileMenuOpen = false" class="block bg-red hover:bg-red-dark text-white px-6 py-3 rounded-xl font-bold text-center transition">
+                            My Account
+                        </Link>
+                    </div>
+                    <div v-else class="flex gap-3">
+                        <Link :href="route('login')" @click="isMobileMenuOpen = false" class="flex-1 py-3 rounded-xl border border-line text-ink text-center font-bold">Log in</Link>
+                        <Link :href="route('register')" @click="isMobileMenuOpen = false" class="flex-1 py-3 rounded-xl bg-red text-white text-center font-bold">Register</Link>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-line flex items-center justify-between text-xs text-muted">
+                    <a :href="`tel:${phone.replace(/\s/g, '')}`" class="flex items-center gap-2"><i class="fas fa-phone-alt text-red"></i> {{ phone }}</a>
+                    <a :href="whatsapp" target="_blank" rel="noopener" class="flex items-center gap-2"><i class="fab fa-whatsapp text-green-500"></i> WhatsApp</a>
                 </div>
             </div>
         </div>
-    </nav>
+    </header>
 </template>
-
-<style scoped>
-.font-heading {
-    font-family: 'Montserrat', sans-serif;
-}
-</style>
