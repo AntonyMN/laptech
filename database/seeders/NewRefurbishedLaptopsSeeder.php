@@ -153,6 +153,43 @@ class NewRefurbishedLaptopsSeeder extends Seeder
                     'Display' => '14" Touch x360 Convertible',
                     'Condition' => 'Certified Refurbished'
                 ]
+            ],
+            [
+                'category_id' => 1, // Laptops
+                'name' => 'MacBook Pro A1502 (2015) 13” Retina',
+                'slug' => 'macbook-pro-a1502-2015-retina',
+                'description' => 'Super clean condition classic MacBook Pro with brilliant 13" Retina display, Intel Core i5 processor, and responsive solid-state storage.',
+                'price' => 35000,
+                'stock' => 5,
+                'is_featured' => true,
+                'status' => 'Certified Refurbished',
+                'image' => '/images/macbook_pro_a1502.png',
+                'specifications' => [
+                    'CPU' => 'Intel Core i5',
+                    'RAM' => '8GB',
+                    'Storage' => '256GB SSD',
+                    'Display' => '13" Retina Display',
+                    'Color' => 'Original Silver',
+                    'Condition' => 'Super Clean'
+                ]
+            ],
+            [
+                'category_id' => 1, // Laptops
+                'name' => 'MacBook Pro 14-inch (2021) M1 Pro',
+                'slug' => 'macbook-pro-14-inch-2021-m1-pro',
+                'description' => 'Ultra-powerful professional laptop featuring the legendary Apple M1 Pro chip, 16GB unified memory, and a gorgeous Liquid Retina XDR screen.',
+                'price' => 136000,
+                'stock' => 3,
+                'is_featured' => true,
+                'status' => 'Certified Refurbished',
+                'image' => '/images/macbook_pro_14.png',
+                'specifications' => [
+                    'CPU' => 'Apple M1 Pro Chip',
+                    'RAM' => '16GB Unified Memory',
+                    'Storage' => '512GB SSD',
+                    'Display' => '14” Liquid Retina XDR',
+                    'Condition' => 'Super Clean'
+                ]
             ]
         ];
 

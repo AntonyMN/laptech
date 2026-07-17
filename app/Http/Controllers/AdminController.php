@@ -172,10 +172,24 @@ class AdminController extends Controller
     }
 
     // Products
-    public function products()
+    public function products(Request $request)
     {
+        $search = trim((string) $request->input('search', ''));
+
+        $products = Product::with('category')
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($sub) use ($search) {
+                    $sub->where('name', 'like', "%{$search}%")
+                        ->orWhereHas('category', fn ($c) => $c->where('name', 'like', "%{$search}%"));
+                });
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
         return Inertia::render('Admin/Products/Index', [
-            'products' => Product::with('category')->get(),
+            'products' => $products,
+            'filters' => ['search' => $search],
         ]);
     }
 

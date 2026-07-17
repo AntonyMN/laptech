@@ -16,34 +16,151 @@ class NewServicesAndCCTVsSeeder extends Seeder
         $securityCat = Category::where('slug', 'security-equipment')->first();
         $securityCatId = $securityCat ? $securityCat->id : 9;
 
-        $techSupportCat = ServiceCategory::where('slug', 'technical-support')->first();
-        $techSupportCatId = $techSupportCat ? $techSupportCat->id : 2;
+        $infraCat = ServiceCategory::where('slug', 'infrastructure')->first();
+        $infraCatId = $infraCat ? $infraCat->id : 1;
 
-        // 1. Insert Laptop & PC Repair Service
-        Service::updateOrCreate(
-            ['slug' => 'laptop-pc-repair'],
+        $managedCat = ServiceCategory::where('slug', 'managed-services')->first();
+        $managedCatId = $managedCat ? $managedCat->id : 3;
+
+        // Seed 6 services from Laptech Solutions Banner
+        $services = [
             [
-                'service_category_id' => $techSupportCatId,
-                'name' => 'Laptop & PC Repair',
-                'description' => 'Professional diagnostic, board-level repairs, screen replacements, battery upgrades, and software optimization for all PC and MacBook brands.',
+                'service_category_id' => $managedCatId,
+                'name' => 'IT Consultancy',
+                'slug' => 'it-consultancy',
+                'description' => 'Expert IT advisory services for business growth, network architecture planning, security auditing, and hardware/software optimization.',
+                'icon' => 'fas fa-hands-helping',
+                'is_featured' => true,
+                'features' => [
+                    [
+                        'title' => 'Security Audit',
+                        'description' => 'Complete vulnerability assessment and penetration testing to secure organizational data.'
+                    ],
+                    [
+                        'title' => 'Infrastructure Design',
+                        'description' => 'Custom blueprints for local local-area networks, high-uptime storage pools, and server racks.'
+                    ],
+                    [
+                        'title' => 'Technology Strategy',
+                        'description' => 'Direct alignment of your business objectives with state-of-the-art technological solutions.'
+                    ]
+                ]
+            ],
+            [
+                'service_category_id' => $managedCatId,
+                'name' => 'Laptop & Desktop Sales & Repair',
+                'slug' => 'laptop-desktop-sales-repair',
+                'description' => 'Professional diagnostic services, component-level board repairs, screen/battery replacements, and sales of certified premium devices.',
                 'icon' => 'fas fa-toolbox',
                 'is_featured' => true,
                 'features' => [
                     [
-                        'title' => 'Diagnostic & Board Level',
-                        'description' => 'Component-level troubleshooting, motherboard repairs, power IC, and liquid damage restoration.'
+                        'title' => 'Board-Level Diagnostics',
+                        'description' => 'Motherboard micro-soldering, power management IC repair, and liquid damage restoration.'
                     ],
                     [
-                        'title' => 'Part Replacement',
-                        'description' => 'Genuine replacement parts for screens, keyboards, batteries, and charging ports with full warranty.'
+                        'title' => 'Device Upgrades',
+                        'description' => 'Speed optimization via fast SSD installations, RAM expansions, and thermal paste replacement.'
                     ],
                     [
-                        'title' => 'System Optimization',
-                        'description' => 'SSD upgrades, operating system clean installation, malware removal, and performance tuning.'
+                        'title' => 'Certified Refurbished Sales',
+                        'description' => 'Thoroughly tested and verified Ex-UK laptops and desktops supplied with warranties.'
+                    ]
+                ]
+            ],
+            [
+                'service_category_id' => $infraCatId,
+                'name' => 'CCTV & Networking',
+                'slug' => 'cctv-networking',
+                'description' => 'Comprehensive installation of high-definition security camera networks and secure, robust business router configurations.',
+                'icon' => 'fas fa-network-wired',
+                'is_featured' => true,
+                'features' => [
+                    [
+                        'title' => 'Surveillance Deployment',
+                        'description' => 'Professional indoor/outdoor PoE IP and analog HD camera installation with mobile remote access.'
+                    ],
+                    [
+                        'title' => 'Structured Cabling',
+                        'description' => 'High-bandwidth CAT6 and fiber optic routing, clean cabinet dressing, and server rack installations.'
+                    ],
+                    [
+                        'title' => 'Firewall & Routing',
+                        'description' => 'Implementation of Fortinet, Sophos, or Cisco firewalls to defend your network border.'
+                    ]
+                ]
+            ],
+            [
+                'service_category_id' => $infraCatId,
+                'name' => 'Server Sales & Upgrades',
+                'slug' => 'server-sales-upgrades',
+                'description' => 'Enterprise rack and tower server procurement, hardware upgrades (RAM/SSD/HDD), and cloud/virtualization system setups.',
+                'icon' => 'fas fa-server',
+                'is_featured' => true,
+                'features' => [
+                    [
+                        'title' => 'Enterprise Systems',
+                        'description' => 'Supply and setup of HP ProLiant and Dell PowerEdge rackmount and tower server chassis.'
+                    ],
+                    [
+                        'title' => 'Live Hardware Upgrades',
+                        'description' => 'Hot-swappable enterprise SAS/NVMe SSD installations, Xeon CPU expansions, and DDR4/DDR5 ECC RAM upgrades.'
+                    ],
+                    [
+                        'title' => 'Virtualization & Hosting',
+                        'description' => 'Installation and support for VMware ESXi hypervisors, Windows Server, Active Directory, and SQL Server.'
+                    ]
+                ]
+            ],
+            [
+                'service_category_id' => $managedCatId,
+                'name' => 'Software Sales & Services',
+                'slug' => 'software-sales-services',
+                'description' => 'Genuine OS activations, productivity suite licenses, business databases, and system configuration solutions.',
+                'icon' => 'fas fa-compact-disc',
+                'is_featured' => true,
+                'features' => [
+                    [
+                        'title' => 'Authentic Licensing',
+                        'description' => 'Legal license activation keys for Microsoft Windows 11 Pro, Office Pro Plus, and SQL Server.'
+                    ],
+                    [
+                        'title' => 'Business Applications',
+                        'description' => 'ERP setup, point-of-sale (POS) installation, and accounting software deployment.'
+                    ],
+                    [
+                        'title' => 'Data Backup & Sync',
+                        'description' => 'Disaster recovery planning, automated local backups, and secure cloud storage replication.'
+                    ]
+                ]
+            ],
+            [
+                'service_category_id' => $managedCatId,
+                'name' => 'Gaming & Rendering Machines',
+                'slug' => 'gaming-rendering-machines',
+                'description' => 'Custom-built, high-action gaming rigs, editing workspaces, and rendering units featuring multi-core CPUs and premium GPU architectures.',
+                'icon' => 'fas fa-gamepad',
+                'is_featured' => true,
+                'features' => [
+                    [
+                        'title' => 'Custom PC Tuning',
+                        'description' => 'Custom liquid cooling loops, high-speed DDR5 memory profiles, and GPU overclocking.'
+                    ],
+                    [
+                        'title' => 'Rendering Optimization',
+                        'description' => 'Configured for heavy CAD, Blender, Premiere Pro, and Revit workflows.'
+                    ],
+                    [
+                        'title' => 'High-FPS Gaming',
+                        'description' => 'Built to deliver butter-smooth performance on 2K/4K resolutions for modern gaming titles.'
                     ]
                 ]
             ]
-        );
+        ];
+
+        foreach ($services as $srv) {
+            Service::updateOrCreate(['slug' => $srv['slug']], $srv);
+        }
 
         // 2. Insert CCTV / Security Products
         $cctvProducts = [

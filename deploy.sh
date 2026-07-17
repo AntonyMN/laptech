@@ -26,6 +26,12 @@ SERVER_USER="ubuntu"
 SERVER_PORT="22"
 DEPLOY_PATH="/var/www/laptech"
 
+SECRET_FILE="$HOME/.config/laptech/backup.env"
+if [ -f "$SECRET_FILE" ]; then
+  source "$SECRET_FILE"
+  export SSHPASS
+fi
+
 if [ -n "$SSHPASS" ] && command -v sshpass >/dev/null; then
   SSH_WRAP="sshpass -e ssh -p $SERVER_PORT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 else

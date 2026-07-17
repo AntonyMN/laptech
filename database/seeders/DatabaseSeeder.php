@@ -30,11 +30,18 @@ class DatabaseSeeder extends Seeder
         // Product Categories
         $categories = [
             ['name' => 'Laptops', 'slug' => 'laptops', 'description' => 'High-performance laptops.'],
-            ['name' => 'Components', 'slug' => 'components', 'description' => 'Internal hardware.'],
-            ['name' => 'Peripherals', 'slug' => 'peripherals', 'description' => 'Essential accessories.'],
+            ['name' => 'Desktops', 'slug' => 'desktops', 'description' => 'Desktop computers and gaming rigs.'],
+            ['name' => 'Components', 'slug' => 'components', 'description' => 'Internal hardware and storage drives.'],
+            ['name' => 'Accessories', 'slug' => 'accessories', 'description' => 'Essential computer accessories.'],
+            ['name' => 'Printers', 'slug' => 'printers', 'description' => 'Printers and scanners.'],
             ['name' => 'Servers', 'slug' => 'servers', 'description' => 'Enterprise servers.'],
+            ['name' => 'Networking', 'slug' => 'networking', 'description' => 'Networking equipment and switches.'],
             ['name' => 'Security Equipment', 'slug' => 'security-equipment', 'description' => 'CCTV and access control.'],
             ['name' => 'Software Licenses', 'slug' => 'software-licenses', 'description' => 'Professional licenses.'],
+            ['name' => 'Audio Visual', 'slug' => 'audio-visual', 'description' => 'TVs, displays, and audio gear.'],
+            ['name' => 'POS Systems', 'slug' => 'pos-systems', 'description' => 'Point of sale hardware.'],
+            ['name' => 'Other', 'slug' => 'other', 'description' => 'Other products.'],
+            ['name' => 'Uncategorized', 'slug' => 'uncategorized', 'description' => 'Uncategorized items.'],
         ];
 
         foreach ($categories as $cat) {
@@ -111,5 +118,15 @@ class DatabaseSeeder extends Seeder
                 ]
             );
         }
+
+        // Call individual catalog seeders
+        $this->call([
+            NewProductsSeeder::class,
+            NewDesktopSeeder::class,
+            NewRefurbishedLaptopsSeeder::class,
+            NewServerAndSoftwareSeeder::class,
+            NewServicesAndCCTVsSeeder::class,
+            NewAccessoriesSeeder::class,
+        ]);
     }
 }

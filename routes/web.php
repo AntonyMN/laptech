@@ -21,8 +21,12 @@ Route::get('/', function () {
         'categories' => \App\Models\Category::has('products')->get(),
         'serverProducts' => \App\Models\Product::with('category')
             ->whereHas('category', fn ($q) => $q->where('name', 'Servers'))
-            ->latest()
-            ->limit(8)
+            ->whereIn('slug', [
+                'dell-poweredge-r760-rack-server',
+                'dell-poweredge-t160-tower-server',
+                'hpe-proliant-dl380-gen11-server',
+                'cisco-ucs-c240-m5-server'
+            ])
             ->get(),
         'featuredProducts' => \App\Models\Product::with('category')
             ->where('is_featured', true)

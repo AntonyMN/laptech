@@ -2,9 +2,26 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 
 import { Link, router } from '@inertiajs/vue3';
+import { ref, watch } from 'vue';
 
 const props = defineProps({
-    products: Array,
+    products: Object, // Laravel paginator: { data, links, from, to, total, last_page, ... }
+    filters: Object,
+});
+
+const search = ref(props.filters?.search ?? '');
+
+// Debounced server-side search (preserves scroll + input focus)
+let searchTimer = null;
+watch(search, (value) => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+        router.get(
+            route('admin.products.index'),
+            { search: value || undefined },
+            { preserveState: true, preserveScroll: true, replace: true },
+        );
+    }, 300);
 });
 
 const deleteProduct = (id) => {
@@ -30,13 +47,24 @@ const getStatusClasses = (status) => {
 <template>
     <AdminLayout title="Product Management">
         <div class="bg-charcoal-light border border-white/5 rounded-[2.5rem] overflow-hidden">
-            <div class="p-10 border-b border-white/5 flex justify-between items-center">
+            <div class="p-10 border-b border-white/5 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                 <h3 class="text-xl font-bold">Inventory List</h3>
-                <Link :href="route('admin.products.create')" class="bg-red hover:bg-red-light text-white px-6 py-3 rounded-xl font-bold transition flex items-center gap-2">
-                    <i class="fas fa-plus"></i> Add Product
-                </Link>
+                <div class="flex items-center gap-3 w-full md:w-auto">
+                    <div class="relative flex-1 md:flex-none">
+                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-white/30 text-sm"></i>
+                        <input
+                            v-model="search"
+                            type="text"
+                            placeholder="Search products or category..."
+                            class="bg-charcoal border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm w-full md:w-72 text-white placeholder-white/30 focus:outline-none focus:border-red transition"
+                        />
+                    </div>
+                    <Link :href="route('admin.products.create')" class="bg-red hover:bg-red-light text-white px-6 py-3 rounded-xl font-bold transition flex items-center gap-2 whitespace-nowrap">
+                        <i class="fas fa-plus"></i> Add Product
+                    </Link>
+                </div>
             </div>
-            
+
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
                     <thead>
@@ -50,11 +78,18 @@ const getStatusClasses = (status) => {
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-white/5">
-                        <tr v-for="product in products" :key="product.id" class="hover:bg-white/5 transition group">
+                        <tr v-for="product in products.data" :key="product.id" class="hover:bg-white/5 transition group">
                             <td class="px-10 py-6">
                                 <div class="flex items-center gap-4">
                                     <div class="w-12 h-12 bg-charcoal rounded-lg overflow-hidden shrink-0">
-                                        <img :src="product.image || 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&q=80&w=100'" class="w-full h-full object-cover" />
+                                        <img
+                                            :src="product.image || 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&q=80&w=100'"
+                                            loading="lazy"
+                                            decoding="async"
+                                            width="48"
+                                            height="48"
+                                            class="w-full h-full object-cover"
+                                        />
                                     </div>
                                     <span class="font-bold">{{ product.name }}</span>
                                 </div>
@@ -78,8 +113,36 @@ const getStatusClasses = (status) => {
                                 </div>
                             </td>
                         </tr>
+                        <tr v-if="products.data.length === 0">
+                            <td colspan="6" class="px-10 py-16 text-center text-white/40">
+                                No products found<span v-if="search"> for “{{ search }}”</span>.
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Pagination -->
+            <div v-if="products.last_page > 1" class="p-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <span class="text-sm text-white/40">Showing {{ products.from }}–{{ products.to }} of {{ products.total }}</span>
+                <div class="flex items-center gap-1 flex-wrap justify-center">
+                    <template v-for="(link, i) in products.links" :key="i">
+                        <Link
+                            v-if="link.url"
+                            :href="link.url"
+                            preserve-scroll
+                            preserve-state
+                            :class="link.active ? 'bg-red text-white' : 'bg-white/5 text-white/60 hover:bg-white/10'"
+                            class="min-w-9 h-9 px-3 rounded-lg text-sm font-bold flex items-center justify-center transition"
+                            v-html="link.label"
+                        />
+                        <span
+                            v-else
+                            class="min-w-9 h-9 px-3 rounded-lg text-sm text-white/20 flex items-center justify-center"
+                            v-html="link.label"
+                        />
+                    </template>
+                </div>
             </div>
         </div>
     </AdminLayout>

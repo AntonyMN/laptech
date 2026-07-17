@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { useCartStore } from '../Stores/cart';
 import CartSidebar from './CartSidebar.vue';
@@ -9,6 +9,7 @@ const cart = useCartStore();
 const page = usePage();
 const isMobileMenuOpen = ref(false);
 const searchQuery = ref('');
+const selectedCategory = ref('');
 
 const props = defineProps({
     canLogin: {
@@ -28,16 +29,30 @@ const toggleMobileMenu = () => {
 };
 
 const submitSearch = () => {
+    const params = {};
     if (searchQuery.value.trim()) {
-        router.get(route('products.index'), { search: searchQuery.value });
-        isMobileMenuOpen.value = false;
+        params.search = searchQuery.value;
     }
+    if (selectedCategory.value) {
+        params.category = selectedCategory.value;
+    }
+    router.get(route('products.index'), params);
+    isMobileMenuOpen.value = false;
 };
 
 const filterByCategory = (id) => {
-    router.get(route('products.index'), { category: id });
-    isMobileMenuOpen.value = false;
+    selectedCategory.value = id;
+    submitSearch();
 };
+
+// Sync search bar filters when URL / Page changes
+watch(() => page.url, (newUrl) => {
+    if (typeof window !== 'undefined') {
+        const urlObj = new URL(newUrl, window.location.origin);
+        searchQuery.value = urlObj.searchParams.get('search') || '';
+        selectedCategory.value = urlObj.searchParams.get('category') || '';
+    }
+}, { immediate: true });
 
 const phone = '+254 722 964566';
 const whatsapp = 'https://wa.me/254722964566';
@@ -89,6 +104,26 @@ const whatsapp = 'https://wa.me/254722964566';
                 <!-- Search -->
                 <div class="hidden md:flex flex-1 max-w-2xl mx-auto">
                     <div class="flex w-full items-center bg-surface-muted border border-line rounded-full overflow-hidden focus-within:border-red transition">
+                        
+                        <!-- Categories Dropdown inside Search -->
+                        <div class="relative shrink-0 border-r border-line bg-surface/50">
+                            <select
+                                v-model="selectedCategory"
+                                @change="submitSearch"
+                                class="bg-transparent border-none text-xs font-semibold text-muted focus:ring-0 pl-4 pr-9 py-2.5 cursor-pointer appearance-none outline-none"
+                            >
+                                <option value="">All Categories</option>
+                                <option
+                                    v-for="cat in categories"
+                                    :key="cat.id"
+                                    :value="cat.id"
+                                >
+                                    {{ cat.name }}
+                                </option>
+                            </select>
+                            <i class="fas fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-muted text-[10px] pointer-events-none"></i>
+                        </div>
+
                         <i class="fas fa-search ml-4 text-muted text-sm"></i>
                         <input
                             v-model="searchQuery"
@@ -140,14 +175,6 @@ const whatsapp = 'https://wa.me/254722964566';
             <div class="max-w-7xl mx-auto px-6 h-11 flex items-center gap-1 text-sm font-semibold overflow-x-auto">
                 <Link :href="route('products.index')" class="flex items-center gap-2 px-3 py-2 rounded-lg text-ink hover:text-red hover:bg-surface-muted transition whitespace-nowrap">
                     <i class="fas fa-th-large text-red"></i> All Products
-                </Link>
-                <Link
-                    v-for="cat in categories"
-                    :key="cat.id"
-                    :href="route('products.index', { category: cat.id })"
-                    class="px-3 py-2 rounded-lg text-muted hover:text-red hover:bg-surface-muted transition whitespace-nowrap"
-                >
-                    {{ cat.name }}
                 </Link>
                 <span class="mx-1 h-4 w-px bg-line"></span>
                 <Link :href="route('services.index')" class="px-3 py-2 rounded-lg text-muted hover:text-red hover:bg-surface-muted transition whitespace-nowrap">Services</Link>
