@@ -112,7 +112,7 @@ const searchProducts = () => {
         <Navbar :canLogin="canLogin" :canRegister="canRegister" />
 
         <!-- Hero -->
-        <section class="relative overflow-hidden bg-surface border-b border-line">
+        <section class="relative overflow-hidden bg-surface mesh-bg border-b border-line">
             <!-- Decorative background -->
             <div class="pointer-events-none absolute inset-0">
                 <div class="absolute -top-32 -right-24 w-[38rem] h-[38rem] bg-red/10 rounded-full blur-3xl"></div>
@@ -132,9 +132,9 @@ const searchProducts = () => {
                     </span>
                     <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold leading-[1.05] mb-5">
                         Tech that keeps<br class="hidden sm:block" />
-                        you <span class="relative inline-block text-red">
+                        you <span class="relative inline-block text-gradient">
                             ahead.
-                            <svg class="absolute -bottom-1 left-0 w-full" height="8" viewBox="0 0 200 8" preserveAspectRatio="none"><path d="M2 6 Q100 0 198 6" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+                            <svg class="absolute -bottom-1 left-0 w-full text-red" height="8" viewBox="0 0 200 8" preserveAspectRatio="none"><path d="M2 6 Q100 0 198 6" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
                         </span>
                     </h1>
                     <p class="text-lg text-muted mb-7 max-w-lg leading-relaxed">
@@ -188,7 +188,7 @@ const searchProducts = () => {
                         </div>
 
                         <!-- Card -->
-                        <div class="relative bg-surface border border-line rounded-3xl p-5 sm:p-7 shadow-xl overflow-hidden">
+                        <div class="relative glass-strong gradient-ring border border-line rounded-3xl p-5 sm:p-7 shadow-xl overflow-hidden">
                             <Link :href="route('products.show', heroProduct.slug)" class="block group">
                                 <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-surface-muted mb-5">
                                     <transition name="fade" mode="out-in">
@@ -241,8 +241,9 @@ const searchProducts = () => {
         </section>
 
         <!-- Enterprise Servers (our specialty) -->
-        <section v-if="serverProducts?.length" class="bg-charcoal text-white">
-            <div class="max-w-7xl mx-auto px-6 py-14">
+        <section v-if="serverProducts?.length" class="relative overflow-hidden bg-charcoal text-white">
+            <div class="pointer-events-none absolute inset-0 opacity-80" style="background-image:radial-gradient(38rem 38rem at 90% -20%,rgba(240,84,35,0.28),transparent 60%),radial-gradient(30rem 30rem at 0% 120%,rgba(99,102,241,0.18),transparent 60%);"></div>
+            <div class="relative max-w-7xl mx-auto px-6 py-14">
                 <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
                     <div>
                         <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red/20 text-red-bright font-bold text-xs uppercase tracking-widest mb-4">
@@ -272,9 +273,9 @@ const searchProducts = () => {
                     v-for="cat in sortedCategories"
                     :key="cat.id"
                     :href="route('products.index', { category: cat.id })"
-                    class="group flex flex-col items-center justify-center gap-3 bg-surface border border-line rounded-2xl p-6 hover:border-red hover:shadow-lg transition"
+                    class="group relative gradient-ring flex flex-col items-center justify-center gap-3 bg-surface border border-line rounded-2xl p-6 hover:border-red/40 hover:shadow-lg transition"
                 >
-                    <div class="w-14 h-14 rounded-full bg-red/10 group-hover:bg-red flex items-center justify-center transition">
+                    <div class="w-14 h-14 rounded-full bg-red/10 group-hover:bg-brand-gradient flex items-center justify-center transition">
                         <i :class="`fas ${iconFor(cat.name)}`" class="text-red group-hover:text-white text-xl transition"></i>
                     </div>
                     <span class="text-sm font-bold text-center text-ink group-hover:text-red transition">{{ cat.name }}</span>
@@ -331,9 +332,9 @@ const searchProducts = () => {
                     v-for="service in featuredServices"
                     :key="service.id"
                     :href="route('services.show', service.slug)"
-                    class="group p-8 bg-surface border border-line rounded-2xl hover:border-red hover:shadow-lg transition"
+                    class="group relative gradient-ring p-8 bg-surface border border-line rounded-2xl hover:border-red/40 hover:shadow-lg transition"
                 >
-                    <div class="w-14 h-14 bg-red/10 group-hover:bg-red rounded-xl flex items-center justify-center mb-5 transition">
+                    <div class="w-14 h-14 bg-red/10 group-hover:bg-brand-gradient rounded-xl flex items-center justify-center mb-5 transition">
                         <i :class="service.icon" class="text-red group-hover:text-white text-2xl transition"></i>
                     </div>
                     <h3 class="text-lg font-heading font-bold mb-2 group-hover:text-red transition">{{ service.name }}</h3>
@@ -347,12 +348,13 @@ const searchProducts = () => {
 
         <!-- CTA band -->
         <section class="px-6 pb-16">
-            <div class="max-w-6xl mx-auto bg-gradient-to-br from-red to-red-dark rounded-3xl p-10 md:p-16 text-center text-white shadow-xl">
-                <h2 class="text-3xl md:text-4xl font-heading font-extrabold mb-4">Need a custom quote?</h2>
-                <p class="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
+            <div class="relative overflow-hidden max-w-6xl mx-auto bg-brand-gradient rounded-3xl p-10 md:p-16 text-center text-white shadow-xl shadow-red/20">
+                <div class="pointer-events-none absolute inset-0 opacity-70" style="background-image:radial-gradient(24rem 24rem at 15% 0%,rgba(255,255,255,0.25),transparent 55%),radial-gradient(24rem 24rem at 100% 120%,rgba(0,0,0,0.25),transparent 55%);"></div>
+                <h2 class="relative text-3xl md:text-4xl font-heading font-extrabold mb-4">Need a custom quote?</h2>
+                <p class="relative text-lg text-white/80 mb-8 max-w-2xl mx-auto">
                     Tell us what you need and our specialists will get back to you within 24 hours.
                 </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <div class="relative flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link :href="route('quotes.create')" class="bg-white text-red hover:bg-charcoal hover:text-white px-8 py-3.5 rounded-full font-bold transition">
                         Get a Free Quote
                     </Link>

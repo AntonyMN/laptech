@@ -1,13 +1,23 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
+import BulkProductModal from '@/Components/BulkProductModal.vue';
+import ProductFormModal from '@/Components/ProductFormModal.vue';
 
 import { Link, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 
 const props = defineProps({
     products: Object, // Laravel paginator: { data, links, from, to, total, last_page, ... }
+    categories: Array,
     filters: Object,
 });
+
+const showBulkModal = ref(false);
+const showForm = ref(false);
+const editing = ref(null);
+
+const openCreate = () => { editing.value = null; showForm.value = true; };
+const openEdit = (product) => { editing.value = product; showForm.value = true; };
 
 const search = ref(props.filters?.search ?? '');
 
@@ -59,9 +69,12 @@ const getStatusClasses = (status) => {
                             class="bg-charcoal border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm w-full md:w-72 text-white placeholder-white/30 focus:outline-none focus:border-red transition"
                         />
                     </div>
-                    <Link :href="route('admin.products.create')" class="bg-red hover:bg-red-light text-white px-6 py-3 rounded-xl font-bold transition flex items-center gap-2 whitespace-nowrap">
+                    <button @click="showBulkModal = true" class="bg-white/5 hover:bg-white/10 border border-white/10 text-white px-5 py-3 rounded-xl font-bold transition flex items-center gap-2 whitespace-nowrap">
+                        <i class="fas fa-file-excel text-emerald-400"></i> Bulk Update
+                    </button>
+                    <button @click="openCreate" class="bg-red hover:bg-red-light text-white px-6 py-3 rounded-xl font-bold transition flex items-center gap-2 whitespace-nowrap">
                         <i class="fas fa-plus"></i> Add Product
-                    </Link>
+                    </button>
                 </div>
             </div>
 
@@ -104,9 +117,9 @@ const getStatusClasses = (status) => {
                             </td>
                             <td class="px-10 py-6 text-right">
                                 <div class="flex items-center justify-end gap-2">
-                                    <Link :href="route('admin.products.edit', product.id)" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-red transition flex items-center justify-center">
+                                    <button @click="openEdit(product)" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-red transition flex items-center justify-center">
                                         <i class="fas fa-edit text-xs"></i>
-                                    </Link>
+                                    </button>
                                     <button @click="deleteProduct(product.id)" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-red-500 transition flex items-center justify-center">
                                         <i class="fas fa-trash-alt text-xs"></i>
                                     </button>
@@ -145,5 +158,8 @@ const getStatusClasses = (status) => {
                 </div>
             </div>
         </div>
+
+        <BulkProductModal :show="showBulkModal" @close="showBulkModal = false" />
+        <ProductFormModal :show="showForm" :product="editing" :categories="categories" @close="showForm = false" />
     </AdminLayout>
 </template>

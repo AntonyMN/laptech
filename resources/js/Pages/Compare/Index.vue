@@ -16,6 +16,9 @@ const seo = computed(() => {
     };
 });
 
+// Descriptions are rich HTML; show a plain-text snippet in the compare grid.
+const plainText = (html) => (html || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+
 const props = defineProps({
     products: Array,
 });
@@ -90,7 +93,7 @@ const clear = () => {
                             <tr>
                                 <td class="p-6 font-bold uppercase text-[10px] tracking-widest text-muted">Summary</td>
                                 <td v-for="product in products" :key="product.id" class="p-6 text-sm text-muted leading-relaxed text-center">
-                                    {{ product.description.substring(0, 100) }}...
+                                    {{ plainText(product.description).substring(0, 100) }}...
                                 </td>
                             </tr>
                             <tr v-for="specKey in [...new Set(products.flatMap(p => Object.keys(p.specifications || {})))]" :key="specKey">

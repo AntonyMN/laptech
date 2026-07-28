@@ -35,7 +35,7 @@ const seo = computed(() => {
 
     return {
         title: `${props.product.name} — Laptech Electronics`,
-        description: props.product.description?.substring(0, 160) || `Buy ${props.product.name} at Laptech Electronics, Nairobi. Quality hardware with nationwide delivery.`,
+        description: (props.product.description || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().substring(0, 160) || `Buy ${props.product.name} at Laptech Electronics, Nairobi. Quality hardware with nationwide delivery.`,
         url: `${baseUrl}/products/${props.product.slug}`,
         image: productImage,
     };
@@ -141,9 +141,7 @@ const getStatusClasses = (status) => {
                         Ksh {{ product.price.toLocaleString() }}
                     </div>
 
-                    <p class="text-muted leading-relaxed">
-                        {{ product.description }}
-                    </p>
+                    <div class="rich-text text-muted leading-relaxed" v-html="product.description"></div>
 
                     <div v-if="product.specifications" class="bg-surface rounded-2xl p-6 border border-line">
                         <h3 class="font-bold mb-4 uppercase tracking-widest text-xs text-muted">Technical Specs</h3>
@@ -193,3 +191,41 @@ const getStatusClasses = (status) => {
         <Footer />
     </div>
 </template>
+
+<style scoped>
+/* Rich-text (WYSIWYG) product descriptions rendered via v-html */
+.rich-text :deep(h1),
+.rich-text :deep(h2),
+.rich-text :deep(h3) {
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 1.25rem 0 0.5rem;
+}
+.rich-text :deep(h1) { font-size: 1.5rem; }
+.rich-text :deep(h2) { font-size: 1.25rem; }
+.rich-text :deep(h3) { font-size: 1.1rem; }
+.rich-text :deep(p) { margin: 0.5rem 0; }
+.rich-text :deep(ul),
+.rich-text :deep(ol) { margin: 0.5rem 0 0.5rem 1.25rem; }
+.rich-text :deep(ul) { list-style: disc; }
+.rich-text :deep(ol) { list-style: decimal; }
+.rich-text :deep(li) { margin: 0.25rem 0; }
+.rich-text :deep(a) { color: var(--color-red); text-decoration: underline; }
+.rich-text :deep(strong) { color: var(--color-ink); font-weight: 700; }
+.rich-text :deep(blockquote) {
+    border-left: 3px solid var(--color-red);
+    padding-left: 1rem;
+    margin: 0.75rem 0;
+    font-style: italic;
+}
+.rich-text :deep(img) { max-width: 100%; border-radius: 0.75rem; margin: 0.75rem 0; }
+.rich-text :deep(pre) {
+    background: var(--color-surface-muted);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 0.75rem 0;
+}
+</style>

@@ -84,10 +84,15 @@ class DatabaseSeeder extends Seeder
                 ['slug' => 'datacenter-architecture'],
                 [
                     'service_category_id' => $infraServCat->id,
-                    'name' => 'Datacenter Architecture',
-                    'description' => 'Precision engineering.',
+                    'name' => 'Server Room & Datacenter Setup',
+                    'description' => 'Design, installation and management of resilient server rooms and datacenters — rack layout, structured cabling, power and cooling, and continuously monitored uptime.',
                     'icon' => 'fas fa-server',
-                    'features' => [['title' => 'Uptime', 'description' => '99.99%']]
+                    'is_featured' => true,
+                    'features' => [
+                        ['title' => 'Server Room Design & Installation', 'description' => 'Rack layout, structured cabling, power distribution and cooling engineered for reliable growth.'],
+                        ['title' => 'Managed Uptime', 'description' => '24/7 monitoring, patching and proactive maintenance keeping infrastructure at 99.99% availability.'],
+                        ['title' => 'Virtualization & Consolidation', 'description' => 'Hypervisor deployment and workload consolidation to cut cost and simplify management.'],
+                    ]
                 ]
             );
         }

@@ -12,6 +12,9 @@ use App\Models\Category;
 use App\Models\ServiceCategory;
 use App\Models\Service;
 use App\Services\GeminiService;
+use App\Services\HtmlSanitizer;
+use App\Services\ProductBulkService;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx as XlsxWriter;
 
 class AdminController extends Controller
 {
@@ -189,6 +192,7 @@ class AdminController extends Controller
 
         return Inertia::render('Admin/Products/Index', [
             'products' => $products,
+            'categories' => Category::orderBy('name')->get(),
             'filters' => ['search' => $search],
         ]);
     }
@@ -200,7 +204,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function storeProduct(Request $request)
+    public function storeProduct(Request $request, HtmlSanitizer $sanitizer)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -215,6 +219,8 @@ class AdminController extends Controller
             'is_featured' => 'boolean',
             'status' => 'required|string|in:Brand new,Ex-UK,Certified Refurbished',
         ]);
+
+        $validated['description'] = $sanitizer->clean($validated['description']);
 
         if ($request->hasFile('image_file')) {
             $path = $request->file('image_file')->store('products', 'public');
@@ -245,7 +251,7 @@ class AdminController extends Controller
         ]);
     }
 
-    public function updateProduct(Request $request, Product $product)
+    public function updateProduct(Request $request, Product $product, HtmlSanitizer $sanitizer)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -260,6 +266,8 @@ class AdminController extends Controller
             'is_featured' => 'boolean',
             'status' => 'required|string|in:Brand new,Ex-UK,Certified Refurbished',
         ]);
+
+        $validated['description'] = $sanitizer->clean($validated['description']);
 
         if ($request->hasFile('image_file')) {
             $path = $request->file('image_file')->store('products', 'public');
@@ -286,6 +294,59 @@ class AdminController extends Controller
     {
         $product->delete();
         return back()->with('success', 'Product deleted successfully.');
+    }
+
+    // Bulk product export / import
+
+    public function exportProducts(ProductBulkService $service)
+    {
+        $spreadsheet = $service->buildExport();
+        $writer = new XlsxWriter($spreadsheet);
+        $filename = 'products-' . now()->format('Y-m-d') . '.xlsx';
+
+        return response()->streamDownload(function () use ($writer) {
+            $writer->save('php://output');
+        }, $filename, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ]);
+    }
+
+    public function previewProductImport(Request $request, ProductBulkService $service)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls,csv|max:10240',
+        ]);
+
+        try {
+            $rows = $service->rowsFromFile($request->file('file'));
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Could not read that file. Please upload the exported .xlsx spreadsheet.',
+            ], 422);
+        }
+
+        return response()->json($service->analyze($rows));
+    }
+
+    public function importProducts(Request $request, ProductBulkService $service)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls,csv|max:10240',
+        ]);
+
+        try {
+            $rows = $service->rowsFromFile($request->file('file'));
+            $result = $service->commit($rows);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => $e->getMessage() ?: 'The import could not be completed.',
+            ], 422);
+        }
+
+        return response()->json([
+            'message' => "Import complete — {$result['updated']} updated, {$result['created']} created, {$result['categoriesCreated']} new categories.",
+            'result' => $result,
+        ]);
     }
 
     // Blog Categories

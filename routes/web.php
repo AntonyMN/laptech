@@ -38,7 +38,10 @@ Route::get('/', function () {
             ->latest()
             ->limit(10)
             ->get(),
-        'featuredServices' => \App\Models\Service::where('is_featured', true)->get(),
+        'featuredServices' => \App\Models\Service::where('is_featured', true)
+            ->orderBy('service_category_id')
+            ->orderBy('id')
+            ->get(),
     ]);
 })->name('welcome');
 
@@ -73,6 +76,9 @@ Route::delete('/compare', [\App\Http\Controllers\CompareController::class, 'clea
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/products', [AdminController::class, 'products'])->name('products.index');
+    Route::get('/products/export', [AdminController::class, 'exportProducts'])->name('products.export');
+    Route::post('/products/import/preview', [AdminController::class, 'previewProductImport'])->name('products.import.preview');
+    Route::post('/products/import', [AdminController::class, 'importProducts'])->name('products.import');
     Route::get('/products/create', [AdminController::class, 'createProduct'])->name('products.create');
     Route::post('/products', [AdminController::class, 'storeProduct'])->name('products.store');
     Route::get('/products/{product}/edit', [AdminController::class, 'editProduct'])->name('products.edit');

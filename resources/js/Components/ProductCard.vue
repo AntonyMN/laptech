@@ -33,7 +33,7 @@ const addToCompare = () => router.post(route('compare.add', props.product.id), {
 </script>
 
 <template>
-    <div class="group relative flex flex-col bg-surface border border-line rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-black/5 hover:border-red/40 transition duration-300">
+    <div class="group relative gradient-ring flex flex-col bg-surface border border-line rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-black/5 hover:border-red/40 transition duration-300">
         <!-- Image -->
         <Link :href="route('products.show', product.slug)" class="block relative aspect-square overflow-hidden bg-surface-muted">
             <img

@@ -4,6 +4,17 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <!-- Theme bootstrap: apply saved dark/light preference before paint (no flash) -->
+        <script>
+            (function () {
+                try {
+                    if (localStorage.getItem('laptech-theme') === 'dark') {
+                        document.documentElement.classList.add('dark');
+                    }
+                } catch (e) {}
+            })();
+        </script>
+
         <title inertia>{{ config('app.name', 'Laptech') }} — Innovative Tech Hub</title>
 
         <!-- Preloaded SEO Meta (defaults for crawlers before JS executes) -->

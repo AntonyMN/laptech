@@ -4,6 +4,8 @@
 
 @import "tailwindcss";
 
+/* Enable class-based dark mode: `.dark` on <html> flips the theme */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-red: #F05423;
@@ -15,7 +17,7 @@
   --color-charcoal-light: #2d2d2d;
   --color-charcoal-dark: #0d0d0d;
 
-  /* Light surface palette (retail marketplace look) */
+  /* Semantic surface palette — remapped per theme in :root / :root.dark below */
   --color-surface: #ffffff;
   --color-surface-muted: #f2f3f5;
   --color-page: #f7f7f8;
@@ -27,9 +29,121 @@
   --font-heading: "Montserrat", ui-sans-serif, system-ui, sans-serif;
 }
 
+/* ---- Theme tokens ---------------------------------------------------- */
+:root {
+  --color-surface: #ffffff;
+  --color-surface-muted: #f2f3f5;
+  --color-page: #f7f7f8;
+  --color-ink: #17181c;
+  --color-muted: #6b7280;
+  --color-line: #e5e7eb;
+
+  /* Glass + gradient tokens */
+  --glass-bg: rgba(255, 255, 255, 0.62);
+  --glass-bg-strong: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-shadow: 0 8px 32px rgba(17, 24, 39, 0.10);
+  --mesh-1: rgba(240, 84, 35, 0.14);
+  --mesh-2: rgba(240, 84, 35, 0.07);
+  --mesh-3: rgba(99, 102, 241, 0.08);
+
+  color-scheme: light;
+}
+
+:root.dark {
+  --color-surface: #16181f;
+  --color-surface-muted: #20232c;
+  --color-page: #0b0c11;
+  --color-ink: #eef0f5;
+  --color-muted: #9aa2b1;
+  --color-line: #2a2e39;
+
+  --glass-bg: rgba(22, 24, 31, 0.58);
+  --glass-bg-strong: rgba(22, 24, 31, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --mesh-1: rgba(240, 84, 35, 0.22);
+  --mesh-2: rgba(240, 84, 35, 0.10);
+  --mesh-3: rgba(99, 102, 241, 0.16);
+
+  color-scheme: dark;
+}
+
 @layer base {
+  html {
+    background-color: var(--color-page);
+  }
   body {
     background-color: var(--color-page);
     color: var(--color-ink);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+/* ---- Reusable modern surfaces --------------------------------------- */
+@layer components {
+  /* Frosted glass panel */
+  .glass {
+    background-color: var(--glass-bg);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    backdrop-filter: blur(14px) saturate(150%);
+    border: 1px solid var(--glass-border);
+  }
+
+  .glass-strong {
+    background-color: var(--glass-bg-strong);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid var(--glass-border);
+  }
+
+  /* Sticky header glass — translucent over page content */
+  .glass-nav {
+    background-color: var(--glass-bg-strong);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
+  }
+
+  /* Ambient gradient mesh for hero / feature sections */
+  .mesh-bg {
+    background-image:
+      radial-gradient(42rem 42rem at 85% -10%, var(--mesh-1), transparent 60%),
+      radial-gradient(32rem 32rem at -5% 110%, var(--mesh-3), transparent 60%),
+      radial-gradient(28rem 28rem at 50% 120%, var(--mesh-2), transparent 60%);
+  }
+
+  /* Brand gradient fills */
+  .bg-brand-gradient {
+    background-image: linear-gradient(135deg, var(--color-red-bright) 0%, var(--color-red) 45%, var(--color-red-dark) 100%);
+  }
+
+  .text-gradient {
+    background-image: linear-gradient(120deg, var(--color-red-bright), var(--color-red-dark));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Subtle gradient ring/border via mask */
+  .gradient-ring {
+    position: relative;
+  }
+  .gradient-ring::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--color-red-bright), transparent 45%, var(--mesh-3));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .gradient-ring:hover::before {
+    opacity: 1;
   }
 }

@@ -1,12 +1,15 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { useCartStore } from '../Stores/cart';
+import { useTheme } from '../composables/useTheme';
 import CartSidebar from './CartSidebar.vue';
 import WhatsAppFAB from './WhatsAppFAB.vue';
 
 const cart = useCartStore();
 const page = usePage();
+const { isDark, initTheme, toggleTheme } = useTheme();
+onMounted(initTheme);
 const isMobileMenuOpen = ref(false);
 const searchQuery = ref('');
 const selectedCategory = ref('');
@@ -94,7 +97,7 @@ const whatsapp = 'https://wa.me/254722964566';
         </div>
 
         <!-- Tier 2: Main bar -->
-        <div class="bg-surface border-b border-line">
+        <div class="glass-nav border-b border-line">
             <div class="max-w-7xl mx-auto px-6 h-16 flex items-center gap-4">
                 <!-- Logo -->
                 <Link :href="route('welcome')" class="flex items-center shrink-0 group">
@@ -140,6 +143,10 @@ const whatsapp = 'https://wa.me/254722964566';
 
                 <!-- Actions -->
                 <div class="flex items-center gap-1 sm:gap-2 ml-auto">
+                    <button @click="toggleTheme" :title="isDark ? 'Switch to light mode' : 'Switch to dark mode'" :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'" class="w-10 h-10 flex items-center justify-center text-ink hover:text-red rounded-full hover:bg-surface-muted transition">
+                        <i class="fas" :class="isDark ? 'fa-sun' : 'fa-moon'"></i>
+                    </button>
+
                     <Link v-if="page.props.auth?.user" :href="route('wishlist.index')" class="hidden sm:flex w-10 h-10 items-center justify-center text-ink hover:text-red rounded-full hover:bg-surface-muted transition" title="Wishlist">
                         <i class="far fa-heart text-lg"></i>
                     </Link>
@@ -171,7 +178,7 @@ const whatsapp = 'https://wa.me/254722964566';
         </div>
 
         <!-- Tier 3: Category nav -->
-        <div class="hidden md:block bg-surface border-b border-line">
+        <div class="hidden md:block glass-nav border-b border-line">
             <div class="max-w-7xl mx-auto px-6 h-11 flex items-center gap-1 text-sm font-semibold overflow-x-auto">
                 <Link :href="route('products.index')" class="flex items-center gap-2 px-3 py-2 rounded-lg text-ink hover:text-red hover:bg-surface-muted transition whitespace-nowrap">
                     <i class="fas fa-th-large text-red"></i> All Products
@@ -217,6 +224,10 @@ const whatsapp = 'https://wa.me/254722964566';
                     <Link :href="route('compare.index')" class="py-2 text-ink hover:text-red transition">Compare</Link>
                     <Link v-if="page.props.auth?.user" :href="route('wishlist.index')" class="py-2 text-ink hover:text-red transition">Wishlist</Link>
                     <Link :href="route('quotes.create')" class="py-2 text-red font-bold transition">Request a Quote</Link>
+                    <button @click="toggleTheme" class="flex items-center gap-3 py-2 text-ink hover:text-red transition text-left">
+                        <i class="fas" :class="isDark ? 'fa-sun' : 'fa-moon'"></i>
+                        {{ isDark ? 'Light mode' : 'Dark mode' }}
+                    </button>
                 </div>
 
                 <div class="pt-4 border-t border-line">

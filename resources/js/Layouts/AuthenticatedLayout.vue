@@ -1,8 +1,11 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import { useTheme } from '../composables/useTheme';
 
 const showingNavigationDropdown = ref(false);
+const { isDark, initTheme, toggleTheme } = useTheme();
+onMounted(initTheme);
 </script>
 
 <template>
@@ -57,6 +60,9 @@ const showingNavigationDropdown = ref(false);
                 </h2>
 
                 <div class="flex items-center gap-4">
+                    <button @click="toggleTheme" :title="isDark ? 'Switch to light mode' : 'Switch to dark mode'" :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'" class="w-10 h-10 flex items-center justify-center text-muted hover:text-red rounded-xl hover:bg-surface-muted transition">
+                        <i class="fas" :class="isDark ? 'fa-sun' : 'fa-moon'"></i>
+                    </button>
                     <div class="flex flex-col items-end hidden sm:flex">
                         <span class="text-sm font-bold">{{ $page.props.auth.user.name }}</span>
                         <span class="text-[10px] text-red font-bold uppercase tracking-widest">Active</span>

@@ -1,35 +1,23 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, onBeforeUnmount, ref, watch } from 'vue';
+import Quill from 'quill';
+import 'quill/dist/quill.snow.css';
 
 const props = defineProps({
     modelValue: String,
+    placeholder: { type: String, default: 'Write here…' },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const container = ref(null);
 let quill = null;
+let internalChange = false;
 
 onMounted(() => {
-    // Load Quill from CDN if not already loaded
-    if (!window.Quill) {
-        const link = document.createElement('link');
-        link.href = 'https://cdn.quilljs.com/1.3.6/quill.snow.css';
-        link.rel = 'stylesheet';
-        document.head.appendChild(link);
-
-        const script = document.createElement('script');
-        script.src = 'https://cdn.quilljs.com/1.3.6/quill.js';
-        script.onload = initQuill;
-        document.head.appendChild(script);
-    } else {
-        initQuill();
-    }
-});
-
-function initQuill() {
-    quill = new window.Quill(container.value, {
+    quill = new Quill(container.value, {
         theme: 'snow',
+        placeholder: props.placeholder,
         modules: {
             toolbar: [
                 [{ header: [1, 2, 3, false] }],
@@ -37,9 +25,9 @@ function initQuill() {
                 ['blockquote', 'code-block'],
                 [{ list: 'ordered' }, { list: 'bullet' }],
                 ['link', 'image'],
-                ['clean']
-            ]
-        }
+                ['clean'],
+            ],
+        },
     });
 
     if (props.modelValue) {
@@ -47,14 +35,21 @@ function initQuill() {
     }
 
     quill.on('text-change', () => {
-        emit('update:modelValue', quill.root.innerHTML);
+        internalChange = true;
+        const html = quill.root.innerHTML;
+        emit('update:modelValue', html === '<p><br></p>' ? '' : html);
+        internalChange = false;
     });
-}
+});
 
 watch(() => props.modelValue, (newVal) => {
-    if (quill && newVal !== quill.root.innerHTML) {
+    if (quill && !internalChange && (newVal || '') !== quill.root.innerHTML) {
         quill.root.innerHTML = newVal || '';
     }
+});
+
+onBeforeUnmount(() => {
+    quill = null;
 });
 </script>
 
@@ -80,7 +75,12 @@ watch(() => props.modelValue, (newVal) => {
     font-size: 1rem;
 }
 .ql-editor {
-    min-height: 300px;
+    min-height: 220px;
+    color: #fff;
+}
+.ql-editor.ql-blank::before {
+    color: rgba(255, 255, 255, 0.3) !important;
+    font-style: normal;
 }
 .ql-snow .ql-stroke {
     stroke: rgba(255, 255, 255, 0.5) !important;
@@ -88,11 +88,19 @@ watch(() => props.modelValue, (newVal) => {
 .ql-snow .ql-fill {
     fill: rgba(255, 255, 255, 0.5) !important;
 }
-.ql-snow .ql-picker {
+.ql-snow .ql-picker,
+.ql-snow .ql-picker-options {
     color: rgba(255, 255, 255, 0.5) !important;
+}
+.ql-snow .ql-picker-options {
+    background: #1a1a1a !important;
 }
 .ql-snow.ql-toolbar button:hover .ql-stroke,
 .ql-snow.ql-toolbar button.ql-active .ql-stroke {
-    stroke: #e31b23 !important;
+    stroke: #F05423 !important;
+}
+.ql-snow.ql-toolbar button:hover .ql-fill,
+.ql-snow.ql-toolbar button.ql-active .ql-fill {
+    fill: #F05423 !important;
 }
 </style>

@@ -24,7 +24,7 @@ class ServiceController extends Controller
         }
 
         return Inertia::render('Services/Index', [
-            'services' => $query->get(),
+            'services' => $query->orderBy('service_category_id')->orderBy('id')->get(),
             'categories' => ServiceCategory::all(),
             'filters' => $request->only(['search', 'category']),
         ]);

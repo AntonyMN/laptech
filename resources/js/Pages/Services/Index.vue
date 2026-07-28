@@ -59,9 +59,9 @@ const clearFilters = () => {
     <div class="min-h-screen bg-page text-ink font-sans selection:bg-red selection:text-white">
         <Navbar :canLogin="$page.props.canLogin" :canRegister="$page.props.canRegister" />
 
-        <div class="bg-surface border-b border-line">
+        <div class="bg-surface mesh-bg border-b border-line">
             <div class="max-w-7xl mx-auto px-6 py-12 text-center max-w-2xl">
-                <h1 class="text-3xl md:text-4xl font-heading font-extrabold mb-3">Our Services</h1>
+                <h1 class="text-3xl md:text-4xl font-heading font-extrabold mb-3">Our <span class="text-gradient">Services</span></h1>
                 <p class="text-muted mb-8">Professional IT solutions delivered by certified technicians.</p>
                 <div class="relative max-w-xl mx-auto">
                     <input
@@ -126,10 +126,10 @@ const clearFilters = () => {
                     </div>
 
                     <div class="grid sm:grid-cols-2 gap-6">
-                        <Link v-for="service in services" :key="service.id" :href="route('services.show', service.slug)" class="group relative p-8 bg-surface border border-line rounded-2xl hover:border-red hover:shadow-lg transition overflow-hidden">
-                            <i :class="service.icon" class="absolute -right-3 -bottom-3 text-surface-muted text-8xl transition"></i>
+                        <Link v-for="service in services" :key="service.id" :href="route('services.show', service.slug)" class="group relative gradient-ring p-8 bg-surface border border-line rounded-2xl hover:border-red/40 hover:shadow-lg transition overflow-hidden">
+                            <i :class="service.icon" class="absolute -right-3 -bottom-3 text-surface-muted text-8xl transition group-hover:text-red/10"></i>
                             <div class="relative z-10">
-                                <div class="w-14 h-14 bg-red/10 group-hover:bg-red rounded-xl flex items-center justify-center mb-5 transition">
+                                <div class="w-14 h-14 bg-red/10 group-hover:bg-brand-gradient rounded-xl flex items-center justify-center mb-5 transition">
                                     <i :class="service.icon" class="text-red group-hover:text-white text-2xl transition"></i>
                                 </div>
                                 <div class="text-xs font-bold text-red uppercase tracking-widest mb-2">

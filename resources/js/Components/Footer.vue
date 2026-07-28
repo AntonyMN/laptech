@@ -42,7 +42,8 @@ const categories = computed(() => page.props.navCategories || []);
     </section>
 
     <!-- Main footer -->
-    <footer class="bg-charcoal text-white/70 pt-16 pb-8 px-6">
+    <footer class="relative bg-charcoal text-white/70 pt-16 pb-8 px-6">
+        <div class="absolute top-0 inset-x-0 h-px bg-brand-gradient opacity-80"></div>
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
             <div class="lg:col-span-2">
                 <Link :href="route('welcome')" class="inline-block mb-5">

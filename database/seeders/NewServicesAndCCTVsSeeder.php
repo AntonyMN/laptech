@@ -92,19 +92,19 @@ class NewServicesAndCCTVsSeeder extends Seeder
             ],
             [
                 'service_category_id' => $infraCatId,
-                'name' => 'Server Sales & Upgrades',
+                'name' => 'Server Sales, Installation & Management',
                 'slug' => 'server-sales-upgrades',
-                'description' => 'Enterprise rack and tower server procurement, hardware upgrades (RAM/SSD/HDD), and cloud/virtualization system setups.',
+                'description' => 'End-to-end enterprise server solutions — supply, rack installation and configuration of rack and tower servers, plus ongoing management, hardware upgrades and virtualization.',
                 'icon' => 'fas fa-server',
                 'is_featured' => true,
                 'features' => [
                     [
-                        'title' => 'Enterprise Systems',
-                        'description' => 'Supply and setup of HP ProLiant and Dell PowerEdge rackmount and tower server chassis.'
+                        'title' => 'Supply & Installation',
+                        'description' => 'Sourcing, racking and configuration of HP ProLiant and Dell PowerEdge rackmount and tower servers.'
                     ],
                     [
-                        'title' => 'Live Hardware Upgrades',
-                        'description' => 'Hot-swappable enterprise SAS/NVMe SSD installations, Xeon CPU expansions, and DDR4/DDR5 ECC RAM upgrades.'
+                        'title' => 'Managed Upkeep & Upgrades',
+                        'description' => 'Ongoing monitoring, patching and hot-swappable SAS/NVMe SSD, Xeon CPU and ECC RAM upgrades.'
                     ],
                     [
                         'title' => 'Virtualization & Hosting',

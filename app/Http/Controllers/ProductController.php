@@ -23,6 +23,10 @@ class ProductController extends Controller
             $query->where('category_id', $request->category);
         }
 
+        if ($request->status) {
+            $query->where('status', $request->status);
+        }
+
         if ($request->min_price) {
             $query->where('price', '>=', $request->min_price);
         }
@@ -31,10 +35,18 @@ class ProductController extends Controller
             $query->where('price', '<=', $request->max_price);
         }
 
+        match ($request->input('sort')) {
+            'price_asc' => $query->orderBy('price', 'asc'),
+            'price_desc' => $query->orderBy('price', 'desc'),
+            'name_asc' => $query->orderBy('name', 'asc'),
+            'name_desc' => $query->orderBy('name', 'desc'),
+            default => $query->latest(),
+        };
+
         return Inertia::render('Products/Index', [
             'products' => $query->paginate(12)->withQueryString(),
             'categories' => Category::has('products')->get(),
-            'filters' => $request->only(['search', 'category', 'min_price', 'max_price']),
+            'filters' => $request->only(['search', 'category', 'status', 'min_price', 'max_price', 'sort']),
         ]);
     }
 

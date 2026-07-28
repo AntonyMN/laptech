@@ -25,15 +25,29 @@ const props = defineProps({
 
 const search = ref(props.filters.search || '');
 const category = ref(props.filters.category || '');
+const status = ref(props.filters.status || '');
 const min_price = ref(props.filters.min_price || '');
 const max_price = ref(props.filters.max_price || '');
+const sort = ref(props.filters.sort || 'latest');
+
+const statuses = ['Brand new', 'Ex-UK', 'Certified Refurbished'];
+
+const sortOptions = [
+    { value: 'latest', label: 'Latest arrivals' },
+    { value: 'price_asc', label: 'Price: low to high' },
+    { value: 'price_desc', label: 'Price: high to low' },
+    { value: 'name_asc', label: 'Name: A to Z' },
+    { value: 'name_desc', label: 'Name: Z to A' },
+];
 
 const applyFilters = () => {
     router.get(route('products.index'), {
         search: search.value,
         category: category.value,
+        status: status.value,
         min_price: min_price.value,
         max_price: max_price.value,
+        sort: sort.value,
     }, {
         preserveState: true,
         replace: true,
@@ -43,8 +57,10 @@ const applyFilters = () => {
 const clearFilters = () => {
     search.value = '';
     category.value = '';
+    status.value = '';
     min_price.value = '';
     max_price.value = '';
+    sort.value = 'latest';
     applyFilters();
 };
 </script>
@@ -118,6 +134,28 @@ const clearFilters = () => {
                     </div>
 
                     <div class="bg-surface border border-line rounded-2xl p-5">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-muted mb-4">Condition</h3>
+                        <div class="space-y-1">
+                            <button
+                                @click="status = ''; applyFilters()"
+                                :class="status === '' ? 'bg-red text-white' : 'text-muted hover:bg-surface-muted hover:text-ink'"
+                                class="w-full text-left px-3 py-2 rounded-lg transition font-semibold text-sm"
+                            >
+                                All Conditions
+                            </button>
+                            <button
+                                v-for="s in statuses"
+                                :key="s"
+                                @click="status = s; applyFilters()"
+                                :class="status === s ? 'bg-red text-white' : 'text-muted hover:bg-surface-muted hover:text-ink'"
+                                class="w-full text-left px-3 py-2 rounded-lg transition font-semibold text-sm"
+                            >
+                                {{ s }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-surface border border-line rounded-2xl p-5">
                         <h3 class="text-xs font-bold uppercase tracking-widest text-muted mb-4">Price Range</h3>
                         <div class="grid grid-cols-2 gap-3">
                             <input v-model="min_price" type="number" placeholder="Min" class="bg-surface-muted border border-line rounded-lg px-3 py-2 text-sm focus:border-red focus:ring-0" />
@@ -133,9 +171,25 @@ const clearFilters = () => {
 
                 <!-- Results -->
                 <div class="flex-1">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-lg font-heading font-bold">Products</h2>
-                        <div class="text-muted text-sm">{{ products.total || products.data.length }} items</div>
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                        <div class="flex items-baseline gap-3">
+                            <h2 class="text-lg font-heading font-bold">Products</h2>
+                            <span class="text-muted text-sm">{{ products.total || products.data.length }} items</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label for="sort" class="text-xs font-bold uppercase tracking-widest text-muted">Sort by</label>
+                            <div class="relative">
+                                <select
+                                    id="sort"
+                                    v-model="sort"
+                                    @change="applyFilters"
+                                    class="appearance-none bg-surface border border-line rounded-full pl-4 pr-10 py-2 text-sm font-semibold text-ink focus:border-red focus:ring-0 cursor-pointer transition"
+                                >
+                                    <option v-for="opt in sortOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+                                </select>
+                                <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-muted text-[10px] pointer-events-none"></i>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-5">
