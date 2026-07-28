@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class BlogPost extends Model
 {
+    use \App\Models\Concerns\Auditable;
+
     protected $fillable = [
         'blog_category_id', 'title', 'slug', 'excerpt', 'content', 
         'featured_image', 'is_published', 'published_at'

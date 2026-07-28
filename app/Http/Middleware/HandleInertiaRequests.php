@@ -34,6 +34,12 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'roles' => fn () => $request->user()?->getRoleNames() ?? [],
+                'can' => fn () => $request->user()
+                    ? collect(\App\Support\Permissions::ALL)
+                        ->mapWithKeys(fn ($p) => [$p => $request->user()->can($p)])
+                        ->all()
+                    : [],
             ],
             'appName' => config('app.name', 'Laptech'),
             'appUrl' => config('app.url'),

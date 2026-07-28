@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Quote extends Model
 {
+    use \App\Models\Concerns\Auditable;
+
     protected $fillable = [
         'service_id',
         'user_id',

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
 {
+    use \App\Models\Concerns\Auditable;
+
     protected $fillable = [
         'name',
         'slug',

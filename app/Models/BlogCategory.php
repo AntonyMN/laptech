@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class BlogCategory extends Model
 {
+    use \App\Models\Concerns\Auditable;
+
     protected $fillable = ['name', 'slug', 'description'];
 
     public function posts()

@@ -75,56 +75,81 @@ Route::delete('/compare', [\App\Http\Controllers\CompareController::class, 'clea
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/products', [AdminController::class, 'products'])->name('products.index');
-    Route::get('/products/export', [AdminController::class, 'exportProducts'])->name('products.export');
-    Route::post('/products/import/preview', [AdminController::class, 'previewProductImport'])->name('products.import.preview');
-    Route::post('/products/import', [AdminController::class, 'importProducts'])->name('products.import');
-    Route::get('/products/create', [AdminController::class, 'createProduct'])->name('products.create');
-    Route::post('/products', [AdminController::class, 'storeProduct'])->name('products.store');
-    Route::get('/products/{product}/edit', [AdminController::class, 'editProduct'])->name('products.edit');
-    Route::patch('/products/{product}', [AdminController::class, 'updateProduct'])->name('products.update');
-    Route::delete('/products/{product}', [AdminController::class, 'deleteProduct'])->name('products.delete');
-    
+
+    // Products
+    Route::middleware('can:manage products')->group(function () {
+        Route::get('/products', [AdminController::class, 'products'])->name('products.index');
+        Route::get('/products/export', [AdminController::class, 'exportProducts'])->name('products.export');
+        Route::post('/products/import/preview', [AdminController::class, 'previewProductImport'])->name('products.import.preview');
+        Route::post('/products/import', [AdminController::class, 'importProducts'])->name('products.import');
+        Route::get('/products/create', [AdminController::class, 'createProduct'])->name('products.create');
+        Route::post('/products', [AdminController::class, 'storeProduct'])->name('products.store');
+        Route::get('/products/{product}/edit', [AdminController::class, 'editProduct'])->name('products.edit');
+        Route::patch('/products/{product}', [AdminController::class, 'updateProduct'])->name('products.update');
+        Route::delete('/products/{product}', [AdminController::class, 'deleteProduct'])->name('products.delete');
+    });
+
     // Product Categories
-    Route::get('/categories', [AdminController::class, 'categories'])->name('categories.index');
-    Route::post('/categories', [AdminController::class, 'storeCategory'])->name('categories.store');
-    Route::patch('/categories/{category}', [AdminController::class, 'updateCategory'])->name('categories.update');
-    Route::delete('/categories/{category}', [AdminController::class, 'deleteCategory'])->name('categories.delete');
+    Route::middleware('can:manage categories')->group(function () {
+        Route::get('/categories', [AdminController::class, 'categories'])->name('categories.index');
+        Route::post('/categories', [AdminController::class, 'storeCategory'])->name('categories.store');
+        Route::patch('/categories/{category}', [AdminController::class, 'updateCategory'])->name('categories.update');
+        Route::delete('/categories/{category}', [AdminController::class, 'deleteCategory'])->name('categories.delete');
+    });
 
-    // Service Categories
-    Route::get('/service-categories', [AdminController::class, 'serviceCategories'])->name('service-categories.index');
-    Route::post('/service-categories', [AdminController::class, 'storeServiceCategory'])->name('service-categories.store');
-    Route::patch('/service-categories/{category}', [AdminController::class, 'updateServiceCategory'])->name('service-categories.update');
-    Route::delete('/service-categories/{category}', [AdminController::class, 'deleteServiceCategory'])->name('service-categories.delete');
+    // Services + Service Categories
+    Route::middleware('can:manage services')->group(function () {
+        Route::get('/service-categories', [AdminController::class, 'serviceCategories'])->name('service-categories.index');
+        Route::post('/service-categories', [AdminController::class, 'storeServiceCategory'])->name('service-categories.store');
+        Route::patch('/service-categories/{category}', [AdminController::class, 'updateServiceCategory'])->name('service-categories.update');
+        Route::delete('/service-categories/{category}', [AdminController::class, 'deleteServiceCategory'])->name('service-categories.delete');
 
-    // Services
-    Route::get('/services', [AdminController::class, 'services'])->name('services.index');
-    Route::get('/services/create', [AdminController::class, 'createService'])->name('services.create');
-    Route::post('/services', [AdminController::class, 'storeService'])->name('services.store');
-    Route::get('/services/{service}/edit', [AdminController::class, 'editService'])->name('services.edit');
-    Route::patch('/services/{service}', [AdminController::class, 'updateService'])->name('services.update');
-    Route::delete('/services/{service}', [AdminController::class, 'deleteService'])->name('services.delete');
+        Route::get('/services', [AdminController::class, 'services'])->name('services.index');
+        Route::get('/services/create', [AdminController::class, 'createService'])->name('services.create');
+        Route::post('/services', [AdminController::class, 'storeService'])->name('services.store');
+        Route::get('/services/{service}/edit', [AdminController::class, 'editService'])->name('services.edit');
+        Route::patch('/services/{service}', [AdminController::class, 'updateService'])->name('services.update');
+        Route::delete('/services/{service}', [AdminController::class, 'deleteService'])->name('services.delete');
+    });
 
-    Route::get('/orders', [AdminController::class, 'orders'])->name('orders.index');
-    Route::patch('/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.update-status');
-    
-    Route::get('/quotes', [AdminController::class, 'quotes'])->name('quotes.index');
-    Route::patch('/quotes/{quote}/status', [AdminController::class, 'updateQuoteStatus'])->name('quotes.update-status');
+    // Orders
+    Route::middleware('can:manage orders')->group(function () {
+        Route::get('/orders', [AdminController::class, 'orders'])->name('orders.index');
+        Route::patch('/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.update-status');
+    });
 
-    // Blog Categories
-    Route::get('/blog-categories', [AdminController::class, 'blogCategories'])->name('blog-categories.index');
-    Route::post('/blog-categories', [AdminController::class, 'storeBlogCategory'])->name('blog-categories.store');
-    Route::patch('/blog-categories/{category}', [AdminController::class, 'updateBlogCategory'])->name('blog-categories.update');
-    Route::delete('/blog-categories/{category}', [AdminController::class, 'deleteBlogCategory'])->name('blog-categories.delete');
+    // Quotes
+    Route::middleware('can:manage quotes')->group(function () {
+        Route::get('/quotes', [AdminController::class, 'quotes'])->name('quotes.index');
+        Route::patch('/quotes/{quote}/status', [AdminController::class, 'updateQuoteStatus'])->name('quotes.update-status');
+    });
 
-    // Blog Posts
-    Route::get('/blog-posts', [AdminController::class, 'blogPosts'])->name('blog-posts.index');
-    Route::get('/blog-posts/create', [AdminController::class, 'createBlogPost'])->name('blog-posts.create');
-    Route::post('/blog-posts', [AdminController::class, 'storeBlogPost'])->name('blog-posts.store');
-    Route::post('/blog-posts/generate', [AdminController::class, 'generateBlogPost'])->name('blog-posts.generate');
-    Route::get('/blog-posts/{post}/edit', [AdminController::class, 'editBlogPost'])->name('blog-posts.edit');
-    Route::post('/blog-posts/{post}', [AdminController::class, 'updateBlogPost'])->name('blog-posts.update'); // Using POST for file upload with _method PATCH
-    Route::delete('/blog-posts/{post}', [AdminController::class, 'deleteBlogPost'])->name('blog-posts.delete');
+    // Blog
+    Route::middleware('can:manage blog')->group(function () {
+        Route::get('/blog-categories', [AdminController::class, 'blogCategories'])->name('blog-categories.index');
+        Route::post('/blog-categories', [AdminController::class, 'storeBlogCategory'])->name('blog-categories.store');
+        Route::patch('/blog-categories/{category}', [AdminController::class, 'updateBlogCategory'])->name('blog-categories.update');
+        Route::delete('/blog-categories/{category}', [AdminController::class, 'deleteBlogCategory'])->name('blog-categories.delete');
+
+        Route::get('/blog-posts', [AdminController::class, 'blogPosts'])->name('blog-posts.index');
+        Route::get('/blog-posts/create', [AdminController::class, 'createBlogPost'])->name('blog-posts.create');
+        Route::post('/blog-posts', [AdminController::class, 'storeBlogPost'])->name('blog-posts.store');
+        Route::post('/blog-posts/generate', [AdminController::class, 'generateBlogPost'])->name('blog-posts.generate');
+        Route::get('/blog-posts/{post}/edit', [AdminController::class, 'editBlogPost'])->name('blog-posts.edit');
+        Route::post('/blog-posts/{post}', [AdminController::class, 'updateBlogPost'])->name('blog-posts.update'); // Using POST for file upload with _method PATCH
+        Route::delete('/blog-posts/{post}', [AdminController::class, 'deleteBlogPost'])->name('blog-posts.delete');
+    });
+
+    // Users & Roles
+    Route::middleware('can:manage users')->group(function () {
+        Route::get('/users', [AdminController::class, 'users'])->name('users.index');
+        Route::patch('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
+    });
+
+    // Audit trail
+    Route::middleware('can:view audit')->group(function () {
+        Route::get('/audit', [AdminController::class, 'audit'])->name('audit.index');
+    });
 });
 
 

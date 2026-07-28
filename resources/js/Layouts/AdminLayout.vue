@@ -1,9 +1,16 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 
 defineProps({
     title: String
 });
+
+const page = usePage();
+const can = (permission) => !!page.props.auth?.can?.[permission];
+const user = computed(() => page.props.auth?.user);
+const role = computed(() => page.props.auth?.roles?.[0] || (user.value?.is_admin ? 'admin' : 'member'));
+const initial = computed(() => (user.value?.name || 'A').charAt(0).toUpperCase());
 </script>
 
 <template>
@@ -21,29 +28,39 @@ defineProps({
                 <Link :href="route('admin.dashboard')" :class="route().current('admin.dashboard') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
                     <i class="fas fa-th-large w-6"></i> Dashboard
                 </Link>
-                <Link :href="route('admin.products.index')" :class="route().current('admin.products.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
+                <Link v-if="can('manage products')" :href="route('admin.products.index')" :class="route().current('admin.products.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
                     <i class="fas fa-box w-6"></i> Products
                 </Link>
-                <Link :href="route('admin.categories.index')" :class="route().current('admin.categories.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition group">
+                <Link v-if="can('manage categories')" :href="route('admin.categories.index')" :class="route().current('admin.categories.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition group">
                     <i class="fas fa-tags w-5"></i> <span class="font-bold text-sm">Product Categories</span>
                 </Link>
-                <Link :href="route('admin.blog-posts.index')" :class="route().current('admin.blog-posts.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition group">
+                <Link v-if="can('manage blog')" :href="route('admin.blog-posts.index')" :class="route().current('admin.blog-posts.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition group">
                     <i class="fas fa-feather w-5"></i> <span class="font-bold text-sm">Blog Posts</span>
                 </Link>
-                <Link :href="route('admin.blog-categories.index')" :class="route().current('admin.blog-categories.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition group">
+                <Link v-if="can('manage blog')" :href="route('admin.blog-categories.index')" :class="route().current('admin.blog-categories.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition group">
                     <i class="fas fa-folder-open w-5"></i> <span class="font-bold text-sm">Blog Categories</span>
                 </Link>
-                <Link :href="route('admin.services.index')" :class="route().current('admin.services.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
+                <Link v-if="can('manage services')" :href="route('admin.services.index')" :class="route().current('admin.services.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
                     <i class="fas fa-tools w-6"></i> Services
                 </Link>
-                <Link :href="route('admin.service-categories.index')" :class="route().current('admin.service-categories.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
+                <Link v-if="can('manage services')" :href="route('admin.service-categories.index')" :class="route().current('admin.service-categories.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
                     <i class="fas fa-network-wired w-6"></i> Service Categories
                 </Link>
-                <Link :href="route('admin.orders.index')" :class="route().current('admin.orders.index') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
+                <Link v-if="can('manage orders')" :href="route('admin.orders.index')" :class="route().current('admin.orders.index') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
                     <i class="fas fa-shopping-bag w-6"></i> Orders
                 </Link>
-                <Link :href="route('admin.quotes.index')" :class="route().current('admin.quotes.index') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
+                <Link v-if="can('manage quotes')" :href="route('admin.quotes.index')" :class="route().current('admin.quotes.index') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
                     <i class="fas fa-file-invoice-dollar w-6"></i> Quotes
+                </Link>
+
+                <div v-if="can('manage users') || can('view audit')" class="pt-3 mt-3 border-t border-white/5">
+                    <span class="px-6 text-[10px] font-black uppercase tracking-[0.2em] text-white/20">Administration</span>
+                </div>
+                <Link v-if="can('manage users')" :href="route('admin.users.index')" :class="route().current('admin.users.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
+                    <i class="fas fa-users-cog w-6"></i> Users &amp; Roles
+                </Link>
+                <Link v-if="can('view audit')" :href="route('admin.audit.index')" :class="route().current('admin.audit.*') ? 'bg-red text-white shadow-lg shadow-red/20' : 'hover:bg-white/5 text-white/40 hover:text-white'" class="flex items-center gap-4 px-6 py-4 rounded-2xl transition font-bold">
+                    <i class="fas fa-clipboard-list w-6"></i> Audit Trail
                 </Link>
             </nav>
 
@@ -62,13 +79,11 @@ defineProps({
                     <div class="h-1 w-20 bg-red mt-4"></div>
                 </div>
                 <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-4">
-                        <div class="text-right">
-                            <div class="font-bold">Admin User</div>
-                            <div class="text-xs text-red uppercase font-bold tracking-widest">Super Admin</div>
-                        </div>
-                        <div class="w-12 h-12 bg-red rounded-xl flex items-center justify-center font-black text-white">A</div>
+                    <div class="text-right">
+                        <div class="font-bold">{{ user?.name }}</div>
+                        <div class="text-xs text-red uppercase font-bold tracking-widest">{{ role }}</div>
                     </div>
+                    <div class="w-12 h-12 bg-red rounded-xl flex items-center justify-center font-black text-white">{{ initial }}</div>
                 </div>
             </header>
 

@@ -15,6 +15,8 @@ use App\Services\GeminiService;
 use App\Services\HtmlSanitizer;
 use App\Services\ProductBulkService;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx as XlsxWriter;
+use Spatie\Permission\Models\Role;
+use Spatie\Activitylog\Models\Activity;
 
 class AdminController extends Controller
 {
@@ -343,6 +345,11 @@ class AdminController extends Controller
             ], 422);
         }
 
+        activity('bulk-import')
+            ->causedBy($request->user())
+            ->withProperties($result)
+            ->log("Bulk product import — {$result['updated']} updated, {$result['created']} created, {$result['categoriesCreated']} new categories");
+
         return response()->json([
             'message' => "Import complete — {$result['updated']} updated, {$result['created']} created, {$result['categoriesCreated']} new categories.",
             'result' => $result,
@@ -513,5 +520,87 @@ class AdminController extends Controller
         $request->validate(['status' => 'required|string']);
         $quote->update(['status' => $request->status]);
         return back()->with('success', 'Quote status updated.');
+    }
+
+    // Users & Roles (RBAC)
+    public function users(Request $request)
+    {
+        $search = trim((string) $request->input('search', ''));
+
+        $users = User::with('roles')
+            ->when($search !== '', fn ($q) => $q->where(fn ($sub) => $sub
+                ->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")))
+            ->orderBy('name')
+            ->paginate(15)
+            ->withQueryString()
+            ->through(fn (User $u) => [
+                'id' => $u->id,
+                'name' => $u->name,
+                'email' => $u->email,
+                'is_admin' => (bool) $u->is_admin,
+                'role' => $u->roles->pluck('name')->first(),
+                'created_at' => $u->created_at?->toDateString(),
+            ]);
+
+        return Inertia::render('Admin/Users/Index', [
+            'users' => $users,
+            'roles' => Role::orderBy('name')->pluck('name'),
+            'filters' => ['search' => $search],
+        ]);
+    }
+
+    public function updateUser(Request $request, User $user)
+    {
+        $data = $request->validate([
+            'role' => 'nullable|string|in:admin,manager,staff',
+        ]);
+
+        // Prevent locking yourself out of the admin console.
+        if ($user->id === $request->user()->id && ($data['role'] ?? null) !== 'admin') {
+            return back()->with('error', 'You cannot change your own admin role.');
+        }
+
+        $oldRole = $user->roles->pluck('name')->first();
+        $newRole = $data['role'] ?? null;
+
+        $user->syncRoles(array_filter([$newRole]));
+        $user->is_admin = $newRole === 'admin';
+        $user->save();
+
+        // Role changes live on a pivot, so log them explicitly for the audit trail.
+        if ($oldRole !== $newRole) {
+            activity('roles')
+                ->causedBy($request->user())
+                ->performedOn($user)
+                ->withProperties(['old_role' => $oldRole ?: 'Customer', 'new_role' => $newRole ?: 'Customer'])
+                ->log("Changed {$user->name}'s role to " . ($newRole ?: 'Customer'));
+        }
+
+        return back()->with('success', "Updated {$user->name}'s access.");
+    }
+
+    // Audit trail
+    public function audit()
+    {
+        $activities = Activity::with('causer')
+            ->latest()
+            ->paginate(25)
+            ->through(fn (Activity $a) => [
+                'id' => $a->id,
+                'log_name' => $a->log_name,
+                'description' => $a->description,
+                'event' => $a->event,
+                'subject_type' => $a->subject_type ? class_basename($a->subject_type) : null,
+                'subject_id' => $a->subject_id,
+                'causer' => $a->causer?->name ?? 'System',
+                'changes' => $a->changes(),
+                'created_at' => $a->created_at?->diffForHumans(),
+                'created_at_full' => $a->created_at?->toDayDateTimeString(),
+            ]);
+
+        return Inertia::render('Admin/Audit/Index', [
+            'activities' => $activities,
+        ]);
     }
 }

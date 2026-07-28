@@ -126,6 +126,7 @@ class DatabaseSeeder extends Seeder
 
         // Call individual catalog seeders
         $this->call([
+            RolesAndPermissionsSeeder::class,
             NewProductsSeeder::class,
             NewDesktopSeeder::class,
             NewRefurbishedLaptopsSeeder::class,

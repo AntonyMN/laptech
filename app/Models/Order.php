@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    use \App\Models\Concerns\Auditable;
+
     protected $fillable = [
         'user_id',
         'items', // array of products with price/qty

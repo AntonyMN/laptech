@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use \App\Models\Concerns\Auditable;
+
     protected $fillable = [
         'category_id',
         'name',
