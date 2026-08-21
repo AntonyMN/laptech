@@ -20,6 +20,7 @@ const openCreate = () => { editing.value = null; showForm.value = true; };
 const openEdit = (product) => { editing.value = product; showForm.value = true; };
 
 const search = ref(props.filters?.search ?? '');
+const archiveFilter = ref(props.filters?.archived ?? 'active');
 
 // Debounced server-side search (preserves scroll + input focus)
 let searchTimer = null;
@@ -28,15 +29,40 @@ watch(search, (value) => {
     searchTimer = setTimeout(() => {
         router.get(
             route('admin.products.index'),
-            { search: value || undefined },
+            { search: value || undefined, archived: archiveFilter.value },
             { preserveState: true, preserveScroll: true, replace: true },
         );
     }, 300);
 });
 
+const switchTab = (tab) => {
+    archiveFilter.value = tab;
+    router.get(
+        route('admin.products.index'),
+        { search: search.value || undefined, archived: tab },
+        { preserveState: true, preserveScroll: true, replace: true },
+    );
+};
+
 const deleteProduct = (id) => {
     if (confirm('Are you sure you want to delete this product?')) {
         router.delete(route('admin.products.delete', id));
+    }
+};
+
+const archiveProduct = (id) => {
+    if (confirm('Archive this product? It will be hidden from the storefront.')) {
+        router.patch(route('admin.products.archive', id));
+    }
+};
+
+const restoreProduct = (id) => {
+    router.patch(route('admin.products.restore', id));
+};
+
+const forceDeleteProduct = (id, name) => {
+    if (confirm(`PERMANENTLY DELETE "${name}"?\n\nThis will delete the product and all its images from the server. This action cannot be undone.`)) {
+        router.delete(route('admin.products.force-delete', id));
     }
 };
 
@@ -78,6 +104,31 @@ const getStatusClasses = (status) => {
                 </div>
             </div>
 
+            <!-- Active / Archived Tabs -->
+            <div class="px-10 pt-6 flex items-center gap-1 border-b border-white/5">
+                <button
+                    @click="switchTab('active')"
+                    :class="archiveFilter === 'active' ? 'border-red text-white bg-red/10' : 'border-transparent text-white/40 hover:text-white/70'"
+                    class="px-5 py-3 text-sm font-bold border-b-2 transition flex items-center gap-2"
+                >
+                    <i class="fas fa-box"></i> Active
+                </button>
+                <button
+                    @click="switchTab('archived')"
+                    :class="archiveFilter === 'archived' ? 'border-amber-500 text-amber-400 bg-amber-500/10' : 'border-transparent text-white/40 hover:text-white/70'"
+                    class="px-5 py-3 text-sm font-bold border-b-2 transition flex items-center gap-2"
+                >
+                    <i class="fas fa-archive"></i> Archived
+                </button>
+                <button
+                    @click="switchTab('all')"
+                    :class="archiveFilter === 'all' ? 'border-white/60 text-white bg-white/5' : 'border-transparent text-white/40 hover:text-white/70'"
+                    class="px-5 py-3 text-sm font-bold border-b-2 transition flex items-center gap-2"
+                >
+                    <i class="fas fa-layer-group"></i> All
+                </button>
+            </div>
+
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
                     <thead>
@@ -91,10 +142,10 @@ const getStatusClasses = (status) => {
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-white/5">
-                        <tr v-for="product in products.data" :key="product.id" class="hover:bg-white/5 transition group">
+                        <tr v-for="product in products.data" :key="product.id" class="hover:bg-white/5 transition group" :class="product.is_archived ? 'opacity-60' : ''">
                             <td class="px-10 py-6">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-charcoal rounded-lg overflow-hidden shrink-0">
+                                    <div class="w-12 h-12 bg-charcoal rounded-lg overflow-hidden shrink-0 relative">
                                         <img
                                             :src="product.image || 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&q=80&w=100'"
                                             loading="lazy"
@@ -103,8 +154,15 @@ const getStatusClasses = (status) => {
                                             height="48"
                                             class="w-full h-full object-cover"
                                         />
+                                        <!-- Archived overlay badge -->
+                                        <div v-if="product.is_archived" class="absolute inset-0 bg-amber-900/50 flex items-center justify-center">
+                                            <i class="fas fa-archive text-amber-300 text-xs"></i>
+                                        </div>
                                     </div>
-                                    <span class="font-bold">{{ product.name }}</span>
+                                    <div>
+                                        <span class="font-bold">{{ product.name }}</span>
+                                        <span v-if="product.is_archived" class="ml-2 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-400 border border-amber-500/20">Archived</span>
+                                    </div>
                                 </div>
                             </td>
                             <td class="px-10 py-6 text-white/50">{{ product.category?.name }}</td>
@@ -117,18 +175,60 @@ const getStatusClasses = (status) => {
                             </td>
                             <td class="px-10 py-6 text-right">
                                 <div class="flex items-center justify-end gap-2">
-                                    <button @click="openEdit(product)" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-red transition flex items-center justify-center">
+                                    <!-- Edit (always available) -->
+                                    <button @click="openEdit(product)" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-red transition flex items-center justify-center" title="Edit">
                                         <i class="fas fa-edit text-xs"></i>
                                     </button>
-                                    <button @click="deleteProduct(product.id)" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-red-500 transition flex items-center justify-center">
+
+                                    <!-- Archive / Restore toggle -->
+                                    <button
+                                        v-if="!product.is_archived"
+                                        @click="archiveProduct(product.id)"
+                                        class="w-8 h-8 rounded-lg bg-white/5 hover:bg-amber-600 transition flex items-center justify-center"
+                                        title="Archive — hide from storefront"
+                                    >
+                                        <i class="fas fa-archive text-xs"></i>
+                                    </button>
+                                    <button
+                                        v-else
+                                        @click="restoreProduct(product.id)"
+                                        class="w-8 h-8 rounded-lg bg-amber-500/15 hover:bg-emerald-600 transition flex items-center justify-center text-amber-400 hover:text-white"
+                                        title="Restore — make visible on storefront"
+                                    >
+                                        <i class="fas fa-undo text-xs"></i>
+                                    </button>
+
+                                    <!-- Soft delete (active products) -->
+                                    <button
+                                        v-if="!product.is_archived"
+                                        @click="deleteProduct(product.id)"
+                                        class="w-8 h-8 rounded-lg bg-white/5 hover:bg-red-500 transition flex items-center justify-center"
+                                        title="Delete"
+                                    >
                                         <i class="fas fa-trash-alt text-xs"></i>
+                                    </button>
+
+                                    <!-- Force delete (archived products only) -->
+                                    <button
+                                        v-if="product.is_archived"
+                                        @click="forceDeleteProduct(product.id, product.name)"
+                                        class="w-8 h-8 rounded-lg bg-red-900/30 hover:bg-red-600 text-red-400 hover:text-white transition flex items-center justify-center"
+                                        title="Permanently delete — removes product and images"
+                                    >
+                                        <i class="fas fa-skull-crossbones text-xs"></i>
                                     </button>
                                 </div>
                             </td>
                         </tr>
                         <tr v-if="products.data.length === 0">
                             <td colspan="6" class="px-10 py-16 text-center text-white/40">
-                                No products found<span v-if="search"> for “{{ search }}”</span>.
+                                <template v-if="archiveFilter === 'archived'">
+                                    <i class="fas fa-archive text-3xl mb-3 block text-white/20"></i>
+                                    No archived products.
+                                </template>
+                                <template v-else>
+                                    No products found<span v-if="search"> for "{{ search }}"</span>.
+                                </template>
                             </td>
                         </tr>
                     </tbody>

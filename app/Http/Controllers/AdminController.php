@@ -180,8 +180,11 @@ class AdminController extends Controller
     public function products(Request $request)
     {
         $search = trim((string) $request->input('search', ''));
+        $archiveFilter = $request->input('archived', 'active'); // 'active', 'archived', or 'all'
 
         $products = Product::with('category')
+            ->when($archiveFilter === 'active', fn ($q) => $q->active())
+            ->when($archiveFilter === 'archived', fn ($q) => $q->archived())
             ->when($search !== '', function ($query) use ($search) {
                 $query->where(function ($sub) use ($search) {
                     $sub->where('name', 'like', "%{$search}%")
@@ -195,7 +198,7 @@ class AdminController extends Controller
         return Inertia::render('Admin/Products/Index', [
             'products' => $products,
             'categories' => Category::orderBy('name')->get(),
-            'filters' => ['search' => $search],
+            'filters' => ['search' => $search, 'archived' => $archiveFilter],
         ]);
     }
 
@@ -296,6 +299,53 @@ class AdminController extends Controller
     {
         $product->delete();
         return back()->with('success', 'Product deleted successfully.');
+    }
+
+    public function archiveProduct(Product $product)
+    {
+        $product->update([
+            'is_archived' => true,
+            'archived_at' => now(),
+        ]);
+        return back()->with('success', "'{$product->name}' has been archived.");
+    }
+
+    public function restoreProduct(Product $product)
+    {
+        $product->update([
+            'is_archived' => false,
+            'archived_at' => null,
+        ]);
+        return back()->with('success', "'{$product->name}' has been restored.");
+    }
+
+    public function forceDeleteProduct(Product $product)
+    {
+        if (!$product->is_archived) {
+            return back()->with('error', 'Only archived products can be permanently deleted. Archive it first.');
+        }
+
+        // Delete the product image from disk
+        $imagePath = $product->image;
+        if ($imagePath) {
+            // Handle /storage/products/... paths (stored via Storage::disk('public'))
+            if (str_starts_with($imagePath, '/storage/')) {
+                $relativePath = str_replace('/storage/', '', $imagePath);
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($relativePath);
+            }
+            // Handle /images/... paths (static in public/images/)
+            elseif (str_starts_with($imagePath, '/images/')) {
+                $publicPath = public_path($imagePath);
+                if (file_exists($publicPath)) {
+                    @unlink($publicPath);
+                }
+            }
+        }
+
+        $name = $product->name;
+        $product->delete();
+
+        return back()->with('success', "'{$name}' has been permanently deleted.");
     }
 
     // Bulk product export / import

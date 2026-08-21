@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::query()->with('category');
+        $query = Product::query()->with('category')->active();
 
         if ($request->search) {
             $query->where('name', 'like', '%' . $request->search . '%');
@@ -45,22 +45,22 @@ class ProductController extends Controller
 
         return Inertia::render('Products/Index', [
             'products' => $query->paginate(12)->withQueryString(),
-            'categories' => Category::has('products')->get(),
+            'categories' => Category::has('activeProducts')->get(),
             'filters' => $request->only(['search', 'category', 'status', 'min_price', 'max_price', 'sort']),
         ]);
     }
 
     public function show($slug)
     {
-        $product = Product::where('slug', $slug)->with('category')->firstOrFail();
+        $product = Product::where('slug', $slug)->active()->with('category')->firstOrFail();
         
         return Inertia::render('Products/Show', [
             'product' => $product,
             'relatedProducts' => Product::where('category_id', $product->category_id)
                 ->where('id', '!=', $product->id)
+                ->active()
                 ->limit(3)
                 ->get(),
         ]);
     }
 }
-

@@ -15,5 +15,13 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    /**
+     * Products that are NOT archived — used for storefront queries.
+     */
+    public function activeProducts()
+    {
+        return $this->hasMany(Product::class)->where('is_archived', false);
+    }
 }
 

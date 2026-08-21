@@ -43,7 +43,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'appName' => config('app.name', 'Laptech'),
             'appUrl' => config('app.url'),
-            'navCategories' => fn () => \App\Models\Category::has('products')
+            'navCategories' => fn () => \App\Models\Category::has('activeProducts')
                 ->orderBy('name')
                 ->get(['id', 'name', 'slug']),
             'canLogin' => \Illuminate\Support\Facades\Route::has('login'),

@@ -18,8 +18,9 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'categories' => \App\Models\Category::has('products')->get(),
+        'categories' => \App\Models\Category::has('activeProducts')->get(),
         'serverProducts' => \App\Models\Product::with('category')
+            ->active()
             ->whereHas('category', fn ($q) => $q->where('name', 'Servers'))
             ->whereIn('slug', [
                 'dell-poweredge-r760-rack-server',
@@ -29,11 +30,13 @@ Route::get('/', function () {
             ])
             ->get(),
         'featuredProducts' => \App\Models\Product::with('category')
+            ->active()
             ->where('is_featured', true)
             ->latest()
             ->limit(8)
             ->get(),
         'hotDeals' => \App\Models\Product::with('category')
+            ->active()
             ->where('stock', '>', 0)
             ->latest()
             ->limit(10)
@@ -87,6 +90,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/products/{product}/edit', [AdminController::class, 'editProduct'])->name('products.edit');
         Route::patch('/products/{product}', [AdminController::class, 'updateProduct'])->name('products.update');
         Route::delete('/products/{product}', [AdminController::class, 'deleteProduct'])->name('products.delete');
+        Route::patch('/products/{product}/archive', [AdminController::class, 'archiveProduct'])->name('products.archive');
+        Route::patch('/products/{product}/restore', [AdminController::class, 'restoreProduct'])->name('products.restore');
+        Route::delete('/products/{product}/force-delete', [AdminController::class, 'forceDeleteProduct'])->name('products.force-delete');
     });
 
     // Product Categories

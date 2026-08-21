@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Software Licenses', 'slug' => 'software-licenses', 'description' => 'Professional licenses.'],
             ['name' => 'Audio Visual', 'slug' => 'audio-visual', 'description' => 'TVs, displays, and audio gear.'],
             ['name' => 'POS Systems', 'slug' => 'pos-systems', 'description' => 'Point of sale hardware.'],
+            ['name' => 'Monitors', 'slug' => 'monitors', 'description' => 'High quality curved and ultrawide displays.'],
             ['name' => 'Other', 'slug' => 'other', 'description' => 'Other products.'],
             ['name' => 'Uncategorized', 'slug' => 'uncategorized', 'description' => 'Uncategorized items.'],
         ];
@@ -127,12 +128,11 @@ class DatabaseSeeder extends Seeder
         // Call individual catalog seeders
         $this->call([
             RolesAndPermissionsSeeder::class,
-            NewProductsSeeder::class,
-            NewDesktopSeeder::class,
-            NewRefurbishedLaptopsSeeder::class,
-            NewServerAndSoftwareSeeder::class,
-            NewServicesAndCCTVsSeeder::class,
-            NewAccessoriesSeeder::class,
+            MonitorsSeeder::class,
+            RefurbishedLaptopsSeeder::class,
+            RefurbishedServersSeeder::class,
+            LogitechAccessoriesSeeder::class,
+            SoftwareSeeder::class,
         ]);
     }
 }

@@ -19,7 +19,9 @@ class Product extends Model
         'image',
         'specifications',
         'is_featured',
-        'status'
+        'status',
+        'is_archived',
+        'archived_at',
     ];
 
     protected function casts(): array
@@ -27,6 +29,8 @@ class Product extends Model
         return [
             'specifications' => 'array',
             'is_featured' => 'boolean',
+            'is_archived' => 'boolean',
+            'archived_at' => 'datetime',
         ];
     }
 
@@ -34,5 +38,20 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
-}
 
+    /**
+     * Scope: only active (non-archived) products.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_archived', false);
+    }
+
+    /**
+     * Scope: only archived products.
+     */
+    public function scopeArchived($query)
+    {
+        return $query->where('is_archived', true);
+    }
+}

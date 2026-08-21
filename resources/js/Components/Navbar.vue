@@ -101,7 +101,7 @@ const whatsapp = 'https://wa.me/254722964566';
             <div class="max-w-7xl mx-auto px-6 h-16 flex items-center gap-4">
                 <!-- Logo -->
                 <Link :href="route('welcome')" class="flex items-center shrink-0 group">
-                    <img src="/images/logo.png" alt="Laptech" class="h-10 w-auto transition group-hover:scale-105 duration-300">
+                    <img src="/images/logo.png" alt="Laptech" class="h-10 w-auto transition group-hover:scale-105 duration-300" :class="isDark ? 'logo-dark-mode' : ''">
                 </Link>
 
                 <!-- Search -->
@@ -250,3 +250,18 @@ const whatsapp = 'https://wa.me/254722964566';
         </div>
     </header>
 </template>
+
+<style scoped>
+/*
+ * Dark-mode logo treatment:
+ * The original logo has BLACK text + ORANGE gear on a WHITE background.
+ * invert(1) turns white→black, black→white, and hue-rotate restores orange.
+ * mix-blend-mode: screen then drops the black (inverted bg) to transparent,
+ * so the logo blends cleanly against any dark surface — no edge artifacts
+ * and no color mismatch with the theme's charcoal/dark-blue background.
+ */
+.logo-dark-mode {
+    filter: invert(1) hue-rotate(180deg);
+    mix-blend-mode: screen;
+}
+</style>

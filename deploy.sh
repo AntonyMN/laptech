@@ -63,6 +63,7 @@ rsync -az --delete -e "$SSH_WRAP" \
 # state, but never sync these directories.
 
 echo "3. Remote post-deploy (NON-destructive: migrate only, never seed/fresh)..."
+echo "   NOTE: public/images/ (product images) are included in the rsync above."
 $SSH_WRAP "$SERVER_USER@$SERVER_HOST" 'bash -s' <<'EOF'
     set -e
     cd /var/www/laptech
@@ -71,6 +72,12 @@ $SSH_WRAP "$SERVER_USER@$SERVER_HOST" 'bash -s' <<'EOF'
     composer install --no-dev --optimize-autoloader --ignore-platform-reqs --no-interaction
     php artisan migrate --force
     php artisan storage:link || true
+
+    # One-time catalog sync: archives old products, seeds the local catalog.
+    # Safe to re-run (updateOrCreate) — remove this block after first successful deploy.
+    php artisan app:sync-catalog
+    echo ">>> Catalog synced."
+
     php artisan optimize:clear
     php artisan optimize
     sudo chown -R ubuntu:www-data /var/www/laptech
