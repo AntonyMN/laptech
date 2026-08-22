@@ -34,8 +34,8 @@ class LogitechAccessoriesSeeder extends Seeder
             ['name' => 'Logitech Mouse M650 L Bluetooth Graphite', 'base_price' => 4400, 'image' => '/images/logitech_mouse.png', 'type' => 'Mouse'],
             ['name' => 'Logitech Mouse M720 Bluetooth', 'base_price' => 6500, 'image' => '/images/logitech_mouse.png', 'type' => 'Mouse'],
             ['name' => 'Logitech MX Anywhere 3S', 'base_price' => 12500, 'image' => '/images/logitech_mouse.png', 'type' => 'Mouse'],
-            ['name' => 'Logitech MX Master 3S Graphite', 'base_price' => 13500, 'image' => '/images/logitech_mouse.png', 'type' => 'Mouse'],
-            ['name' => 'Logitech MX Master 3S White', 'base_price' => 13500, 'image' => '/images/logitech_mouse.png', 'type' => 'Mouse'],
+            ['name' => 'Logitech MX Master 3S Graphite', 'base_price' => 13500, 'image' => '/images/logitech_mx_master_3s.png', 'type' => 'Mouse'],
+            ['name' => 'Logitech MX Master 3S White', 'base_price' => 13500, 'image' => '/images/logitech_mx_master_3s.png', 'type' => 'Mouse'],
             ['name' => 'Logitech G305', 'base_price' => 7500, 'image' => '/images/logitech_mouse.png', 'type' => 'Mouse'],
 
             // Keyboards
@@ -44,10 +44,10 @@ class LogitechAccessoriesSeeder extends Seeder
             ['name' => 'Logitech MX Keys Mini Pink', 'base_price' => 14500, 'image' => '/images/logitech_keyboard.png', 'type' => 'Keyboard'],
             ['name' => 'Logitech Pop Keys Daydream', 'base_price' => 13500, 'image' => '/images/logitech_keyboard.png', 'type' => 'Keyboard'],
             ['name' => 'Logitech Pop Keys Yellow', 'base_price' => 13500, 'image' => '/images/logitech_keyboard.png', 'type' => 'Keyboard'],
-            ['name' => 'Logitech MX Keys S', 'base_price' => 15000, 'image' => '/images/logitech_keyboard.png', 'type' => 'Keyboard'],
-            ['name' => 'Logitech MX Keys Mini Mechanical', 'base_price' => 21500, 'image' => '/images/logitech_keyboard.png', 'type' => 'Keyboard'],
-            ['name' => 'Logitech MX Keys Mini Pale Grey', 'base_price' => 15000, 'image' => '/images/logitech_keyboard.png', 'type' => 'Keyboard'],
-            ['name' => 'Logitech MX Keys Plus', 'base_price' => 16000, 'image' => '/images/logitech_keyboard.png', 'type' => 'Keyboard'],
+            ['name' => 'Logitech MX Keys S', 'base_price' => 15000, 'image' => '/images/logitech_mx_keys.png', 'type' => 'Keyboard'],
+            ['name' => 'Logitech MX Keys Mini Mechanical', 'base_price' => 21500, 'image' => '/images/logitech_mx_keys.png', 'type' => 'Keyboard'],
+            ['name' => 'Logitech MX Keys Mini Pale Grey', 'base_price' => 15000, 'image' => '/images/logitech_mx_keys.png', 'type' => 'Keyboard'],
+            ['name' => 'Logitech MX Keys Plus', 'base_price' => 16000, 'image' => '/images/logitech_mx_keys.png', 'type' => 'Keyboard'],
 
             // Combos
             ['name' => 'Logitech MK120 Combo', 'base_price' => 1600, 'image' => '/images/logitech_combo.png', 'type' => 'Combo'],
@@ -65,12 +65,12 @@ class LogitechAccessoriesSeeder extends Seeder
             ['name' => 'Logitech Webcam C270', 'base_price' => 3000, 'image' => '/images/logitech_webcam.png', 'type' => 'Webcam'],
             ['name' => 'Logitech Webcam C505e', 'base_price' => 3000, 'image' => '/images/logitech_webcam.png', 'type' => 'Webcam'],
             ['name' => 'Logitech Webcam C922', 'base_price' => 12000, 'image' => '/images/logitech_webcam.png', 'type' => 'Webcam'],
-            ['name' => 'Logitech Brio Ultra 4K Webcam', 'base_price' => 24000, 'image' => '/images/logitech_webcam.png', 'type' => 'Webcam'],
+            ['name' => 'Logitech Brio Ultra 4K Webcam', 'base_price' => 24000, 'image' => '/images/logitech_brio_4k.png', 'type' => 'Webcam'],
             ['name' => 'Logitech Webcam C920e', 'base_price' => 9000, 'image' => '/images/logitech_webcam.png', 'type' => 'Webcam'],
             ['name' => 'Logitech Webcam C925e', 'base_price' => 10500, 'image' => '/images/logitech_webcam.png', 'type' => 'Webcam'],
-            ['name' => 'Logitech Brio 500 Pink', 'base_price' => 15500, 'image' => '/images/logitech_webcam.png', 'type' => 'Webcam'],
-            ['name' => 'Logitech Brio 505', 'base_price' => 14500, 'image' => '/images/logitech_webcam.png', 'type' => 'Webcam'],
-            ['name' => 'Logitech MX Brio 705 Business 4K', 'base_price' => 22000, 'image' => '/images/logitech_webcam.png', 'type' => 'Webcam'],
+            ['name' => 'Logitech Brio 500 Pink', 'base_price' => 15500, 'image' => '/images/logitech_brio_4k.png', 'type' => 'Webcam'],
+            ['name' => 'Logitech Brio 505', 'base_price' => 14500, 'image' => '/images/logitech_brio_4k.png', 'type' => 'Webcam'],
+            ['name' => 'Logitech MX Brio 705 Business 4K', 'base_price' => 22000, 'image' => '/images/logitech_brio_4k.png', 'type' => 'Webcam'],
             ['name' => 'Logitech Webcam C930e', 'base_price' => 11500, 'image' => '/images/logitech_webcam.png', 'type' => 'Webcam'],
 
             // Headsets
@@ -79,7 +79,7 @@ class LogitechAccessoriesSeeder extends Seeder
             ['name' => 'Logitech Headset H340', 'base_price' => 2500, 'image' => '/images/logitech_headset.png', 'type' => 'Headset'],
             ['name' => 'Logitech Headset H390', 'base_price' => 3300, 'image' => '/images/logitech_headset.png', 'type' => 'Headset'],
             ['name' => 'Logitech Headset H540', 'base_price' => 4350, 'image' => '/images/logitech_headset.png', 'type' => 'Headset'],
-            ['name' => 'Logitech Zone Vibe 100 Black', 'base_price' => 12000, 'image' => '/images/logitech_headset.png', 'type' => 'Headset'],
+            ['name' => 'Logitech Zone Vibe 100 Black', 'base_price' => 12000, 'image' => '/images/logitech_zone_vibe.png', 'type' => 'Headset'],
             ['name' => 'Logitech Zone Wired', 'base_price' => 13500, 'image' => '/images/logitech_headset.png', 'type' => 'Headset'],
             ['name' => 'Logitech Zone 300 White', 'base_price' => 8500, 'image' => '/images/logitech_headset.png', 'type' => 'Headset'],
             ['name' => 'Logitech Zone 300 Black', 'base_price' => 8500, 'image' => '/images/logitech_headset.png', 'type' => 'Headset'],
@@ -96,8 +96,8 @@ class LogitechAccessoriesSeeder extends Seeder
             // Video Conferencing
             ['name' => 'Logitech PTZ Pro 2', 'base_price' => 52000, 'image' => '/images/logitech_video_conferencing.png', 'type' => 'Video Conferencing'],
             ['name' => 'Logitech BCC950', 'base_price' => 24500, 'image' => '/images/logitech_video_conferencing.png', 'type' => 'Video Conferencing'],
-            ['name' => 'Logitech Rally Bar', 'base_price' => 370000, 'image' => '/images/logitech_video_conferencing.png', 'type' => 'Video Conferencing'],
-            ['name' => 'Logitech Rally Bar Mini Graphite', 'base_price' => 300000, 'image' => '/images/logitech_video_conferencing.png', 'type' => 'Video Conferencing'],
+            ['name' => 'Logitech Rally Bar', 'base_price' => 370000, 'image' => '/images/logitech_rally_bar.png', 'type' => 'Video Conferencing'],
+            ['name' => 'Logitech Rally Bar Mini Graphite', 'base_price' => 300000, 'image' => '/images/logitech_rally_bar.png', 'type' => 'Video Conferencing'],
             ['name' => 'Logitech Scribe White USB', 'base_price' => 125000, 'image' => '/images/logitech_video_conferencing.png', 'type' => 'Video Conferencing'],
             ['name' => 'Logitech Webcam Rally Bar Huddle', 'base_price' => 145000, 'image' => '/images/logitech_video_conferencing.png', 'type' => 'Video Conferencing'],
             ['name' => 'Logitech Group', 'base_price' => 68000, 'image' => '/images/logitech_video_conferencing.png', 'type' => 'Video Conferencing'],

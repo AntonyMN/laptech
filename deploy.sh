@@ -73,11 +73,7 @@ $SSH_WRAP "$SERVER_USER@$SERVER_HOST" 'bash -s' <<'EOF'
     php artisan migrate --force
     php artisan storage:link || true
 
-    # One-time catalog sync: archives old products, seeds the local catalog.
-    # Safe to re-run (updateOrCreate) — remove this block after first successful deploy.
-    php artisan app:sync-catalog
-    echo ">>> Catalog synced."
-
+    # Removed app:sync-catalog one-time deployment helper to prevent automatic archiving.
     php artisan optimize:clear
     php artisan optimize
     sudo chown -R ubuntu:www-data /var/www/laptech
