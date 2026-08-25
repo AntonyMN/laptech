@@ -23,6 +23,7 @@ const props = defineProps({
     categories: Array,
     serverProducts: Array,
     featuredProducts: Array,
+    featuredCategories: Array,
     hotDeals: Array,
     featuredServices: Array,
 });
@@ -142,16 +143,16 @@ const searchProducts = () => {
                     </p>
 
                     <!-- Search -->
-                    <div class="flex items-center bg-surface border border-line rounded-full overflow-hidden max-w-lg focus-within:border-red focus-within:shadow-lg transition mb-5 shadow-sm">
-                        <i class="fas fa-search ml-5 text-muted"></i>
+                    <div class="flex items-center bg-surface border border-line rounded-full overflow-hidden w-full max-w-lg focus-within:border-red focus-within:shadow-lg transition mb-5 shadow-sm">
+                        <i class="fas fa-search ml-4 sm:ml-5 text-muted"></i>
                         <input
                             v-model="searchQuery"
                             @keyup.enter="searchProducts"
                             type="text"
-                            placeholder="Search laptops, accessories, services…"
-                            class="flex-1 bg-transparent border-none focus:ring-0 px-4 py-3.5 text-ink placeholder:text-muted"
+                            placeholder="Search..."
+                            class="flex-1 w-full min-w-0 bg-transparent border-none focus:ring-0 px-3 sm:px-4 py-3.5 text-ink placeholder:text-muted text-sm sm:text-base"
                         />
-                        <button @click="searchProducts" class="bg-red hover:bg-red-dark text-white px-7 py-3.5 font-bold transition">
+                        <button @click="searchProducts" class="bg-red hover:bg-red-dark text-white px-5 sm:px-7 py-3.5 font-bold transition text-sm sm:text-base shrink-0">
                             Search
                         </button>
                     </div>
@@ -197,15 +198,15 @@ const searchProducts = () => {
                                     <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-red text-white text-[11px] font-bold uppercase tracking-wide shadow">Featured</span>
                                 </div>
                             </Link>
-                            <div class="flex items-end justify-between gap-4">
+                            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                                 <div class="min-w-0">
                                     <span class="text-xs font-semibold uppercase tracking-widest text-red">{{ heroProduct.category?.name }}</span>
                                     <Link :href="route('products.show', heroProduct.slug)">
                                         <h3 class="text-lg sm:text-xl font-heading font-bold mt-1 mb-1 truncate hover:text-red transition">{{ heroProduct.name }}</h3>
                                     </Link>
-                                    <span class="text-2xl font-heading font-extrabold">Ksh {{ heroProduct.price.toLocaleString() }}</span>
+                                    <span class="text-xl sm:text-2xl font-heading font-extrabold">Ksh {{ heroProduct.price.toLocaleString() }}</span>
                                 </div>
-                                <Link :href="route('products.show', heroProduct.slug)" class="shrink-0 inline-flex items-center gap-2 bg-red hover:bg-red-dark text-white px-5 py-3 rounded-full font-bold transition shadow-lg shadow-red/20">
+                                <Link :href="route('products.show', heroProduct.slug)" class="shrink-0 inline-flex items-center justify-center gap-2 bg-red hover:bg-red-dark text-white px-5 py-3 rounded-full font-bold transition shadow-lg shadow-red/20 w-full sm:w-auto">
                                     Shop <i class="fas fa-arrow-right"></i>
                                 </Link>
                             </div>
@@ -283,21 +284,23 @@ const searchProducts = () => {
             </div>
         </section>
 
-        <!-- Featured Products -->
-        <section class="max-w-7xl mx-auto px-6 py-8">
-            <div class="flex items-end justify-between mb-6">
-                <div>
-                    <h2 class="text-2xl font-heading font-extrabold">Featured Products</h2>
-                    <div class="h-1 w-16 bg-red mt-2 rounded-full"></div>
+        <!-- Featured Categories -->
+        <template v-for="category in featuredCategories" :key="category.id">
+            <section class="max-w-7xl mx-auto px-6 py-8">
+                <div class="flex items-end justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-heading font-extrabold">Featured {{ category.name }}</h2>
+                        <div class="h-1 w-16 bg-red mt-2 rounded-full"></div>
+                    </div>
+                    <Link :href="route('products.index', { category: category.id })" class="text-red font-bold text-sm hover:underline whitespace-nowrap">
+                        View all <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                    </Link>
                 </div>
-                <Link :href="route('products.index')" class="text-red font-bold text-sm hover:underline whitespace-nowrap">
-                    View all <i class="fas fa-chevron-right ml-1 text-xs"></i>
-                </Link>
-            </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-                <ProductCard v-for="product in featuredProducts" :key="product.id" :product="product" />
-            </div>
-        </section>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+                    <ProductCard v-for="product in category.products" :key="product.id" :product="product" />
+                </div>
+            </section>
+        </template>
 
         <!-- Hot Deals (horizontal scroll) -->
         <section v-if="hotDeals?.length" class="bg-surface border-y border-line py-10 mt-6">

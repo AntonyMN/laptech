@@ -35,6 +35,20 @@ Route::get('/', function () {
             ->latest()
             ->limit(8)
             ->get(),
+        'featuredCategories' => \App\Models\Category::whereHas('products', function($q) {
+                $q->active()->where('is_featured', true);
+            })
+            ->get()
+            ->map(function ($category) {
+                $category->setRelation('products', $category->products()
+                    ->with('category')
+                    ->active()
+                    ->where('is_featured', true)
+                    ->latest()
+                    ->limit(4)
+                    ->get());
+                return $category;
+            }),
         'hotDeals' => \App\Models\Product::with('category')
             ->active()
             ->where('stock', '>', 0)

@@ -130,6 +130,7 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             MonitorsSeeder::class,
             RefurbishedLaptopsSeeder::class,
+            GamingLaptopsSeeder::class,
             RefurbishedServersSeeder::class,
             LogitechAccessoriesSeeder::class,
             SoftwareSeeder::class,
