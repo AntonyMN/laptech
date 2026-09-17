@@ -96,13 +96,13 @@ const submitQuote = () => {
                                 </div>
                             </a>
 
-                            <a href="mailto:info@laptech.co.ke" class="flex gap-5 items-center p-5 bg-surface border border-line rounded-2xl hover:border-red/40 transition">
+                            <a href="mailto:laptechsolutions.ke@gmail.com" class="flex gap-5 items-center p-5 bg-surface border border-line rounded-2xl hover:border-red/40 transition">
                                 <div class="w-12 h-12 rounded-xl bg-red/10 flex items-center justify-center shrink-0">
                                     <i class="fas fa-envelope text-red text-lg"></i>
                                 </div>
                                 <div>
                                     <h4 class="font-bold text-muted uppercase tracking-widest text-xs mb-0.5">Email</h4>
-                                    <p class="font-bold text-ink">info@laptech.co.ke</p>
+                                    <p class="font-bold text-ink">laptechsolutions.ke@gmail.com</p>
                                 </div>
                             </a>
                         </div>
