@@ -21,10 +21,10 @@ class MonitorsSeeder extends Seeder
             [
                 'name' => 'HP StarVision Pro S27 – 27”',
                 'description' => 'Crisp, Vibrant Visuals with Slim Bezels.',
-                'price' => 55000,
+                'price' => 34500,
                 'stock' => 10,
                 'is_featured' => true,
-                'image' => '/images/hp_starvision_pro_s27.png',
+                'image' => '/images/hp_starvision_pro_s27.jpg',
                 'specifications' => [
                     'Resolution' => 'Full HD Display',
                     'Refresh Rate' => '100Hz',
@@ -34,10 +34,10 @@ class MonitorsSeeder extends Seeder
             [
                 'name' => 'LG 32MR50C-B – 32” Curved',
                 'description' => 'FHD Curved Monitor with AMD FreeSync.',
-                'price' => 72000,
+                'price' => 52000,
                 'stock' => 15,
                 'is_featured' => true,
-                'image' => '/images/lg_32mr50c_b.png',
+                'image' => '/images/lg_32mr50c_b.jpg',
                 'specifications' => [
                     'Resolution' => 'FHD',
                     'Refresh Rate' => '100Hz',
@@ -61,10 +61,10 @@ class MonitorsSeeder extends Seeder
             [
                 'name' => 'LG 34WQ60C-B – 34” Ultrawide',
                 'description' => '34” Ultrawide IPS Monitor for productivity.',
-                'price' => 90000,
+                'price' => 70000,
                 'stock' => 8,
                 'is_featured' => true,
-                'image' => '/images/lg_34wq60c_b.png',
+                'image' => '/images/lg_34wq60c_b.jpg',
                 'specifications' => [
                     'Resolution' => 'WQHD 3440×1440',
                     'Panel' => 'IPS Panel',
