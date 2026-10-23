@@ -63,7 +63,7 @@
             "description": "Premier gateway to elite hardware and precision technical services in Nairobi, Kenya.",
             "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "Tech Plaza",
+                "streetAddress": "Lyric House, 7th Floor, Kimathi Street",
                 "addressLocality": "Nairobi",
                 "addressCountry": "KE"
             },

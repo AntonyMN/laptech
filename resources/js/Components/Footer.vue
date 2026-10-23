@@ -83,7 +83,10 @@ const categories = computed(() => page.props.navCategories || []);
             <div>
                 <h4 class="font-bold mb-5 uppercase tracking-widest text-xs text-white/40">Contact</h4>
                 <ul class="space-y-3 text-sm">
-                    <li class="flex items-start gap-3"><i class="fas fa-map-marker-alt text-red mt-1"></i> Nairobi, Kenya</li>
+                    <li class="flex items-start gap-3">
+                        <i class="fas fa-map-marker-alt text-red mt-1 shrink-0"></i>
+                        <span>Lyric House, 7th Floor<br>Kimathi Street, Nairobi</span>
+                    </li>
                     <li class="flex items-center gap-3"><i class="fas fa-phone-alt text-red"></i> <a href="tel:+254722964566" class="hover:text-red transition">+254 722 964566</a></li>
                     <li class="flex items-center gap-3"><i class="fas fa-envelope text-red"></i> <a href="mailto:laptechsolutions.ke@gmail.com" class="hover:text-red transition">laptechsolutions.ke@gmail.com</a></li>
                 </ul>

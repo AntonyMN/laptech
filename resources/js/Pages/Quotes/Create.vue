@@ -82,7 +82,8 @@ const submitQuote = () => {
                                 </div>
                                 <div>
                                     <h4 class="font-bold text-muted uppercase tracking-widest text-xs mb-0.5">Location</h4>
-                                    <p class="font-bold text-ink">Nairobi, Kenya</p>
+                                    <p class="font-bold text-ink">Lyric House, 7th Floor</p>
+                                    <p class="text-xs text-muted">Kimathi Street, Nairobi</p>
                                 </div>
                             </div>
 
