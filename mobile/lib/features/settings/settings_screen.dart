@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/utils/currency_formatter.dart';
+import '../../core/utils/url_launcher_helper.dart';
 import '../auth/auth_controller.dart';
 import '../auth/login_screen.dart';
+import '../blog/blog_controller.dart';
+import '../blog/blog_screen.dart';
+import '../common/laptech_url_launcher_sheet.dart';
+import '../quotes/quotes_controller.dart';
+import '../quotes/quotes_screen.dart';
+import '../reports/analytics_report_screen.dart';
 import 'profile_edit_dialog.dart';
 import 'settings_controller.dart';
 
@@ -181,6 +188,157 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
               const SizedBox(height: 20),
             ],
+
+            // Section: Laptech.co.ke URL Launcher
+            _buildSectionHeader('LAPTECH.CO.KE WEB PORTAL LAUNCHER', Icons.rocket_launch_outlined),
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.darkSurface,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: AppColors.primary.withValues(alpha: 0.35)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Icon(Icons.language, color: AppColors.primaryBright, size: 20),
+                      ),
+                      const SizedBox(width: 12),
+                      const Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Web Portal & Storefront Launcher',
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
+                            ),
+                            Text(
+                              'Seamless browser routing for laptech.co.ke',
+                              style: TextStyle(color: AppColors.darkMuted, fontSize: 11),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 14),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: AppColors.primary),
+                            foregroundColor: AppColors.primaryBright,
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                          ),
+                          icon: const Icon(Icons.storefront, size: 16),
+                          label: const Text('LIVE STORE', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                          onPressed: () => LaptechUrlLauncher.launchLiveWebsite(context: context),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: Colors.black,
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                          ),
+                          icon: const Icon(Icons.admin_panel_settings, size: 16),
+                          label: const Text('WEB ADMIN', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                          onPressed: () => LaptechUrlLauncher.launchWebAdmin('/admin/dashboard', context: context),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: TextButton.icon(
+                      icon: const Icon(Icons.tune, size: 14, color: AppColors.darkMuted),
+                      label: const Text('CUSTOM ROUTE LAUNCHER', style: TextStyle(color: AppColors.darkMuted, fontSize: 11, fontWeight: FontWeight.bold)),
+                      onPressed: () => LaptechUrlLauncherSheet.show(context),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Section: Content & Operations Management (Quotes, Blog, Analytics & Report)
+            _buildSectionHeader('CONTENT & OPERATIONS MANAGEMENT', Icons.business_center_outlined),
+            const SizedBox(height: 10),
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.darkSurface,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: AppColors.darkBorder),
+              ),
+              child: Column(
+                children: [
+                  // Quotes Management
+                  _buildManagementTile(
+                    title: 'Quotes Management',
+                    subtitle: 'Review client quote inquiries, pricing & reachout',
+                    icon: Icons.request_quote_outlined,
+                    iconColor: AppColors.warning,
+                    badge: ref.watch(quotesControllerProvider).pendingCount > 0
+                        ? '${ref.watch(quotesControllerProvider).pendingCount} PENDING'
+                        : '${ref.watch(quotesControllerProvider).totalCount} INQUIRIES',
+                    badgeColor: ref.watch(quotesControllerProvider).pendingCount > 0 ? AppColors.warning : AppColors.primary,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const QuotesScreen()),
+                      );
+                    },
+                  ),
+                  const Divider(color: AppColors.darkBorder, height: 1),
+
+                  // Blog Articles
+                  _buildManagementTile(
+                    title: 'Blog Articles',
+                    subtitle: 'Publish tech guides, server specs & IT articles',
+                    icon: Icons.article_outlined,
+                    iconColor: AppColors.primary,
+                    badge: '${ref.watch(blogControllerProvider).totalCount} ARTICLES',
+                    badgeColor: AppColors.primary,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const BlogScreen()),
+                      );
+                    },
+                  ),
+                  const Divider(color: AppColors.darkBorder, height: 1),
+
+                  // Analytics and Report
+                  _buildManagementTile(
+                    title: 'Analytics and Report',
+                    subtitle: 'Revenue, fulfillment rates, inventory valuation & health',
+                    icon: Icons.analytics_outlined,
+                    iconColor: AppColors.success,
+                    badge: 'EXECUTIVE',
+                    badgeColor: AppColors.success,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const AnalyticsReportScreen()),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
 
             // Section: Server Endpoint Configuration
             _buildSectionHeader('API SERVER CONFIGURATION', Icons.dns_outlined),
@@ -411,6 +569,68 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           Text(value, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600)),
         ],
       ),
+    );
+  }
+
+  Widget _buildManagementTile({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required Color iconColor,
+    required String badge,
+    required Color badgeColor,
+    required VoidCallback onTap,
+  }) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+      leading: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: iconColor.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Icon(icon, color: iconColor, size: 20),
+      ),
+      title: Row(
+        children: [
+          Expanded(
+            child: Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+              ),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+            decoration: BoxDecoration(
+              color: badgeColor.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: badgeColor.withValues(alpha: 0.5)),
+            ),
+            child: Text(
+              badge,
+              style: TextStyle(
+                color: badgeColor,
+                fontSize: 9,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+              ),
+            ),
+          ),
+        ],
+      ),
+      subtitle: Padding(
+        padding: const EdgeInsets.only(top: 3),
+        child: Text(
+          subtitle,
+          style: const TextStyle(color: AppColors.darkMuted, fontSize: 11),
+        ),
+      ),
+      trailing: const Icon(Icons.chevron_right, color: AppColors.darkMuted, size: 18),
+      onTap: onTap,
     );
   }
 }

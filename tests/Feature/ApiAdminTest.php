@@ -229,4 +229,95 @@ class ApiAdminTest extends TestCase
                 'database_connected',
             ]);
     }
+
+    public function test_quotes_api_list_and_status_management(): void
+    {
+        $serviceCategory = \App\Models\ServiceCategory::firstOrCreate(
+            ['slug' => 'networking-test'],
+            ['name' => 'Networking Test', 'description' => 'Test']
+        );
+
+        $service = \App\Models\Service::firstOrCreate(
+            ['slug' => 'lan-setup'],
+            [
+                'service_category_id' => $serviceCategory->id,
+                'name' => 'LAN Setup',
+                'description' => 'Test description',
+            ]
+        );
+
+        $quote = \App\Models\Quote::create([
+            'service_id' => $service->id,
+            'name' => 'Test Client',
+            'email' => 'client@test.com',
+            'phone' => '+254700112233',
+            'details' => 'Quotation for networking equipment',
+            'status' => 'pending',
+        ]);
+
+        $res = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+            ->getJson('/api/v1/quotes');
+        $res->assertStatus(200)
+            ->assertJsonStructure([
+                'quotes',
+                'stats' => ['total', 'pending', 'responded', 'closed'],
+            ]);
+
+        $patch = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+            ->patchJson("/api/v1/quotes/{$quote->id}/status", [
+                'status' => 'responded',
+            ]);
+        $patch->assertStatus(200)
+            ->assertJsonPath('quote.status', 'responded');
+
+        $quote->delete();
+    }
+
+    public function test_blog_api_and_publish_toggle(): void
+    {
+        $category = \App\Models\BlogCategory::firstOrCreate(
+            ['slug' => 'it-trends'],
+            ['name' => 'IT Trends', 'description' => 'Trends']
+        );
+
+        $post = \App\Models\BlogPost::create([
+            'blog_category_id' => $category->id,
+            'title' => 'Test Tech Insight',
+            'slug' => 'test-tech-insight-' . uniqid(),
+            'excerpt' => 'Excerpt test',
+            'content' => '<p>Article body</p>',
+            'is_published' => false,
+        ]);
+
+        $res = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+            ->getJson('/api/v1/blog-posts');
+        $res->assertStatus(200)
+            ->assertJsonStructure([
+                'posts',
+                'stats' => ['total', 'published', 'drafts', 'categories_count'],
+            ]);
+
+        $toggle = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+            ->patchJson("/api/v1/blog-posts/{$post->id}/publish");
+        $toggle->assertStatus(200)
+            ->assertJsonPath('post.is_published', true);
+
+        $post->delete();
+    }
+
+    public function test_reports_summary_api(): void
+    {
+        $res = $this->withHeader('Authorization', 'Bearer ' . $this->adminToken)
+            ->getJson('/api/v1/reports/summary');
+        $res->assertStatus(200)
+            ->assertJsonStructure([
+                'generated_at',
+                'financial' => ['total_revenue', 'pending_revenue', 'average_order_value', 'currency'],
+                'orders' => ['total', 'delivered', 'pending', 'fulfillment_rate'],
+                'inventory' => ['active_products', 'low_stock', 'estimated_value'],
+                'quotes' => ['total', 'pending', 'response_rate'],
+                'content' => ['total_posts', 'published', 'total_services'],
+                'users' => ['total', 'admins'],
+            ]);
+    }
 }

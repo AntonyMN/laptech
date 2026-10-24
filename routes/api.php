@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BlogController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\QuoteController;
+use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\SettingController;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +59,25 @@ $apiRoutes = function () {
         Route::post('/services', [ServiceController::class, 'store']);
         Route::put('/services/{id}', [ServiceController::class, 'update']);
         Route::delete('/services/{id}', [ServiceController::class, 'destroy']);
+
+        // Quotes Management
+        Route::get('/quotes', [QuoteController::class, 'index']);
+        Route::get('/quotes/{id}', [QuoteController::class, 'show']);
+        Route::patch('/quotes/{id}/status', [QuoteController::class, 'updateStatus']);
+        Route::delete('/quotes/{id}', [QuoteController::class, 'destroy']);
+
+        // Blog Articles & Categories
+        Route::get('/blog-categories', [BlogController::class, 'categories']);
+        Route::get('/blog-posts', [BlogController::class, 'index']);
+        Route::get('/blog-posts/{id}', [BlogController::class, 'show']);
+        Route::post('/blog-posts', [BlogController::class, 'store']);
+        Route::post('/blog-posts/{id}', [BlogController::class, 'update']);
+        Route::put('/blog-posts/{id}', [BlogController::class, 'update']);
+        Route::patch('/blog-posts/{id}/publish', [BlogController::class, 'togglePublish']);
+        Route::delete('/blog-posts/{id}', [BlogController::class, 'destroy']);
+
+        // Executive Analytics & Reports
+        Route::get('/reports/summary', [ReportController::class, 'summary']);
 
         // Settings & System
         Route::get('/settings', [SettingController::class, 'index']);

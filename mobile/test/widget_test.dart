@@ -7,7 +7,11 @@ import 'package:laptech_admin/core/models/order_model.dart';
 import 'package:laptech_admin/core/models/product_model.dart';
 import 'package:laptech_admin/core/models/service_model.dart';
 import 'package:laptech_admin/core/models/user_model.dart';
+import 'package:laptech_admin/core/models/blog_post_model.dart';
+import 'package:laptech_admin/core/models/quote_model.dart';
+import 'package:laptech_admin/core/models/report_model.dart';
 import 'package:laptech_admin/core/utils/currency_formatter.dart';
+import 'package:laptech_admin/core/utils/url_launcher_helper.dart';
 import 'package:laptech_admin/main.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -143,6 +147,55 @@ void main() {
 
       final formatted = CurrencyFormatter.format(stats.revenue);
       expect(formatted.contains('1,250,000.75'), isTrue);
+    });
+
+    test('QuoteModel serialization and status helpers', () {
+      final quote = QuoteModel.fromJson({
+        'id': 1,
+        'name': 'Antony Tech',
+        'email': 'antony@example.com',
+        'phone': '+254712345678',
+        'details': 'Need 10 rack servers installed',
+        'status': 'pending',
+        'service': {'id': 2, 'name': 'Datacenter Setup'},
+      });
+
+      expect(quote.id, 1);
+      expect(quote.name, 'Antony Tech');
+      expect(quote.isPending, isTrue);
+      expect(quote.isResponded, isFalse);
+      expect(quote.serviceName, 'Datacenter Setup');
+      expect(quote.toJson()['status'], 'pending');
+    });
+
+    test('BlogPostModel serialization and URL resolution', () {
+      final post = BlogPostModel.fromJson({
+        'id': 7,
+        'blog_category_id': 1,
+        'title': 'AI In Modern Workstations',
+        'slug': 'ai-modern-workstations',
+        'excerpt': 'Brief summary',
+        'content': '<p>Long tech article</p>',
+        'featured_image': '/images/blog/ai.png',
+        'is_published': true,
+        'category': {'id': 1, 'name': 'Technology', 'slug': 'tech'},
+      });
+
+      expect(post.id, 7);
+      expect(post.title, 'AI In Modern Workstations');
+      expect(post.isPublished, isTrue);
+      expect(post.category?.name, 'Technology');
+
+      final resolved = post.resolveImageUrl('https://laptech.co.ke/api');
+      expect(resolved, 'https://laptech.co.ke/images/blog/ai.png');
+    });
+
+    test('LaptechUrlLauncher route and domain constants', () {
+      expect(LaptechUrlLauncher.baseDomain, 'laptech.co.ke');
+      expect(LaptechUrlLauncher.liveWebsite, 'https://laptech.co.ke');
+      expect(LaptechUrlLauncher.adminDashboard, 'https://laptech.co.ke/admin/dashboard');
+      expect(LaptechUrlLauncher.adminQuotes, 'https://laptech.co.ke/admin/quotes');
+      expect(LaptechUrlLauncher.adminBlog, 'https://laptech.co.ke/admin/blog-posts');
     });
   });
 

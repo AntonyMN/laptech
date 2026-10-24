@@ -22,4 +22,9 @@ class ApiEndpoints {
 
   static const String settings = '/v1/settings';
   static const String clearCache = '/v1/cache/clear';
+
+  static const String quotes = '/v1/quotes';
+  static const String blogPosts = '/v1/blog-posts';
+  static const String blogCategories = '/v1/blog-categories';
+  static const String reportSummary = '/v1/reports/summary';
 }
