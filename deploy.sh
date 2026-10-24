@@ -55,6 +55,7 @@ rsync -az --delete -e "$SSH_WRAP" \
     --exclude 'storage/*.key' --exclude 'storage/logs/*' \
     --exclude 'bootstrap/cache/*' --exclude 'storage/framework/cache/*' \
     --exclude 'storage/framework/sessions/*' --exclude 'storage/framework/views/*' \
+    --exclude 'mobile/build' --exclude 'mobile/.dart_tool' \
     ./ "$SERVER_USER@$SERVER_HOST:$DEPLOY_PATH/" || [ $? -eq 23 ]
 # NOTE: bootstrap/cache/* and storage/framework/* are server-owned runtime dirs.
 # Syncing them from a dev machine overwrites the server's --no-dev package cache
